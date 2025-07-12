@@ -1,0 +1,6 @@
+packages:
+  - 'apps/*'
+  - 'domain'
+  - 'outgoing-adapters'
+  - 'incoming-adapters'
+  - '!**/test/**'
