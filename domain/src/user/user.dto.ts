@@ -3,11 +3,12 @@ import { Expose } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   MinLength,
 } from 'class-validator';
-import { Dto } from '../common/dto';
+import { Dto } from '@auth/core';
 
 export class UserDto extends Dto<UserDto> {
   @Expose()
@@ -27,8 +28,8 @@ export class UserDto extends Dto<UserDto> {
   @ApiProperty({
     example: 'testtest',
   })
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @MinLength(8)
-  declare public readonly password: string;
+  declare public readonly password?: string;
 }

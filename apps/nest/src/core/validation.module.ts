@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ClassSerializerInterceptor,
+  Global,
   Logger,
   Module,
   ValidationPipe,
@@ -11,6 +12,7 @@ import { Reflector } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
 import { ValidationService } from './validation.service';
 
+@Global()
 @Module({
   controllers: [],
   imports: [],

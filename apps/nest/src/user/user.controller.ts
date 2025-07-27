@@ -10,7 +10,7 @@ export class UserController {
 
   @Post()
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async createOneUser(@Body() body: CreateOneUserBody) {
+  createOneUser(@Body() body: CreateOneUserBody) {
     const user = new UserDto({
       id: '1',
       email: body.email,

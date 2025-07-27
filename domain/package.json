@@ -6,17 +6,20 @@
   "types": "dist/index.d",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "generate:barrels": "barrelsby --directory src --exclude node_modules --delete --structure flat\n"
   },
   "devDependencies": {
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4",
     "@nestjs/cli": "^11.0.0",
+    "barrelsby": "^2.8.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
   },
   "peerDependencies": {
+    "@auth/core": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
     "class-transformer": "^0.5.1",

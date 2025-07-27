@@ -1,6 +1,9 @@
 packages:
   - 'apps/*'
+  - 'core'
   - 'domain'
+  - 'infra'
+  - 'application'
   - 'outgoing-adapters'
   - 'incoming-adapters'
   - '!**/test/**'
