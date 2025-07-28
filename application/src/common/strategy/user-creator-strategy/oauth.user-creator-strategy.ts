@@ -1,7 +1,7 @@
 import { UserDto } from '@auth/domain';
 import { Injectable, Logger } from '@nestjs/common';
 import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
-import { UserCreatorStrategy } from '../../auth/use-cases/user-creator-strategy/user.creator.strategy';
+import { UserCreatorStrategy } from './user-creator.strategy.interface';
 
 type Body = {
   email: string;

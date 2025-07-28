@@ -1,9 +1,42 @@
+import { ConfigurationServicePort } from '@auth/domain/dist';
 import { Module } from '@nestjs/common';
+import { Utils } from '../core/utils/utils';
+import { GoogleOauthConfig } from './oauth-controller/guards/google/google-oauth.config';
+import { GoogleOAuthGuard } from './oauth-controller/guards/google/google-oauth.guard';
+import { GoogleOauthStrategy } from './oauth-controller/guards/google/google-oauth.strategy';
+import { OauthConfigProxy } from './oauth-controller/guards/oauth-config.proxy';
+import { OauthGuardProxy } from './oauth-controller/guards/oauth-guard.proxy';
 import { OauthController } from './oauth-controller/oauth.controller';
+import { OauthUseCasesModule } from './oauth-use-cases.module';
 
 @Module({
-  imports: [],
+  imports: [OauthUseCasesModule],
   controllers: [OauthController],
-  providers: [],
+  providers: [
+    // google
+    {
+      provide: GoogleOauthConfig,
+      inject: [ConfigurationServicePort],
+      useFactory: (configurationService: ConfigurationServicePort) => {
+        return new GoogleOauthConfig({
+          clientID: configurationService.get('oauth.google.clientId'),
+          clientSecret: configurationService.get('oauth.google.clientSecret'),
+          callbackURL: Utils.urlJoin(
+            configurationService.get('server.baseUrl'),
+            '/oauth/google/callback',
+          ),
+          successURL: Utils.urlJoin(
+            configurationService.get('server.baseUrl'),
+            '/oauth/google/success',
+          ),
+        });
+      },
+    },
+    GoogleOauthStrategy,
+    GoogleOAuthGuard,
+    // proxy
+    OauthGuardProxy,
+    OauthConfigProxy,
+  ],
 })
 export class OauthModule {}

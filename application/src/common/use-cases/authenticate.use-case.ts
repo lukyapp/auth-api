@@ -1,17 +1,17 @@
 import { AuthenticateUserResponseData } from '@auth/domain';
 import { Injectable } from '@nestjs/common';
-import { AuthStrategy } from '../../auth/use-cases/authenticator-strategy/auth.strategy';
-import { AuthTokenServicePort } from '../../auth/ports/auth-token.service.port';
+import { AuthTokenServicePort } from '../ports/auth-token.service.port';
+import { AuthStrategy } from '../strategy/auth-strategy/auth.strategy.interface';
 
 @Injectable()
 export class AuthenticateUseCase {
   constructor(private readonly authTokenService: AuthTokenServicePort) {}
 
   async perform<TBody, TAuthStrategy extends AuthStrategy<TBody>>(
-    authenticatorStrategy: TAuthStrategy,
+    authStrategy: TAuthStrategy,
     body: TBody,
   ): Promise<AuthenticateUserResponseData> {
-    const user = await authenticatorStrategy.authenticate(body);
+    const user = await authStrategy.authenticate(body);
 
     const { accessToken, refreshToken } =
       await this.authTokenService.generateAuthToken({

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { PasswordHasherPort } from '../ports/password-hasher.port';
-import { FindOneUserUseCase } from '../../user/use-cases/find-one-user.use-case';
-import { AuthStrategy } from './authenticator-strategy/auth.strategy';
+import { PasswordHasherPort } from '../../ports/password-hasher.port';
+import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
+import { AuthStrategy } from './auth.strategy.interface';
 
 type Body = {
   email: string;

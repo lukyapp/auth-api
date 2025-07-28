@@ -7,7 +7,7 @@ export function IsEnvArray() {
     IsArray(),
     ArrayNotEmpty(),
     IsString({ each: true }),
-    Transform(({ value }: { value: unknown }) =>
+    Transform(({ value }) =>
       typeof value === 'string'
         ? value
             .split(',')

@@ -2,21 +2,21 @@ import {
   ExecutionContext,
   Injectable,
   InternalServerErrorException,
+  Logger,
 } from '@nestjs/common';
 import { IAuthGuard, IAuthModuleOptions } from '@nestjs/passport';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { ValidationService } from '../../../core/validation.service';
-import { OauthAuthorizeEndpointQuery } from '../oauth-authorize-endpoint.query';
-import { OauthEndpointParam } from '../oauth-endpoint.param';
+import { ValidationService } from '../../../core/validation/validation.service';
+import { OauthAuthorizeEndpointQuery } from '../beans/oauth-authorize-endpoint.query';
+import { OauthEndpointParam } from '../beans/oauth-endpoint.param';
 import { OauthGuardProxy } from './oauth-guard.proxy';
 
 @Injectable()
 export class OauthGuard implements IAuthGuard {
-  constructor(
-    private readonly validationService: ValidationService,
-    private readonly oauthGuardProxy: OauthGuardProxy,
-  ) {}
+  private readonly logger: Logger = new Logger(this.constructor.name);
+
+  constructor(private readonly oauthGuardProxy: OauthGuardProxy) {}
 
   canActivate(
     context: ExecutionContext,
@@ -25,13 +25,14 @@ export class OauthGuard implements IAuthGuard {
     const guard = this.getOauthGuardFromRequest(request);
 
     if (request.url.split('?')[0]?.endsWith('callback')) {
+      this.logger.log('callback endpoint triggered');
       return guard.canActivate(context);
     }
-    const { success_callback } = this.validationService.validate(
+    this.logger.log('authorized endpoint triggered');
+    const { success_callback } = ValidationService.validate(
       OauthAuthorizeEndpointQuery,
       request.query,
     );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     request.session.successCallback = success_callback;
     return guard.canActivate(context);
   }
@@ -69,7 +70,7 @@ export class OauthGuard implements IAuthGuard {
   }
 
   private getOauthGuardFromRequest(request: Request) {
-    const { oauthProviderName } = this.validationService.validate(
+    const { oauthProviderName } = ValidationService.validate(
       OauthEndpointParam,
       request.params,
     );

@@ -1,6 +1,6 @@
 import { UserDto } from '@auth/domain';
 import { Injectable } from '@nestjs/common';
-import { UserCreatorStrategy } from '../../auth/use-cases/user-creator-strategy/user.creator.strategy';
+import { UserCreatorStrategy } from '../../../common/strategy/user-creator-strategy/user-creator.strategy.interface';
 
 @Injectable()
 export class CreateOneUserUseCase {

@@ -5,7 +5,9 @@ import {
 } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import crypto from 'crypto';
 import { AppModule } from './app.module';
+import session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +20,17 @@ async function bootstrap() {
   const validationPipe = app.get(ValidationPipe);
   app.useGlobalInterceptors(classSerializerInterceptor);
   app.useGlobalPipes(validationPipe);
+
+  // sessions
+
+  app.use(
+    session({
+      secret: crypto.randomBytes(32).toString('hex'),
+      resave: false,
+      saveUninitialized: false,
+      cookie: { secure: false },
+    }),
+  );
 
   // swagger
 

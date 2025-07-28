@@ -1,11 +1,8 @@
-import { OauthPrimaryService } from 'application/src/primary-services/oauth/oauth.primary-service';
-import {
-  AuthenticateUserResponse,
-  ConfigurationServicePort,
-  OauthValidateResult,
-} from '@auth/domain';
+import { OauthPrimaryService } from '@auth/application';
+import { AuthenticateUserResponse } from '@auth/domain';
 import {
   Controller,
+  InternalServerErrorException,
   Logger,
   Param,
   Query,
@@ -15,20 +12,24 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import { CurrentUser } from '../../core/current-user.decorator';
-import { Get } from '../../core/http.decorator';
-import { Utils } from '../../core/utils/utils';
+import {
+  CurrentOauthValidateResult,
+  OauthValidateResult,
+} from '../../core/controller/current-oauth-validate-result.decorator';
+import { Get } from '../../core/controller/http.decorator';
+import { OauthConfigProxy } from './guards/oauth-config.proxy';
 import { OauthGuard } from './guards/oauth.guard';
-import { OauthEndpointParam } from './oauth-endpoint.param';
+import { OauthEndpointParam } from './beans/oauth-endpoint.param';
+import { OauthSuccessEndpointQuery } from './beans/oauth-success-endpoint.query';
 
 @ApiTags('oauth')
-@Controller('auth/:oauthProviderName')
+@Controller('oauth/:oauthProviderName')
 export class OauthController {
   private readonly logger: Logger = new Logger(this.constructor.name);
 
   constructor(
     private readonly oauthPrimaryService: OauthPrimaryService,
-    private readonly configurationService: ConfigurationServicePort,
+    private readonly oauthConfigProxy: OauthConfigProxy,
   ) {}
 
   @Get('authorize')
@@ -44,7 +45,7 @@ export class OauthController {
   async callback(
     @Req() request: Request,
     @Res() response: Response,
-    @CurrentUser() validateResult: OauthValidateResult,
+    @CurrentOauthValidateResult() validateResult: OauthValidateResult,
     @Param() { oauthProviderName }: OauthEndpointParam,
   ): Promise<void> {
     const userAgent = request.headers['user-agent'];
@@ -52,8 +53,9 @@ export class OauthController {
       userAgent ?? '',
     );
     const successUrl = this.getSuccessUrl(request, { oauthProviderName });
+    this.logger.log('successUrl : ', successUrl);
 
-    const callbackUrl = await this.oauthPrimaryService.getCallbackUrl({
+    const callbackUrl = await this.oauthPrimaryService.callback({
       validateResult,
       isFromMobile,
       successUrl,
@@ -61,6 +63,19 @@ export class OauthController {
     });
 
     response.redirect(callbackUrl);
+  }
+
+  @Get('success')
+  success(
+    @Param() { oauthProviderName }: OauthEndpointParam,
+    @Query() { userId, accessToken, refreshToken }: OauthSuccessEndpointQuery,
+  ): Promise<AuthenticateUserResponse> {
+    return this.oauthPrimaryService.success({
+      providerName: oauthProviderName,
+      userId,
+      accessToken,
+      refreshToken,
+    });
   }
 
   private getSuccessUrl(
@@ -71,27 +86,11 @@ export class OauthController {
     if (successCallback) {
       return new URL(successCallback);
     } else {
-      const baseUrl = this.configurationService.get('server.baseUrl');
-      const successWebCallback = Utils.urlJoin(
-        baseUrl,
-        `/auth/${oauthProviderName}/success`,
-      );
-      return new URL(successWebCallback);
+      const config = this.oauthConfigProxy.resolve(oauthProviderName);
+      if (!config) {
+        throw new InternalServerErrorException();
+      }
+      return new URL(config.successURL);
     }
-  }
-
-  @Get('success')
-  success(
-    @Param() { oauthProviderName }: OauthEndpointParam,
-    @Query('userId') userId: string,
-    @Query('accessToken') accessToken: string,
-    @Query('refreshToken') refreshToken: string,
-  ): AuthenticateUserResponse {
-    return this.oauthPrimaryService.success({
-      providerName: oauthProviderName,
-      userId,
-      accessToken,
-      refreshToken,
-    });
   }
 }

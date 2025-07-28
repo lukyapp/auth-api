@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CreateOneUserUseCase } from '../../user/use-cases/create-one-user.use-case';
-import { FindOneUserUseCase } from '../../user/use-cases/find-one-user.use-case';
-import { AuthStrategy } from '../../auth/use-cases/authenticator-strategy/auth.strategy';
-import { OauthUserCreatorStrategy } from './oauth.user-creator-strategy';
+import { CreateOneUserUseCase } from '../../../primary-services/user/use-cases/create-one-user.use-case';
+import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
+import { OauthUserCreatorStrategy } from '../user-creator-strategy/oauth.user-creator-strategy';
+import { AuthStrategy } from './auth.strategy.interface';
 
 type Body = {
   id?: string;
