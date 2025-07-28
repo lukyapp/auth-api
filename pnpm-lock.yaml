@@ -62,6 +62,9 @@ importers:
       '@auth/application':
         specifier: workspace:*
         version: link:../../application
+      '@auth/controller-dtos':
+        specifier: workspace:*
+        version: link:../../controller-dtos
       '@auth/core':
         specifier: workspace:*
         version: link:../../core
@@ -195,6 +198,58 @@ importers:
       typescript-eslint:
         specifier: ^8.20.0
         version: 8.38.0(eslint@9.32.0)(typescript@5.8.3)
+
+  controller-dtos:
+    dependencies:
+      '@auth/core':
+        specifier: workspace:*
+        version: link:../core
+      '@auth/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.1.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.1.5(@nestjs/common@11.1.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.5)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/swagger':
+        specifier: ^11.2.0
+        version: 11.2.0(@nestjs/common@11.1.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.2
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+    devDependencies:
+      '@nestjs/cli':
+        specifier: ^11.0.0
+        version: 11.0.7(@swc/cli@0.6.0(@swc/core@1.13.2)(chokidar@4.0.3))(@swc/core@1.13.2)(@types/node@22.16.5)
+      '@types/bcrypt':
+        specifier: ^6.0.0
+        version: 6.0.0
+      barrelsby:
+        specifier: ^2.8.1
+        version: 2.8.1
+      eslint-config-prettier:
+        specifier: ^10.0.1
+        version: 10.1.8(eslint@9.32.0)
+      eslint-plugin-prettier:
+        specifier: ^5.2.2
+        version: 5.5.3(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.32.0))(eslint@9.32.0)(prettier@3.6.2)
+      prettier:
+        specifier: ^3.4.2
+        version: 3.6.2
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vite:
+        specifier: ^7.0.4
+        version: 7.0.6(@types/node@22.16.5)(terser@5.43.1)
 
   core:
     dependencies:

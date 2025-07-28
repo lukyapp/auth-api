@@ -1,4 +1,9 @@
 import { OauthPrimaryService } from '@auth/application';
+import {
+  OauthEndpointParam,
+  OauthSuccessEndpointQuery,
+  OauthValidateResult,
+} from '@auth/controller-dtos';
 import { AuthenticateUserResponse } from '@auth/domain';
 import {
   Controller,
@@ -12,15 +17,10 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import {
-  CurrentOauthValidateResult,
-  OauthValidateResult,
-} from '../../core/controller/current-oauth-validate-result.decorator';
+import { CurrentOauthValidateResult } from '../../core/controller/current-oauth-validate-result.decorator';
 import { Get } from '../../core/controller/http.decorator';
 import { OauthConfigProxy } from './guards/oauth-config.proxy';
 import { OauthGuard } from './guards/oauth.guard';
-import { OauthEndpointParam } from './beans/oauth-endpoint.param';
-import { OauthSuccessEndpointQuery } from './beans/oauth-success-endpoint.query';
 
 @ApiTags('oauth')
 @Controller('oauth/:oauthProviderName')
@@ -53,7 +53,6 @@ export class OauthController {
       userAgent ?? '',
     );
     const successUrl = this.getSuccessUrl(request, { oauthProviderName });
-    this.logger.log('successUrl : ', successUrl);
 
     const callbackUrl = await this.oauthPrimaryService.callback({
       validateResult,

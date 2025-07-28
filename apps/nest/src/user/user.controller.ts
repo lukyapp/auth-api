@@ -1,13 +1,12 @@
+import { UserPrimaryService } from '@auth/application';
 import {
-  GetAllUsersBody,
-  GetOneUserBody,
+  AuthDetailEndpointParam,
+  GetAllUsersQuery,
   UpdateUserBody,
-  UserPrimaryService,
-} from '@auth/application';
-import { CreateOneUserBody } from '@auth/domain';
+} from '@auth/controller-dtos';
 import { Body, Controller, Param, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Delete, Get, Patch, Post } from '../core/controller/http.decorator';
+import { Delete, Get, Patch } from '../core/controller/http.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -15,27 +14,25 @@ export class UserController {
   constructor(private readonly userPrimaryService: UserPrimaryService) {}
 
   @Get()
-  findAll(@Query() body: GetAllUsersBody) {
+  findAll(@Query() body: GetAllUsersQuery) {
     return this.userPrimaryService.findAll(body);
   }
 
-  @Post()
-  createOne(@Body() body: CreateOneUserBody) {
-    return this.userPrimaryService.createOne(body);
-  }
-
   @Get(':userId')
-  findOne(@Param('userId') id: string) {
-    return this.userPrimaryService.findOne({ id });
+  findOne(@Param() { userId }: AuthDetailEndpointParam) {
+    return this.userPrimaryService.findOne({ id: userId });
   }
 
   @Patch(':userId')
-  updateOne(@Param('userId') id: string, @Body() body: UpdateUserBody) {
-    return this.userPrimaryService.updateOne(id, body);
+  updateOne(
+    @Param() { userId }: AuthDetailEndpointParam,
+    @Body() body: UpdateUserBody,
+  ) {
+    return this.userPrimaryService.updateOne(userId, body);
   }
 
   @Delete(':userId')
-  deleteOne(@Param('userId') id: string) {
-    return this.userPrimaryService.deleteOne(id);
+  deleteOne(@Param() { userId }: AuthDetailEndpointParam) {
+    return this.userPrimaryService.deleteOne(userId);
   }
 }

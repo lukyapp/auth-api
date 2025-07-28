@@ -5,7 +5,9 @@
 export * from './common/response-get-one.dto';
 export * from './config/configuration.service.port';
 export * from './config/environment-variables.dto';
+export * from './config/transformers/type.transformer';
 export * from './config/validators/is-env-array.validator';
+export * from './config/validators/is-env-json-array.validator';
 export * from './config/validators/is-expires-in.validator';
 export * from './config/validators/is-port.validator';
 export * from './config/validators/is-url.validator';
@@ -17,6 +19,5 @@ export * from './oauth/dtos/oauth-authorize.body';
 export * from './oauth/dtos/oauth-callback.body';
 export * from './oauth/dtos/oauth-provider-name.enum';
 export * from './oauth/dtos/oauth-success.body';
-export * from './user/create-one-user.body';
 export * from './user/user.dto';
 export * from './validators/nested.validator';

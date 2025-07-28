@@ -12,8 +12,8 @@ export * from './common/strategy/user-creator-strategy/password.user-creator-str
 export * from './common/strategy/user-creator-strategy/user-creator.strategy.interface';
 export * from './common/use-cases/authenticate.use-case';
 export * from './primary-services/auth/auth.primary-service';
-export * from './primary-services/auth/use-cases/auth-sign-up.use-case';
 export * from './primary-services/auth/use-cases/auth-sign-in.use-case';
+export * from './primary-services/auth/use-cases/auth-sign-up.use-case';
 export * from './primary-services/oauth/oauth.primary-service';
 export * from './primary-services/oauth/use-cases/oauth-authorize.use-case';
 export * from './primary-services/oauth/use-cases/oauth-callback.use-case';
@@ -25,4 +25,3 @@ export * from './primary-services/user/use-cases/find-all-users.use-case';
 export * from './primary-services/user/use-cases/find-one-user.use-case';
 export * from './primary-services/user/use-cases/update-one-user.use-case';
 export * from './secondary-ports/user/ports/user.repository.port';
-export * from './validators/nested.validator';

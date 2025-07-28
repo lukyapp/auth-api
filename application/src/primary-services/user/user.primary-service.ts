@@ -1,4 +1,3 @@
-import { CreateOneUserBody } from '@auth/domain';
 import { Injectable } from '@nestjs/common';
 import { PasswordUserCreatorStrategy } from '../../common/strategy/user-creator-strategy/password.user-creator-strategy';
 import {
@@ -25,13 +24,6 @@ export class UserPrimaryService {
 
   findAll(body: GetAllUsersBody) {
     return this.findAllUsersUseCase.perform(body);
-  }
-
-  createOne(body: CreateOneUserBody) {
-    return this.createOneUserUseCase.perform(
-      this.passwordUserCreatorStrategy,
-      body,
-    );
   }
 
   findOne(body: GetOneUserBody) {

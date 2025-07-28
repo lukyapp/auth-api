@@ -1,5 +1,6 @@
-import { AuthPrimaryService, SignInBody, SignUpBody } from '@auth/application';
-import { Body, Controller, Query } from '@nestjs/common';
+import { AuthPrimaryService } from '@auth/application';
+import { SignInBody, SignUpBody } from '@auth/controller-dtos';
+import { Body, Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Post } from '../core/controller/http.decorator';
 

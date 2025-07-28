@@ -1,4 +1,8 @@
 import {
+  OauthAuthorizeEndpointQuery,
+  OauthEndpointParam,
+} from '@auth/controller-dtos';
+import {
   ExecutionContext,
   Injectable,
   InternalServerErrorException,
@@ -8,8 +12,6 @@ import { IAuthGuard, IAuthModuleOptions } from '@nestjs/passport';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { ValidationService } from '../../../core/validation/validation.service';
-import { OauthAuthorizeEndpointQuery } from '../beans/oauth-authorize-endpoint.query';
-import { OauthEndpointParam } from '../beans/oauth-endpoint.param';
 import { OauthGuardProxy } from './oauth-guard.proxy';
 
 @Injectable()

@@ -6,4 +6,5 @@ packages:
   - 'application'
   - 'outgoing-adapters'
   - 'incoming-adapters'
+  - 'controller-dtos'
   - '!**/test/**'

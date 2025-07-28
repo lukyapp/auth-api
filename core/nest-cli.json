@@ -13,6 +13,7 @@
             ".dto.ts",
             ".query.ts",
             ".body.ts",
+            ".param.ts",
             ".response.ts",
             ".decorator.ts",
             ".enum.ts"

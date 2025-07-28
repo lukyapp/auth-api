@@ -4,3 +4,4 @@
 
 export * from './auth-token.service.nestjs-local-adapter';
 export * from './password-hasher.bcrypt-adapter';
+export * from './user-repository.memory-adapter';
