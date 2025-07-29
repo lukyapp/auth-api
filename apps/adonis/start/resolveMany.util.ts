@@ -1,5 +1,5 @@
-import type { ErrorCreator, Make } from '@adonisjs/fold/types'
-
+export type Make<T> = T extends AbstractConstructor<infer A> ? A : never
+export type ErrorCreator = (message: string) => Error
 type AbstractConstructor<T, Arguments extends unknown[] = any[]> = abstract new (
   ...args: Arguments
 ) => T
