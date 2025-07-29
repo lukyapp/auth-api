@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { PasswordHasherPort } from '../../ports/password-hasher.port';
+import { BadRequestException, Logger } from '@nestjs/common';
+import { injectable } from '../../../ioc/injectable.decorator';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
+import { PasswordHasherPort } from '../../ports/password-hasher.port';
 import { AuthStrategy } from './auth.strategy.interface';
 
 type Body = {
@@ -8,7 +9,7 @@ type Body = {
   password: string;
 };
 
-@Injectable()
+@injectable()
 export class PasswordAuthStrategy extends AuthStrategy<Body> {
   private readonly logger: Logger = new Logger(this.constructor.name);
 

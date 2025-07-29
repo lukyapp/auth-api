@@ -4,6 +4,7 @@
 
 export * from './common/ports/auth-token.service.port';
 export * from './common/ports/password-hasher.port';
+export * from './common/services/validation.service';
 export * from './common/strategy/auth-strategy/auth.strategy.interface';
 export * from './common/strategy/auth-strategy/oauth.auth-strategy';
 export * from './common/strategy/auth-strategy/password.auth-strategy';
@@ -11,6 +12,7 @@ export * from './common/strategy/user-creator-strategy/oauth.user-creator-strate
 export * from './common/strategy/user-creator-strategy/password.user-creator-strategy';
 export * from './common/strategy/user-creator-strategy/user-creator.strategy.interface';
 export * from './common/use-cases/authenticate.use-case';
+export * from './ioc/injectable.decorator';
 export * from './primary-services/auth/auth.primary-service';
 export * from './primary-services/auth/use-cases/auth-sign-in.use-case';
 export * from './primary-services/auth/use-cases/auth-sign-up.use-case';

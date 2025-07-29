@@ -1,5 +1,6 @@
 import { UserDto } from '@auth/domain';
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
+import { injectable } from '../../../ioc/injectable.decorator';
 import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
 import { UserCreatorStrategy } from './user-creator.strategy.interface';
 
@@ -7,7 +8,7 @@ type Body = {
   email: string;
 };
 
-@Injectable()
+@injectable()
 export class OauthUserCreatorStrategy implements UserCreatorStrategy<Body> {
   private readonly logger: Logger = new Logger(this.constructor.name);
 

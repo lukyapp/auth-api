@@ -57,6 +57,15 @@ class PrivateKeys extends Dto<PrivateKeys> {
   declare public readonly alg: AvailableAlgorithm;
 }
 
+class SwaggerServers extends Dto<SwaggerServers> {
+  @Expose()
+  @IsString()
+  declare public readonly name: string;
+  @Expose()
+  @IsUrl()
+  declare public readonly url: string;
+}
+
 export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   // ---------- server ----------
 
@@ -149,4 +158,19 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   @Expose()
   @IsString()
   declare public readonly 'oauth.google.clientSecret': string;
+
+  // ---------- swagger ----------
+
+  @Expose()
+  @IsString()
+  declare public readonly 'swagger.title': string;
+  @Expose()
+  @IsString()
+  declare public readonly 'swagger.description': string;
+  @Expose()
+  @IsString()
+  declare public readonly 'swagger.version': string;
+  @Expose()
+  @IsEnvJsonArray(() => SwaggerServers)
+  declare public readonly 'swagger.servers': SwaggerServers[];
 }

@@ -20,10 +20,10 @@
     "test:e2e": "jest --config test/jest-e2e.json"
   },
   "dependencies": {
-    "@auth/controller-dtos": "workspace:*",
-    "@auth/application": "workspace:*",
     "@auth/core": "workspace:*",
     "@auth/domain": "workspace:*",
+    "@auth/application": "workspace:*",
+    "@auth/controller-dtos": "workspace:*",
     "@auth/infra": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",

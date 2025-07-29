@@ -1,6 +1,7 @@
 import { Dto } from '@auth/core';
 import { AuthenticateUserResponse, OauthProviderName } from '@auth/domain';
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
+import { injectable } from '../../../ioc/injectable.decorator';
 
 export class OauthSuccessBody extends Dto<OauthSuccessBody> {
   declare public readonly providerName: OauthProviderName;
@@ -9,7 +10,7 @@ export class OauthSuccessBody extends Dto<OauthSuccessBody> {
   declare public readonly refreshToken: string;
 }
 
-@Injectable()
+@injectable()
 export class OauthSuccessUseCase {
   private readonly logger: Logger = new Logger(this.constructor.name);
 

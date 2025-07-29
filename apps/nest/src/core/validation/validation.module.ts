@@ -1,3 +1,4 @@
+import { ValidationService } from '@auth/application';
 import {
   ClassSerializerInterceptor,
   Global,
@@ -5,7 +6,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ValidationService } from './validation.service';
 
 @Global()
 @Module({

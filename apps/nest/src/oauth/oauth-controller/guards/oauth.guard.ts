@@ -1,3 +1,4 @@
+import { ValidationService } from '@auth/application';
 import {
   OauthAuthorizeEndpointQuery,
   OauthEndpointParam,
@@ -11,7 +12,6 @@ import {
 import { IAuthGuard, IAuthModuleOptions } from '@nestjs/passport';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { ValidationService } from '../../../core/validation/validation.service';
 import { OauthGuardProxy } from './oauth-guard.proxy';
 
 @Injectable()

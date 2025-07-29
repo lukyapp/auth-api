@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { PasswordUserCreatorStrategy } from '../../common/strategy/user-creator-strategy/password.user-creator-strategy';
+import { injectable } from '../../ioc/injectable.decorator';
 import {
   GetAllUsersBody,
   GetOneUserBody,
@@ -11,7 +11,7 @@ import { FindAllUsersUseCase } from './use-cases/find-all-users.use-case';
 import { FindOneUserUseCase } from './use-cases/find-one-user.use-case';
 import { UpdateOneUserUseCase } from './use-cases/update-one-user.use-case';
 
-@Injectable()
+@injectable()
 export class UserPrimaryService {
   constructor(
     private readonly findAllUsersUseCase: FindAllUsersUseCase,

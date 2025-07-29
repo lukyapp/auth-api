@@ -50,6 +50,12 @@
   },
   "dependencies": {
     "@adonisjs/core": "^6.18.0",
+    "@adonisjs/cors": "^2.2.1",
+    "@auth/application": "workspace:*",
+    "@auth/controller-dtos": "workspace:*",
+    "@auth/core": "workspace:*",
+    "@auth/domain": "workspace:*",
+    "@auth/infra": "workspace:*",
     "reflect-metadata": "^0.2.2"
   },
   "hotHook": {

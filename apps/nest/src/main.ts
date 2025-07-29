@@ -1,3 +1,4 @@
+import { ConfigurationServicePort } from '@auth/domain';
 import {
   ClassSerializerInterceptor,
   Logger,
@@ -8,11 +9,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import crypto from 'crypto';
 import { AppModule } from './app.module';
 import session from 'express-session';
+import { Utils } from './core/utils/utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT ?? 3000;
-  const baseUrl = process.env.BASE_URL ?? `http://localhost:${port}`;
+  const configurationService = app.get(ConfigurationServicePort);
+  const port = configurationService.get('server.port');
+  const baseUrl = configurationService.get('server.baseUrl');
 
   // security
 
@@ -36,11 +39,11 @@ async function bootstrap() {
 
   const swaggerConfig = {
     path: '/docs',
-    title: 'swagger title',
-    description: 'swagger description',
-    version: 'swagger version',
+    title: configurationService.get('swagger.title'),
+    description: configurationService.get('swagger.description'),
+    version: configurationService.get('swagger.version'),
   };
-  const config = new DocumentBuilder()
+  const configBuilder = new DocumentBuilder()
     .setTitle(swaggerConfig.title)
     .setDescription(swaggerConfig.description)
     .setVersion(swaggerConfig.version)
@@ -51,18 +54,23 @@ async function bootstrap() {
         bearerFormat: 'JWT',
       },
       'userAccessToken',
-    )
-    .build();
+    );
+
+  for (const { name, url } of configurationService.get('swagger.servers')) {
+    configBuilder.addServer(url, name);
+  }
+
+  const config = configBuilder.build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(swaggerConfig.path, app, document);
 
-  const swaggerPath = `${baseUrl}${swaggerConfig.path}`;
-  const swaggerJsonPath = `${baseUrl}${swaggerConfig.path}-json`;
+  const swaggerPath = Utils.urlJoin(baseUrl, swaggerConfig.path);
+  const swaggerJsonPath = Utils.urlJoin(baseUrl, `${swaggerConfig.path}-json`);
 
   // listen
 
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/`);
+  Logger.log(`🚀 Application is running on: ${baseUrl}`);
   Logger.log(`🚀 Swagger UI is server on: ${swaggerPath}`);
   Logger.log(`🚀 Swagger json file is server on: ${swaggerJsonPath}`);
 }

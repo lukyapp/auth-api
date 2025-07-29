@@ -1,9 +1,9 @@
 import { AuthenticateUserResponseData } from '@auth/domain';
-import { Injectable } from '@nestjs/common';
+import { injectable } from '../../ioc/injectable.decorator';
 import { AuthTokenServicePort } from '../ports/auth-token.service.port';
 import { AuthStrategy } from '../strategy/auth-strategy/auth.strategy.interface';
 
-@Injectable()
+@injectable()
 export class AuthenticateUseCase {
   constructor(private readonly authTokenService: AuthTokenServicePort) {}
 

@@ -20,6 +20,7 @@
     "vite": "^7.0.4"
   },
   "peerDependencies": {
+    "@adonisjs/core": "^6.19.0",
     "@auth/core": "workspace:*",
     "@auth/domain": "workspace:*",
     "@nestjs/common": "^11.0.1",

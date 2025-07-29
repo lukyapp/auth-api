@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { injectable } from '../../ioc/injectable.decorator';
 import {
   OauthAuthorizeBody,
   OauthAuthorizeUseCase,
@@ -12,7 +12,7 @@ import {
   OauthSuccessUseCase,
 } from './use-cases/oauth-success.use-case';
 
-@Injectable()
+@injectable()
 export class OauthPrimaryService {
   constructor(
     private readonly oauthAuthorizeUseCase: OauthAuthorizeUseCase,

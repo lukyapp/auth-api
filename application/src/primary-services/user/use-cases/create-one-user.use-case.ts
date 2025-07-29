@@ -1,8 +1,8 @@
 import { UserDto } from '@auth/domain';
-import { Injectable } from '@nestjs/common';
 import { UserCreatorStrategy } from '../../../common/strategy/user-creator-strategy/user-creator.strategy.interface';
+import { injectable } from '../../../ioc/injectable.decorator';
 
-@Injectable()
+@injectable()
 export class CreateOneUserUseCase {
   constructor() {}
 

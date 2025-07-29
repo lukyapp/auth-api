@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Injectable,
   Logger,
   Type,
   ValidationPipeOptions,
@@ -8,36 +7,6 @@ import {
 import { ClassSerializerInterceptorOptions } from '@nestjs/common/serializer/class-serializer.interceptor';
 import { plainToInstance } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
-
-export function flattenValidationErrors(
-  validationErrors: ValidationError[],
-): any[] {
-  const result: {
-    property: string;
-    value: string;
-    constraints?: string[];
-  }[] = [];
-
-  function processNode(node: ValidationError, parentNode?: ValidationError) {
-    const entry = {
-      property: parentNode
-        ? [parentNode.property, node.property].join('.')
-        : node.property,
-      constraints: node.constraints ? Object.values(node.constraints) : [],
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      value: node.value,
-    };
-    if (entry.constraints.length) {
-      result.push(entry);
-    }
-    if (node.children && node.children.length > 0) {
-      node.children.forEach((child) => processNode(child, node));
-    }
-  }
-
-  validationErrors.forEach((validationError) => processNode(validationError));
-  return result;
-}
 
 export class ValidationService {
   constructor() {}
@@ -59,7 +28,7 @@ export class ValidationService {
       transform: true, // transforme automatiquement les objets simples en instances de leur classe
       transformOptions: { enableImplicitConversion: true },
       exceptionFactory: (errors) => {
-        const errorsForResponse = flattenValidationErrors(errors);
+        const errorsForResponse = this.flattenValidationErrors(errors);
         logger.error(errorsForResponse);
         return new BadRequestException(errorsForResponse);
       },
@@ -87,5 +56,33 @@ export class ValidationService {
       throw new BadRequestException();
     }
     return params;
+  }
+
+  static flattenValidationErrors(validationErrors: ValidationError[]): any[] {
+    const result: {
+      property: string;
+      value: string;
+      constraints?: string[];
+    }[] = [];
+
+    function processNode(node: ValidationError, parentNode?: ValidationError) {
+      const entry = {
+        property: parentNode
+          ? [parentNode.property, node.property].join('.')
+          : node.property,
+        constraints: node.constraints ? Object.values(node.constraints) : [],
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        value: node.value,
+      };
+      if (entry.constraints.length) {
+        result.push(entry);
+      }
+      if (node.children && node.children.length > 0) {
+        node.children.forEach((child) => processNode(child, node));
+      }
+    }
+
+    validationErrors.forEach((validationError) => processNode(validationError));
+    return result;
   }
 }

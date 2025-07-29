@@ -1,8 +1,9 @@
 import { Dto } from '@auth/core';
 import { AuthenticateUserResponseData, OauthProviderName } from '@auth/domain';
-import { Injectable, Logger } from '@nestjs/common';
-import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
+import { Logger } from '@nestjs/common';
 import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
+import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
+import { injectable } from '../../../ioc/injectable.decorator';
 
 export class OauthProfile extends Dto<OauthProfile> {
   declare public readonly id?: string;
@@ -24,7 +25,7 @@ export class OauthCallbackBody extends Dto<OauthCallbackBody> {
   declare public readonly isFromMobile: boolean;
 }
 
-@Injectable()
+@injectable()
 export class OauthCallbackUseCase {
   private readonly logger: Logger = new Logger(this.constructor.name);
 

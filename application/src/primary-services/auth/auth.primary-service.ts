@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import {
-  AuthSignUpUseCase,
-  SignUpBody,
-} from './use-cases/auth-sign-up.use-case';
+import { injectable } from '../../ioc/injectable.decorator';
 import {
   AuthSignInUseCase,
   SignInBody,
 } from './use-cases/auth-sign-in.use-case';
+import {
+  AuthSignUpUseCase,
+  SignUpBody,
+} from './use-cases/auth-sign-up.use-case';
 
-@Injectable()
+@injectable()
 export class AuthPrimaryService {
   constructor(
     private readonly authSignUpUseCase: AuthSignUpUseCase,

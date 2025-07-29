@@ -1,11 +1,11 @@
 import { UserDto } from '@auth/domain';
-import { Injectable } from '@nestjs/common';
+import { injectable } from '../../../ioc/injectable.decorator';
 import {
   UpdateUserBody,
   UserRepositoryPort,
 } from '../../../secondary-ports/user/ports/user.repository.port';
 
-@Injectable()
+// @injectable()
 export class UpdateOneUserUseCase {
   constructor(private readonly userRepository: UserRepositoryPort) {}
 

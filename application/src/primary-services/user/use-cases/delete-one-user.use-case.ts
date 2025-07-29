@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { injectable } from '../../../ioc/injectable.decorator';
 import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
 
-@Injectable()
+@injectable()
 export class DeleteOneUserUseCase {
   constructor(private readonly userRepository: UserRepositoryPort) {}
 
