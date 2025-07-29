@@ -16,11 +16,11 @@ export class PasswordUserCreatorStrategy implements UserCreatorStrategy<Body> {
 
   constructor(
     private readonly userRepository: UserRepositoryPort,
-    private readonly passwordHasherPort: PasswordHasherPort,
+    private readonly passwordHasher: PasswordHasherPort,
   ) {}
 
   create({ email, password }: Body): Promise<UserDto> {
-    const passwordHashed = this.passwordHasherPort.hash(password);
+    const passwordHashed = this.passwordHasher.hash(password);
     return this.userRepository.createUser({
       email,
       password: passwordHashed,

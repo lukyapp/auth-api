@@ -14,8 +14,8 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
+    "noImplicitAny": false, // TODO true
+    "strictBindCallApply": false, // TODO true
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true, // import * as
     "noUncheckedIndexedAccess": true, // array[0] optionnel,

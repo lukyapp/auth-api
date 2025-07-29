@@ -1,6 +1,8 @@
 import { PasswordHasherPort, UserRepositoryPort } from '@auth/application';
-import { PasswordHasherBcryptAdapter } from '@auth/infra';
-import { UserRepositoryMemoryAdapter } from '@auth/infra/dist/user-repository.memory-adapter';
+import {
+  PasswordHasherBcryptAdapter,
+  UserRepositoryMemoryAdapter,
+} from '@auth/infra';
 import { Global, Module } from '@nestjs/common';
 
 @Global()
