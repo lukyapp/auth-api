@@ -1,5 +1,5 @@
+import { injectable } from '@auth/di';
 import { BadRequestException, Logger } from '@nestjs/common';
-import { injectable } from '../../../ioc/injectable.decorator';
 import { CreateOneUserUseCase } from '../../../primary-services/user/use-cases/create-one-user.use-case';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
 import { OauthUserCreatorStrategy } from '../user-creator-strategy/oauth.user-creator-strategy';

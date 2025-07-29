@@ -1,5 +1,5 @@
 import { BadRequestException, Logger } from '@nestjs/common';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
 import { PasswordHasherPort } from '../../ports/password-hasher.port';
 import { AuthStrategy } from './auth.strategy.interface';

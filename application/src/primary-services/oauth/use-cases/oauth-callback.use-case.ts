@@ -3,7 +3,7 @@ import { AuthenticateUserResponseData, OauthProviderName } from '@auth/domain';
 import { Logger } from '@nestjs/common';
 import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
 import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 
 export class OauthProfile extends Dto<OauthProfile> {
   declare public readonly id?: string;

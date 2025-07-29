@@ -1,6 +1,6 @@
 import { PasswordAuthStrategy } from '../../../common/strategy/auth-strategy/password.auth-strategy';
 import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 
 export type SignInBody = {
   email: string;

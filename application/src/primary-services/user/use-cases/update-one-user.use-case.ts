@@ -1,11 +1,11 @@
 import { UserDto } from '@auth/domain';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import {
   UpdateUserBody,
   UserRepositoryPort,
 } from '../../../secondary-ports/user/ports/user.repository.port';
 
-// @injectable()
+@injectable()
 export class UpdateOneUserUseCase {
   constructor(private readonly userRepository: UserRepositoryPort) {}
 

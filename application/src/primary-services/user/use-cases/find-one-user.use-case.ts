@@ -1,5 +1,5 @@
 import { UserDto } from '@auth/domain';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import {
   GetOneUserBody,
   UserRepositoryPort,

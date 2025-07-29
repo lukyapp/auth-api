@@ -1,4 +1,4 @@
-import { injectable } from '../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import {
   OauthAuthorizeBody,
   OauthAuthorizeUseCase,

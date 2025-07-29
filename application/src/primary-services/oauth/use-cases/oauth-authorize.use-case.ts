@@ -1,7 +1,7 @@
 import { Dto } from '@auth/core';
 import { OauthProviderName } from '@auth/domain';
 import { Logger } from '@nestjs/common';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 
 export class OauthAuthorizeBody extends Dto<OauthAuthorizeBody> {
   declare public readonly oauthProviderName: OauthProviderName;

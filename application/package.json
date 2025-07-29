@@ -10,7 +10,6 @@
     "generate:barrels": "barrelsby --directory src --exclude node_modules --delete --structure flat\n"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.0",
     "@types/bcrypt": "^6.0.0",
     "@types/lodash": "^4.17.20",
     "barrelsby": "^2.8.1",
@@ -24,6 +23,7 @@
     "lodash": "^4.17.21",
     "@auth/core": "workspace:*",
     "@auth/domain": "workspace:*",
+    "@auth/di": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
     "class-transformer": "^0.5.1",

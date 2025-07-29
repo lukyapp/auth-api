@@ -1,5 +1,5 @@
 import { PasswordUserCreatorStrategy } from '../../common/strategy/user-creator-strategy/password.user-creator-strategy';
-import { injectable } from '../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import {
   GetAllUsersBody,
   GetOneUserBody,

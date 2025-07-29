@@ -13,6 +13,9 @@ importers:
       '@auth/core':
         specifier: workspace:*
         version: link:../core
+      '@auth/di':
+        specifier: workspace:*
+        version: link:../di
       '@auth/domain':
         specifier: workspace:*
         version: link:../domain
@@ -35,9 +38,6 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
     devDependencies:
-      '@nestjs/cli':
-        specifier: ^11.0.0
-        version: 11.0.8(@swc/cli@0.6.0(@swc/core@1.11.24)(chokidar@4.0.3))(@swc/core@1.11.24)(@types/node@22.17.0)
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
@@ -61,7 +61,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.0.4
-        version: 7.0.6(@types/node@22.17.0)(terser@5.43.1)
+        version: 7.0.6(@types/node@24.1.0)(terser@5.43.1)
 
   apps/adonis:
     dependencies:
@@ -305,9 +305,6 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
     devDependencies:
-      '@nestjs/cli':
-        specifier: ^11.0.0
-        version: 11.0.8(@swc/cli@0.6.0(@swc/core@1.11.24)(chokidar@4.0.3))(@swc/core@1.11.24)(@types/node@22.17.0)
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
@@ -328,7 +325,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.0.4
-        version: 7.0.6(@types/node@22.17.0)(terser@5.43.1)
+        version: 7.0.6(@types/node@24.1.0)(terser@5.43.1)
 
   core:
     dependencies:
@@ -348,9 +345,6 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
     devDependencies:
-      '@nestjs/cli':
-        specifier: ^11.0.0
-        version: 11.0.8(@swc/cli@0.6.0(@swc/core@1.11.24)(chokidar@4.0.3))(@swc/core@1.11.24)(@types/node@22.17.0)
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
@@ -368,7 +362,38 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.0.4
-        version: 7.0.6(@types/node@22.17.0)(terser@5.43.1)
+        version: 7.0.6(@types/node@24.1.0)(terser@5.43.1)
+
+  di:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.1.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.17.20
+        version: 4.17.20
+      '@types/node':
+        specifier: ^24.1.0
+        version: 24.1.0
+      eslint-config-prettier:
+        specifier: ^10.0.1
+        version: 10.1.8(eslint@9.32.0)
+      eslint-plugin-prettier:
+        specifier: ^5.2.2
+        version: 5.5.3(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.32.0))(eslint@9.32.0)(prettier@3.6.2)
+      prettier:
+        specifier: ^3.4.2
+        version: 3.6.2
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vite:
+        specifier: ^7.0.4
+        version: 7.0.6(@types/node@24.1.0)(terser@5.43.1)
 
   domain:
     dependencies:
@@ -391,9 +416,6 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
     devDependencies:
-      '@nestjs/cli':
-        specifier: ^11.0.0
-        version: 11.0.8(@swc/cli@0.6.0(@swc/core@1.11.24)(chokidar@4.0.3))(@swc/core@1.11.24)(@types/node@22.17.0)
       barrelsby:
         specifier: ^2.8.1
         version: 2.8.1
@@ -411,7 +433,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.0.4
-        version: 7.0.6(@types/node@22.17.0)(terser@5.43.1)
+        version: 7.0.6(@types/node@24.1.0)(terser@5.43.1)
 
   infra:
     dependencies:
@@ -455,9 +477,6 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
     devDependencies:
-      '@nestjs/cli':
-        specifier: ^11.0.0
-        version: 11.0.8(@swc/cli@0.6.0(@swc/core@1.11.24)(chokidar@4.0.3))(@swc/core@1.11.24)(@types/node@22.17.0)
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
@@ -478,7 +497,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.0.4
-        version: 7.0.6(@types/node@22.17.0)(terser@5.43.1)
+        version: 7.0.6(@types/node@24.1.0)(terser@5.43.1)
 
 packages:
 
@@ -2013,6 +2032,9 @@ packages:
 
   '@types/node@22.17.0':
     resolution: {integrity: sha512-bbAKTCqX5aNVryi7qXVMi+OkB3w/OyblodicMbvE38blyAz7GxXf6XYhklokijuPwwVg9sDLKRxt0ZHXQwZVfQ==}
+
+  '@types/node@24.1.0':
+    resolution: {integrity: sha512-ut5FthK5moxFKH2T1CUOC6ctR67rQRvvHdFLCD2Ql6KXmMuCrjsSsRI9UsLCm9M18BMwClv4pn327UvB7eeO1w==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -5134,6 +5156,9 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
+  undici-types@7.8.0:
+    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
+
   unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
     engines: {node: '>=18'}
@@ -7022,6 +7047,10 @@ snapshots:
   '@types/node@22.17.0':
     dependencies:
       undici-types: 6.21.0
+
+  '@types/node@24.1.0':
+    dependencies:
+      undici-types: 7.8.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -10440,6 +10469,8 @@ snapshots:
 
   undici-types@6.21.0: {}
 
+  undici-types@7.8.0: {}
+
   unicorn-magic@0.1.0: {}
 
   unicorn-magic@0.3.0: {}
@@ -10483,7 +10514,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@7.0.6(@types/node@22.17.0)(terser@5.43.1):
+  vite@7.0.6(@types/node@24.1.0)(terser@5.43.1):
     dependencies:
       esbuild: 0.25.8
       fdir: 6.4.6(picomatch@4.0.3)
@@ -10492,7 +10523,7 @@ snapshots:
       rollup: 4.46.2
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 22.17.0
+      '@types/node': 24.1.0
       fsevents: 2.3.3
       terser: 5.43.1
 

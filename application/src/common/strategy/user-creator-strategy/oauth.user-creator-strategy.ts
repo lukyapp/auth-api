@@ -1,6 +1,6 @@
 import { UserDto } from '@auth/domain';
 import { Logger } from '@nestjs/common';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
 import { UserCreatorStrategy } from './user-creator.strategy.interface';
 

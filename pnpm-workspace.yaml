@@ -3,6 +3,7 @@ packages:
   - 'core'
   - 'domain'
   - 'infra'
+  - 'di'
   - 'application'
   - 'outgoing-adapters'
   - 'incoming-adapters'

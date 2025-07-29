@@ -1,5 +1,5 @@
 import { AuthenticateUserResponseData } from '@auth/domain';
-import { injectable } from '../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 import { AuthTokenServicePort } from '../ports/auth-token.service.port';
 import { AuthStrategy } from '../strategy/auth-strategy/auth.strategy.interface';
 

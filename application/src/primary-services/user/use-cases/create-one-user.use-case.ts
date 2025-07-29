@@ -1,6 +1,6 @@
 import { UserDto } from '@auth/domain';
 import { UserCreatorStrategy } from '../../../common/strategy/user-creator-strategy/user-creator.strategy.interface';
-import { injectable } from '../../../ioc/injectable.decorator';
+import { injectable } from '@auth/di';
 
 @injectable()
 export class CreateOneUserUseCase {
