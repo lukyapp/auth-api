@@ -10,8 +10,6 @@
     "generate:barrels": "barrelsby --directory src --exclude node_modules --delete --structure flat\n"
   },
   "devDependencies": {
-    "@types/bcrypt": "^6.0.0",
-    "@types/lodash": "^4.17.20",
     "barrelsby": "^2.8.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
@@ -20,7 +18,6 @@
     "vite": "^7.0.4"
   },
   "peerDependencies": {
-    "lodash": "^4.17.21",
     "@auth/core": "workspace:*",
     "@auth/domain": "workspace:*",
     "@auth/di": "workspace:*",
