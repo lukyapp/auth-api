@@ -1,5 +1,4 @@
 import { UserDto } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { injectable } from '@auth/di';
 import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
 import { UserCreatorStrategy } from './user-creator.strategy.interface';
@@ -10,8 +9,6 @@ type Body = {
 
 @injectable()
 export class OauthUserCreatorStrategy implements UserCreatorStrategy<Body> {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
   constructor(private readonly userRepository: UserRepositoryPort) {}
 
   create({ email }: Body): Promise<UserDto> {

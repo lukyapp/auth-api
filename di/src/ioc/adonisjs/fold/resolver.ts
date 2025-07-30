@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /*
  * @adonisjs/fold
  *
@@ -225,7 +227,7 @@ export class ContainerResolver<KnownBindings extends Record<any, any>> {
       return;
     }
 
-    for (let callback of callbacks) {
+    for (const callback of callbacks) {
       await callback(value, this);
     }
   }

@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 // @ts-nocheck
 
 function normalize(strArray) {

@@ -75,4 +75,4 @@ async function bootstrap() {
   Logger.log(`🚀 Swagger json file is server on: ${swaggerJsonPath}`);
 }
 
-bootstrap();
+bootstrap().catch(console.log);

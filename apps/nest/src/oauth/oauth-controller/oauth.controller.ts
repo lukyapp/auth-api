@@ -8,7 +8,6 @@ import { AuthenticateUserResponse } from '@auth/domain';
 import {
   Controller,
   InternalServerErrorException,
-  Logger,
   Param,
   Query,
   Req,
@@ -25,8 +24,6 @@ import { OauthGuard } from './guards/oauth.guard';
 @ApiTags('oauth')
 @Controller('oauth/:oauthProviderName')
 export class OauthController {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
   constructor(
     private readonly oauthPrimaryService: OauthPrimaryService,
     private readonly oauthConfigProxy: OauthConfigProxy,
@@ -68,7 +65,7 @@ export class OauthController {
   success(
     @Param() { oauthProviderName }: OauthEndpointParam,
     @Query() { userId, accessToken, refreshToken }: OauthSuccessEndpointQuery,
-  ): Promise<AuthenticateUserResponse> {
+  ): AuthenticateUserResponse {
     return this.oauthPrimaryService.success({
       providerName: oauthProviderName,
       userId,

@@ -18,8 +18,10 @@ export function Type(
             excludeExtraneousValues: true,
             enableImplicitConversion: true,
           });
-        } catch (e) {
-          console.error(`Failed to @Transform ${key} : `, e.message);
+        } catch (e: unknown) {
+          if (e instanceof Error) {
+            console.error(`Failed to @Transform ${key} : `, e.message);
+          }
         }
       }
       return plainToInstance(typeFunction(), value, {

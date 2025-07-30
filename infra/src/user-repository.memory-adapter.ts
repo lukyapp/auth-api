@@ -50,6 +50,7 @@ export class UserRepositoryMemoryAdapter extends UserRepositoryPort {
   }
 
   async getAllUsers(body: GetAllUsersBody): Promise<UserDto[]> {
+    console.log('getAllUsers : ', body);
     return Promise.resolve([...this.users]);
   }
 }

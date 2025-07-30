@@ -13,7 +13,7 @@ export class OauthAuthorizeUseCase {
 
   constructor() {}
 
-  async perform({ oauthProviderName }: OauthAuthorizeBody) {
+  perform({ oauthProviderName }: OauthAuthorizeBody) {
     this.logger.log(`oauth authorize with ${oauthProviderName} provider`);
   }
 }

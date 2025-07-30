@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+/* eslint-disable */
 
 /*
  * @poppinss/utils
@@ -8,6 +8,8 @@ import { cloneDeep } from 'lodash';
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+import { cloneDeep } from 'lodash';
 
 type Constructor = new (...args: any[]) => any;
 type AbstractConstructor = abstract new (...args: any[]) => any;

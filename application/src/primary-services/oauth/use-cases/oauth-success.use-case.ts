@@ -16,7 +16,7 @@ export class OauthSuccessUseCase {
 
   constructor() {}
 
-  async perform(body: OauthSuccessBody) {
+  perform(body: OauthSuccessBody) {
     const { providerName, userId, refreshToken, accessToken } = body;
     this.logger.log(`oauth success with ${providerName} provider`);
     return new AuthenticateUserResponse({

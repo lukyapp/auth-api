@@ -453,7 +453,7 @@ export class Container<KnownBindings extends Record<any, any>> {
       return;
     }
 
-    for (let binding of bindings) {
+    for (const binding of bindings) {
       this.restore(binding);
     }
   }

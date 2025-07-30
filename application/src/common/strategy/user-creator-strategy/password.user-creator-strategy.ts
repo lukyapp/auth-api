@@ -1,5 +1,4 @@
 import { UserDto } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { injectable } from '@auth/di';
 import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
 import { PasswordHasherPort } from '../../ports/password-hasher.port';
@@ -12,8 +11,6 @@ type Body = {
 
 @injectable()
 export class PasswordUserCreatorStrategy implements UserCreatorStrategy<Body> {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
   constructor(
     private readonly userRepository: UserRepositoryPort,
     private readonly passwordHasher: PasswordHasherPort,

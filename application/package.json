@@ -7,6 +7,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "generate:barrels": "barrelsby --directory src --exclude node_modules --delete --structure flat\n"
   },
   "devDependencies": {
@@ -15,7 +16,8 @@
     "eslint-plugin-prettier": "^5.2.2",
     "prettier": "^3.4.2",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "globals": "^16.0.0"
   },
   "peerDependencies": {
     "@auth/core": "workspace:*",

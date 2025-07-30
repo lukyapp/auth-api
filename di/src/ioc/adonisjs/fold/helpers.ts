@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 
 /*
@@ -45,12 +46,16 @@ export function enqueue(callback: Function) {
   /**
    * The computed after the callback resolves
    */
-  let computedValue: { value?: any; completed: boolean } = { completed: false };
+  const computedValue: { value?: any; completed: boolean } = {
+    completed: false,
+  };
 
   /**
    * The computed error the callback resolves
    */
-  let computedError: { error?: any; completed: boolean } = { completed: false };
+  const computedError: { error?: any; completed: boolean } = {
+    completed: false,
+  };
 
   /**
    * The internal queue of deferred promises.
@@ -132,7 +137,7 @@ export async function resolveDefault(
   importPath: string,
   parentURL: URL | string,
 ) {
-  const resolvedPath = await import.meta.resolve!(importPath, parentURL);
+  const resolvedPath = await import.meta.resolve(importPath, parentURL);
   const moduleExports = await import(resolvedPath);
 
   /**

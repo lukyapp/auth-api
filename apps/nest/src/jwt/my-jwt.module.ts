@@ -8,7 +8,7 @@ import { JwtModule, JwtModuleOptions, JwtSecretRequestType } from '@nestjs/jwt';
     JwtModule.registerAsync({
       global: true,
       inject: [ConfigurationServicePort],
-      useFactory: async (configurationService: ConfigurationServicePort) => {
+      useFactory: (configurationService: ConfigurationServicePort) => {
         const privateKeys = configurationService.get('jwt.sign.private_keys');
         const privateKey = privateKeys[0];
         if (!privateKey) {
@@ -17,18 +17,21 @@ import { JwtModule, JwtModuleOptions, JwtSecretRequestType } from '@nestjs/jwt';
           );
         }
 
-        const secretOrKeyProvider: JwtModuleOptions['secretOrKeyProvider'] =
-          async (requestType, tokenOrPayload) => {
-            if (requestType === JwtSecretRequestType.SIGN) {
-              return privateKey.pem;
-            }
-            if (requestType === JwtSecretRequestType.VERIFY) {
-              const token = tokenOrPayload as string;
-              // TODO : get from jwks endpoint
-              throw new InternalServerErrorException('dont use that');
-            }
-            throw new InternalServerErrorException('impossible request type');
-          };
+        const secretOrKeyProvider: JwtModuleOptions['secretOrKeyProvider'] = (
+          requestType,
+          tokenOrPayload,
+        ) => {
+          if (requestType === JwtSecretRequestType.SIGN) {
+            return privateKey.pem;
+          }
+          if (requestType === JwtSecretRequestType.VERIFY) {
+            const token = tokenOrPayload as string;
+            console.log('secretOrKeyProvider verify token : ', token);
+            // TODO : get from jwks endpoint
+            throw new InternalServerErrorException('dont use that');
+          }
+          throw new InternalServerErrorException('impossible request type');
+        };
 
         const signOptions = {
           expiresIn: configurationService.get(

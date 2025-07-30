@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pnpm -r build",
     "format": "pnpm -r format",
+    "lint": "pnpm -r lint",
     "clean": "rm pnpm-lock.yaml && find . -type d -name \"dist\" -prune -exec rm -rf '{}' + && find . -type d -name \"node_modules\" -prune -exec rm -rf '{}' +"
   },
   "keywords": [],

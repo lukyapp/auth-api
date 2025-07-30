@@ -13,23 +13,26 @@ export class AuthTokenServiceAdonisLocalAdapter
 {
   constructor() {}
 
-  async generateAuthToken({
+  generateAuthToken({
     sub,
     email,
   }: GenerateAuthTokenBody): Promise<AuthTokenResponse> {
     try {
       // TODO
+      console.log('generateAuthToken : ', sub, email);
       const accessToken = 'accessTokenaccessToken';
       const expiresIn = 1000;
       const refreshToken = 'refreshTokenrefreshToken';
       const refreshExpiresIn = 7000;
 
-      return new AuthTokenResponse({
-        accessToken,
-        refreshToken,
-        expiresIn: expiresIn!,
-        refreshExpiresIn: refreshExpiresIn!,
-      });
+      return Promise.resolve(
+        new AuthTokenResponse({
+          accessToken,
+          refreshToken,
+          expiresIn: expiresIn,
+          refreshExpiresIn: refreshExpiresIn,
+        }),
+      );
     } catch (error) {
       console.error('generateAuthToken error :', error);
       throw new UnknownElementException();
@@ -40,6 +43,8 @@ export class AuthTokenServiceAdonisLocalAdapter
     refreshToken: oldRefreshToken,
   }: GenerateAuthTokenByRefreshTokenBody): Promise<AuthTokenResponse> {
     try {
+      // TODO
+      console.log('generateAuthTokenByRefreshToken : ', oldRefreshToken);
       const sub: string = 'oldRefreshTokenDecoded.sub';
       const email: string = 'oldRefreshTokenDecoded.email';
 

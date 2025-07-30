@@ -4,9 +4,8 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
 
 export const CurrentOauthValidateResult = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
+  (_data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<Request>();
-    console.log(request.user);
     return ValidationService.validate(OauthValidateResult, request.user);
   },
 );

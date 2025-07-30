@@ -47,7 +47,7 @@ export class ValidationService {
         errors.map(({ property, value, constraints }) => {
           return {
             property,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
             value,
             constraints,
           };
@@ -71,7 +71,7 @@ export class ValidationService {
           ? [parentNode.property, node.property].join('.')
           : node.property,
         constraints: node.constraints ? Object.values(node.constraints) : [],
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         value: node.value,
       };
       if (entry.constraints.length) {
