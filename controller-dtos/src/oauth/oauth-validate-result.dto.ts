@@ -3,7 +3,7 @@ import { Nested } from '@auth/domain';
 import { Expose } from 'class-transformer';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-class OauthProfile extends Dto<OauthProfile> {
+export class OauthProfile extends Dto<OauthProfile> {
   @Expose()
   @IsString()
   @IsOptional()

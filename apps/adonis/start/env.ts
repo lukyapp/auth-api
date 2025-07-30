@@ -12,9 +12,32 @@
 import { Env } from '@adonisjs/core/env'
 
 export default await Env.create(new URL('../', import.meta.url), {
-  NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
-  PORT: Env.schema.number(),
-  APP_KEY: Env.schema.string(),
-  HOST: Env.schema.string({ format: 'host' }),
-  LOG_LEVEL: Env.schema.string(),
+  'NODE_ENV': Env.schema.enum(['development', 'production', 'test'] as const),
+  'PORT': Env.schema.number(),
+  'APP_KEY': Env.schema.string(),
+  'HOST': Env.schema.string({ format: 'host' }),
+  'LOG_LEVEL': Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | server
+  |----------------------------------------------------------
+  */
+
+  'server.baseUrl': Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring ally package - oauth providers
+  |----------------------------------------------------------
+  */
+  'oauth.google.clientId': Env.schema.string(),
+  'oauth.google.clientSecret': Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring session package
+  |----------------------------------------------------------
+  */
+  'SESSION_DRIVER': Env.schema.enum(['cookie', 'memory'] as const),
 })

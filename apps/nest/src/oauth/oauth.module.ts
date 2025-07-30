@@ -1,6 +1,6 @@
+import { Utils } from '@auth/core';
 import { ConfigurationServicePort } from '@auth/domain';
 import { Module } from '@nestjs/common';
-import { Utils } from '../core/utils/utils';
 import { GoogleOauthConfig } from './oauth-controller/guards/google/google-oauth.config';
 import { GoogleOAuthGuard } from './oauth-controller/guards/google/google-oauth.guard';
 import { GoogleOauthStrategy } from './oauth-controller/guards/google/google-oauth.strategy';

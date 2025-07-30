@@ -44,6 +44,8 @@ export default defineConfig({
       environment: ['repl', 'test'],
     },
     () => import('@adonisjs/cors/cors_provider'),
+    () => import('@adonisjs/ally/ally_provider'),
+    () => import('@adonisjs/session/session_provider'),
   ],
 
   /*

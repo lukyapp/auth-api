@@ -1,5 +1,5 @@
+import { ObjectProxy } from '@auth/core';
 import { Injectable } from '@nestjs/common';
-import { ObjectProxy } from '../../../core/object.proxy.interface';
 import { GoogleOauthConfig } from './google/google-oauth.config';
 
 @Injectable()

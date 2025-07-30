@@ -1,3 +1,4 @@
+import { Utils } from '@auth/core';
 import { ConfigurationServicePort } from '@auth/domain';
 import {
   ClassSerializerInterceptor,
@@ -9,7 +10,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import crypto from 'crypto';
 import { AppModule } from './app.module';
 import session from 'express-session';
-import { Utils } from './core/utils/utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
