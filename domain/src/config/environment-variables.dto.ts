@@ -15,10 +15,13 @@ export type ExpiresIn =
   | `${number}w`
   | `${number}y`;
 
-export enum AvailableAlgorithm {
+export enum SymmetricAlgorithm {
   HS256 = 'HS256',
   HS384 = 'HS384',
   HS512 = 'HS512',
+}
+
+export enum AsymmetricAlgorithm {
   RS256 = 'RS256',
   RS384 = 'RS384',
   RS512 = 'RS512',
@@ -53,8 +56,8 @@ class PrivateKeys extends Dto<PrivateKeys> {
   @IsString()
   declare public readonly pem: string;
   @Expose()
-  @IsEnum(AvailableAlgorithm)
-  declare public readonly alg: AvailableAlgorithm;
+  @IsEnum(AsymmetricAlgorithm)
+  declare public readonly alg: AsymmetricAlgorithm;
 }
 
 class SwaggerServers extends Dto<SwaggerServers> {
@@ -95,8 +98,8 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
 
   @Expose()
   @IsEnvArray()
-  @IsEnum(AvailableAlgorithm, { each: true })
-  declare public readonly 'jwt.verify.authorizedAlgorithms': AvailableAlgorithm[];
+  @IsEnum(AsymmetricAlgorithm, { each: true })
+  declare public readonly 'jwt.verify.authorizedAlgorithms': AsymmetricAlgorithm[];
 
   // ---------- jwt sign options ----------
 

@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigurationModule } from './config/configuration.module';
 import { ValidationModule } from './core/validation/validation.module';
+import { JwksModule } from './jwks/jwks.module';
 import { MyJwtModule } from './jwt/my-jwt.module';
 import { OauthModule } from './oauth/oauth.module';
 import { PortModule } from './port.module';
@@ -21,6 +22,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     OauthModule,
+    JwksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

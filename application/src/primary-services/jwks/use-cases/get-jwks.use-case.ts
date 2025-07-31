@@ -1,0 +1,144 @@
+import { Dto } from '@auth/core';
+import { injectable } from '@auth/di';
+import { ConfigurationServicePort, Nested } from '@auth/domain';
+import { Expose } from 'class-transformer';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
+import { createPrivateKey, createPublicKey } from 'crypto';
+
+export class JWK extends Dto<JWK> {
+  // JWKParameters
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly kty?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly alg?: string;
+  @Expose()
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  declare public readonly key_ops?: string[];
+  @Expose()
+  @IsOptional()
+  @IsBoolean()
+  declare public readonly ext?: boolean;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly use?: string;
+  @Expose()
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  declare public readonly x5c?: string[];
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly x5t?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly 'x5t#S256'?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly x5u?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly kid?: string;
+  // others
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly crv?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly d?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly dp?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly dq?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly e?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly k?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly n?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly p?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly q?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly qi?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly x?: string;
+  @Expose()
+  @IsOptional()
+  @IsString()
+  declare public readonly y?: string;
+}
+
+export class JwksResponse extends Dto<JwksResponse> {
+  @Expose()
+  @IsArray()
+  @Nested(() => JWK, { each: true })
+  declare public readonly keys: JWK[];
+}
+
+@injectable()
+export class GetJwksUseCase {
+  constructor(
+    private readonly configurationService: ConfigurationServicePort,
+  ) {}
+
+  perform() {
+    return this.generateJwks();
+  }
+
+  private async generateJwks(): Promise<{ keys: JWK[] }> {
+    const { exportJWK } = await import('jose');
+    const privateKeys = this.configurationService.get('jwt.sign.private_keys');
+
+    const jwks: JWK[] = [];
+    for (const key of privateKeys) {
+      const { kid, alg, pem } = key;
+
+      // Convert PEM to CryptoKey (for private or public key)
+      // const cryptoKey = await this.importPrivateKey(pem, alg);
+      const privateKey = createPrivateKey(pem);
+      const publicKey = createPublicKey(privateKey);
+
+      // Export as JWK
+      const jwk = await exportJWK(publicKey);
+      jwk.kid = kid;
+      jwk.alg = alg;
+      jwk.use = 'sig'; // typically "sig" for signing
+
+      jwks.push(jwk);
+    }
+
+    return new JwksResponse({ keys: jwks });
+  }
+}
