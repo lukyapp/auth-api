@@ -47,7 +47,6 @@ export class ValidationService {
         errors.map(({ property, value, constraints }) => {
           return {
             property,
-
             value,
             constraints,
           };
@@ -56,6 +55,27 @@ export class ValidationService {
       throw new BadRequestException();
     }
     return params;
+  }
+
+  static validateOneField<T extends object>(
+    cls: Type<T>,
+    value: any,
+    name: string,
+  ) {
+    const params = plainToInstance(
+      cls,
+      { [name]: value },
+      this.getClassSerializerInterceptorOptions(),
+    );
+    const errors = validateSync(params, this.getValidationPipeOptions());
+    const fieldErrors = errors.find((err) => err.property === name);
+    if (fieldErrors) {
+      const formattedErrors = this.flattenValidationErrors([fieldErrors]);
+      console.error(formattedErrors);
+      throw new BadRequestException(formattedErrors);
+    }
+    // @ts-expect-error lala
+    return params[name];
   }
 
   static flattenValidationErrors(validationErrors: ValidationError[]): any[] {

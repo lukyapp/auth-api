@@ -1,3 +1,4 @@
+import { PrivateKeyGetter } from '@auth/application';
 import { ConfigurationServicePort } from '@auth/domain';
 import { Global, InternalServerErrorException, Module } from '@nestjs/common';
 import { JwtModule, JwtModuleOptions, JwtSecretRequestType } from '@nestjs/jwt';
@@ -7,16 +8,13 @@ import { JwtModule, JwtModuleOptions, JwtSecretRequestType } from '@nestjs/jwt';
   imports: [
     JwtModule.registerAsync({
       global: true,
-      inject: [ConfigurationServicePort],
-      useFactory: (configurationService: ConfigurationServicePort) => {
-        const privateKeys = configurationService.get('jwt.sign.private_keys');
-        const privateKey = privateKeys[0];
-        if (!privateKey) {
-          throw new InternalServerErrorException(
-            'no private jwk key setted in .evn file',
-          );
-        }
-
+      extraProviders: [PrivateKeyGetter],
+      inject: [ConfigurationServicePort, PrivateKeyGetter],
+      useFactory: (
+        configurationService: ConfigurationServicePort,
+        privateKeyGetter: PrivateKeyGetter,
+      ) => {
+        const privateKey = privateKeyGetter.get();
         const secretOrKeyProvider: JwtModuleOptions['secretOrKeyProvider'] = (
           requestType,
           tokenOrPayload,

@@ -4,7 +4,7 @@ import { AuthPrimaryService, SignInBody, SignUpBody, ValidationService } from '@
 
 @inject()
 export default class AuthController {
-  constructor(private authPrimaryService: AuthPrimaryService) {}
+  constructor(private readonly authPrimaryService: AuthPrimaryService) {}
 
   async signUp({ request }: HttpContext) {
     const body = ValidationService.validate(SignUpBody, request.body())
