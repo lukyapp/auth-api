@@ -1,8 +1,8 @@
-import { PasswordHasherPort } from '@auth/application';
-import { Injectable } from '@nestjs/common';
-import { hashSync, compareSync } from 'bcrypt';
+import { injectable } from '@auth/di';
+import { PasswordHasherPort } from '@auth/domain';
+import { compareSync, hashSync } from 'bcrypt';
 
-@Injectable()
+@injectable()
 export class PasswordHasherBcryptAdapter implements PasswordHasherPort {
   private readonly SALT_ROUNDS = 10;
 

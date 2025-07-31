@@ -3,13 +3,8 @@ import InternalServerErrorException from '#exceptions/internal_server_error_exce
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 import { Session } from '@adonisjs/session'
-import { OauthPrimaryService, ValidationService } from '@auth/application'
-import {
-  OauthEndpointParam,
-  OauthProfile,
-  OauthSuccessEndpointQuery,
-  OauthValidateResult,
-} from '@auth/controller-dtos'
+import { OauthPrimaryService, OauthValidateResult, ValidationService } from '@auth/application'
+import { OauthEndpointParam, OauthSuccessEndpointQuery } from '@auth/controller-dtos'
 
 @inject()
 export default class OauthController {
@@ -62,12 +57,12 @@ export default class OauthController {
     const validateResult = new OauthValidateResult({
       accessToken: user.token.token,
       refreshToken: user.token.refreshToken,
-      profile: new OauthProfile({
+      profile: {
         id: user.id,
         name: user.name,
         email: user.email,
         isEmailVerified: user.emailVerificationState === 'verified',
-      }),
+      },
     })
 
     const userAgent = request.header('user-agent')

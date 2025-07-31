@@ -1,6 +1,5 @@
-import { UserDto } from '@auth/domain';
+import { UserDto, UserRepositoryPort } from '@auth/domain';
 import { injectable } from '@auth/di';
-import { UserRepositoryPort } from '../../../secondary-ports/user/ports/user.repository.port';
 import { UserCreatorStrategy } from './user-creator.strategy.interface';
 
 type Body = {

@@ -1,13 +1,13 @@
+import { injectable } from '@auth/di';
 import {
   AuthTokenResponse,
   AuthTokenServicePort,
   GenerateAuthTokenBody,
   GenerateAuthTokenByRefreshTokenBody,
-} from '@auth/application';
-import { Injectable } from '@nestjs/common';
+} from '@auth/domain';
 import { UnknownElementException } from '@nestjs/core/errors/exceptions';
 
-@Injectable()
+@injectable()
 export class AuthTokenServiceAdonisLocalAdapter
   implements AuthTokenServicePort
 {

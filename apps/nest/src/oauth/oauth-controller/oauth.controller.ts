@@ -1,10 +1,8 @@
-import { OauthPrimaryService } from '@auth/application';
+import { OauthPrimaryService, OauthValidateResult } from '@auth/application';
 import {
   OauthEndpointParam,
   OauthSuccessEndpointQuery,
-  OauthValidateResult,
 } from '@auth/controller-dtos';
-import { AuthenticateUserResponse } from '@auth/domain';
 import {
   Controller,
   InternalServerErrorException,
@@ -31,11 +29,7 @@ export class OauthController {
 
   @Get('authorize')
   @UseGuards(OauthGuard)
-  authorize(
-    @Param() { oauthProviderName }: OauthEndpointParam,
-  ): void | Promise<void> {
-    return this.oauthPrimaryService.authorize({ oauthProviderName });
-  }
+  authorize() {}
 
   @Get('callback')
   @UseGuards(OauthGuard)
@@ -65,7 +59,7 @@ export class OauthController {
   success(
     @Param() { oauthProviderName }: OauthEndpointParam,
     @Query() { userId, accessToken, refreshToken }: OauthSuccessEndpointQuery,
-  ): AuthenticateUserResponse {
+  ) {
     return this.oauthPrimaryService.success({
       providerName: oauthProviderName,
       userId,

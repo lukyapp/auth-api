@@ -1,15 +1,14 @@
 import {
   AuthenticateUseCase,
-  AuthTokenServicePort,
   CreateOneUserUseCase,
   FindOneUserUseCase,
-  OauthAuthorizeUseCase,
   OauthAuthStrategy,
   OauthCallbackUseCase,
   OauthPrimaryService,
   OauthSuccessUseCase,
   OauthUserCreatorStrategy,
 } from '@auth/application';
+import { AuthTokenServicePort } from '@auth/domain';
 import { AuthTokenServiceNestjsLocalAdapter } from '@auth/infra';
 import { Module } from '@nestjs/common';
 
@@ -24,7 +23,6 @@ import { Module } from '@nestjs/common';
     },
     OauthUserCreatorStrategy,
     // use-cases
-    OauthAuthorizeUseCase,
     OauthCallbackUseCase,
     OauthSuccessUseCase,
     AuthenticateUseCase,
@@ -38,7 +36,6 @@ import { Module } from '@nestjs/common';
     AuthTokenServicePort,
     OauthUserCreatorStrategy,
     // use-cases
-    OauthAuthorizeUseCase,
     OauthCallbackUseCase,
     OauthSuccessUseCase,
     AuthenticateUseCase,

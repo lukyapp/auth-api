@@ -1,4 +1,4 @@
-import { OauthProfile, OauthValidateResult } from '@auth/domain';
+import { OauthValidateResult } from '@auth/application';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
@@ -33,18 +33,15 @@ export class GoogleOauthStrategy
       info?: object,
     ) => void,
   ): void {
-    done(
-      null,
-      new OauthValidateResult({
-        accessToken,
-        refreshToken,
-        profile: new OauthProfile({
-          id: profile?._json.sub,
-          email: profile?._json.email,
-          isEmailVerified: profile?._json.email_verified,
-          name: profile?._json.name,
-        }),
-      }),
-    );
+    done(null, {
+      accessToken,
+      refreshToken,
+      profile: {
+        id: profile?._json.sub,
+        email: profile?._json.email,
+        isEmailVerified: profile?._json.email_verified,
+        name: profile?._json.name,
+      },
+    });
   }
 }

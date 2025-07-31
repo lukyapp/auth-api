@@ -1,15 +1,15 @@
+import { injectable } from '@auth/di';
 import {
   AuthTokenResponse,
   AuthTokenServicePort,
+  ConfigurationServicePort,
   GenerateAuthTokenBody,
   GenerateAuthTokenByRefreshTokenBody,
-} from '@auth/application';
-import { ConfigurationServicePort } from '@auth/domain';
-import { Injectable } from '@nestjs/common';
+} from '@auth/domain';
 import { UnknownElementException } from '@nestjs/core/errors/exceptions';
 import { JwtService } from '@nestjs/jwt';
 
-@Injectable()
+@injectable()
 export class AuthTokenServiceNestjsLocalAdapter
   implements AuthTokenServicePort
 {

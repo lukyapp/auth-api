@@ -1,4 +1,4 @@
-import { OauthValidateResult } from '@auth/domain';
+import { OauthValidateResult } from '@auth/application';
 
 export abstract class OauthStrategyI<TOauthStrategyProfile> {
   abstract validate(

@@ -1,5 +1,4 @@
-import { ValidationService } from '@auth/application';
-import { OauthValidateResult } from '@auth/controller-dtos';
+import { OauthValidateResult, ValidationService } from '@auth/application';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
 

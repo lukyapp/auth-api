@@ -13,16 +13,14 @@ type Body = {
 };
 
 @injectable()
-export class OauthAuthStrategy extends AuthStrategy<Body> {
+export class OauthAuthStrategy implements AuthStrategy<Body> {
   private readonly logger: Logger = new Logger(this.constructor.name);
 
   constructor(
     private readonly oauthUserCreatorStrategy: OauthUserCreatorStrategy,
     private readonly createOneUserUseCase: CreateOneUserUseCase,
     private readonly findOneUserUseCase: FindOneUserUseCase,
-  ) {
-    super();
-  }
+  ) {}
 
   async authenticate({ email, isEmailVerified }: Body) {
     if (!isEmailVerified) {
@@ -35,15 +33,12 @@ export class OauthAuthStrategy extends AuthStrategy<Body> {
       this.logger.log('! oauthProfile.email');
       throw new BadRequestException('WRONG_CREDENTIALS');
     }
-    const found = await this.findOneUserUseCase.perform({ email });
+    const { data: found } = await this.findOneUserUseCase.perform({ email });
     if (found) {
       return found;
     }
-    return await this.createOneUserUseCase.perform(
-      this.oauthUserCreatorStrategy,
-      {
-        email,
-      },
-    );
+    return this.createOneUserUseCase.perform(this.oauthUserCreatorStrategy, {
+      email,
+    });
   }
 }

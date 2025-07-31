@@ -8,9 +8,13 @@
 import { GoogleOauthConfig } from '#controllers/http/google/google-oauth.config'
 import { resolveMany } from '#start/resolveMany.util'
 import app from '@adonisjs/core/services/app'
-import { AuthTokenServicePort, PasswordHasherPort, UserRepositoryPort } from '@auth/application'
 import { Utils } from '@auth/core'
-import { ConfigurationServicePort } from '@auth/domain'
+import {
+  AuthTokenServicePort,
+  ConfigurationServicePort,
+  PasswordHasherPort,
+  UserRepositoryPort,
+} from '@auth/domain'
 import {
   AuthTokenServiceAdonisLocalAdapter,
   PasswordHasherBcryptAdapter,

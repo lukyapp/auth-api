@@ -1,4 +1,4 @@
-import { PasswordHasherPort, UserRepositoryPort } from '@auth/application';
+import { PasswordHasherPort, UserRepositoryPort } from '@auth/domain';
 import {
   PasswordHasherBcryptAdapter,
   UserRepositoryMemoryAdapter,

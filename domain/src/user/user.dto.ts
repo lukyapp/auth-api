@@ -1,5 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+// import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty } from '@nestjs/swagger';
+import { Exclude, Expose } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -18,16 +19,12 @@ export class UserDto extends Dto<UserDto> {
   declare public readonly id: string;
 
   @Expose()
-  @ApiProperty({
-    example: 'test@example.com',
-  })
   @IsEmail()
   @IsNotEmpty()
   declare public readonly email: string;
 
-  @ApiProperty({
-    example: 'testtest',
-  })
+  @ApiHideProperty()
+  @Exclude({ toPlainOnly: true })
   @IsString()
   @IsOptional()
   @MinLength(8)

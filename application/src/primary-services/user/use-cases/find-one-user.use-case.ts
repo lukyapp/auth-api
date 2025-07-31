@@ -1,15 +1,37 @@
-import { UserDto } from '@auth/domain';
+import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import {
-  GetOneUserBody,
+  Nested,
+  ResponseGetOne,
+  UserDto,
   UserRepositoryPort,
-} from '../../../secondary-ports/user/ports/user.repository.port';
+} from '@auth/domain';
+import { Expose } from 'class-transformer';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
+
+export class GetOneUserBody extends Dto<GetOneUserBody> {
+  @Expose()
+  @IsString()
+  declare public readonly id?: string | string[];
+  @Expose()
+  @IsString()
+  @IsEmail()
+  declare public readonly email?: string | string[];
+}
+
+export class GetOneUserBodyResponse extends ResponseGetOne<UserDto | null> {
+  @Expose()
+  @IsOptional()
+  @Nested(() => UserDto)
+  declare public readonly data: UserDto | null;
+}
 
 @injectable()
 export class FindOneUserUseCase {
   constructor(private readonly userRepository: UserRepositoryPort) {}
 
-  async perform(body: GetOneUserBody): Promise<UserDto | null> {
-    return this.userRepository.getOneUser(body);
+  async perform(body: GetOneUserBody) {
+    const user = await this.userRepository.getOneUser(body);
+    return new GetOneUserBodyResponse(user);
   }
 }

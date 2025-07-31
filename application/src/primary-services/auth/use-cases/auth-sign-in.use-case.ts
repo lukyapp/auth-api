@@ -1,11 +1,19 @@
+import { Dto } from '@auth/core';
+import { injectable } from '@auth/di';
+import { Expose } from 'class-transformer';
+import { IsEmail, IsString } from 'class-validator';
 import { PasswordAuthStrategy } from '../../../common/strategy/auth-strategy/password.auth-strategy';
 import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
-import { injectable } from '@auth/di';
 
-export type SignInBody = {
-  email: string;
-  password: string;
-};
+export class SignInBody extends Dto<SignInBody> {
+  @Expose()
+  @IsString()
+  @IsEmail()
+  declare public readonly email: string;
+  @Expose()
+  @IsString()
+  declare public readonly password: string;
+}
 
 @injectable()
 export class AuthSignInUseCase {

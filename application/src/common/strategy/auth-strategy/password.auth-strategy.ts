@@ -1,7 +1,7 @@
+import { PasswordHasherPort } from '@auth/domain';
 import { BadRequestException, Logger } from '@nestjs/common';
 import { injectable } from '@auth/di';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
-import { PasswordHasherPort } from '../../ports/password-hasher.port';
 import { AuthStrategy } from './auth.strategy.interface';
 
 type Body = {
@@ -21,7 +21,7 @@ export class PasswordAuthStrategy extends AuthStrategy<Body> {
   }
 
   async authenticate({ email, password }: Body) {
-    const found = await this.findOneUserUseCase.perform({ email });
+    const { data: found } = await this.findOneUserUseCase.perform({ email });
     if (!found) {
       this.logger.log('! found');
       throw new BadRequestException('WRONG_CREDENTIALS');

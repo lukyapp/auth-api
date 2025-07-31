@@ -1,7 +1,27 @@
-import { AuthenticateUserResponseData } from '@auth/domain';
+import { Dto } from '@auth/core';
+import { AuthTokenServicePort, Nested, ResponseGetOne } from '@auth/domain';
 import { injectable } from '@auth/di';
-import { AuthTokenServicePort } from '../ports/auth-token.service.port';
+import { Expose } from 'class-transformer';
+import { IsOptional } from 'class-validator';
 import { AuthStrategy } from '../strategy/auth-strategy/auth.strategy.interface';
+
+export class AuthenticateUserResponseData extends Dto<AuthenticateUserResponseData> {
+  @Expose()
+  declare public readonly userId: string;
+
+  @Expose()
+  declare public readonly accessToken: string;
+
+  @Expose()
+  @IsOptional()
+  declare public readonly refreshToken?: string;
+}
+
+export class AuthenticateUserResponse extends ResponseGetOne<AuthenticateUserResponseData> {
+  @Expose()
+  @Nested(() => AuthenticateUserResponseData)
+  declare public readonly data: AuthenticateUserResponseData;
+}
 
 @injectable()
 export class AuthenticateUseCase {
@@ -10,7 +30,7 @@ export class AuthenticateUseCase {
   async perform<TBody, TAuthStrategy extends AuthStrategy<TBody>>(
     authStrategy: TAuthStrategy,
     body: TBody,
-  ): Promise<AuthenticateUserResponseData> {
+  ) {
     const user = await authStrategy.authenticate(body);
 
     const { accessToken, refreshToken } =
@@ -19,10 +39,10 @@ export class AuthenticateUseCase {
         email: user.email,
       });
 
-    return {
+    return new AuthenticateUserResponse({
       userId: user.id,
       accessToken,
       refreshToken,
-    };
+    });
   }
 }

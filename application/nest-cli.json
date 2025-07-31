@@ -16,7 +16,8 @@
             ".param.ts",
             ".response.ts",
             ".decorator.ts",
-            ".enum.ts"
+            ".enum.ts",
+            ".use-case.ts"
           ]
         }
       }

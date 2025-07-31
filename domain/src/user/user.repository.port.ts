@@ -1,5 +1,5 @@
 import { Dto } from '@auth/core';
-import { UserDto } from '@auth/domain';
+import { UserDto } from './user.dto';
 
 export class CreateUserBody extends Dto<CreateUserBody> {
   declare public readonly email: string;
@@ -19,6 +19,7 @@ export class GetOneUserBody extends Dto<CreateUserBody> {
 export class GetAllUsersBody extends Dto<GetAllUsersBody> {
   declare public readonly page: number;
   declare public readonly limit: number;
+  declare public readonly data?: GetOneUserBody;
 }
 
 export abstract class UserRepositoryPort {

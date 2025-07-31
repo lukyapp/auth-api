@@ -1,4 +1,3 @@
-import { UserDto } from '@auth/domain';
 import { UserCreatorStrategy } from '../../../common/strategy/user-creator-strategy/user-creator.strategy.interface';
 import { injectable } from '@auth/di';
 
@@ -9,7 +8,7 @@ export class CreateOneUserUseCase {
   async perform<TBody, TUserCreator extends UserCreatorStrategy<TBody>>(
     userCreator: TUserCreator,
     body: TBody,
-  ): Promise<UserDto> {
+  ) {
     return userCreator.create(body);
   }
 }

@@ -3,9 +3,9 @@ import {
   GetAllUsersBody,
   GetOneUserBody,
   UpdateUserBody,
+  UserDto,
   UserRepositoryPort,
-} from '@auth/application';
-import { UserDto } from '@auth/domain';
+} from '@auth/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 export class UserRepositoryMemoryAdapter extends UserRepositoryPort {

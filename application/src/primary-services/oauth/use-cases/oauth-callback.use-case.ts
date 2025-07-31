@@ -1,20 +1,44 @@
 import { Dto } from '@auth/core';
-import { AuthenticateUserResponseData, OauthProviderName } from '@auth/domain';
-import { Logger } from '@nestjs/common';
-import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
-import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
 import { injectable } from '@auth/di';
+import { Nested, OauthProviderName } from '@auth/domain';
+import { Logger } from '@nestjs/common';
+import { Expose } from 'class-transformer';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
+import {
+  AuthenticateUseCase,
+  AuthenticateUserResponse,
+} from '../../../common/use-cases/authenticate.use-case';
 
 export class OauthProfile extends Dto<OauthProfile> {
+  @Expose()
+  @IsString()
+  @IsOptional()
   declare public readonly id?: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
   declare public readonly name?: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
   declare public readonly email?: string;
+  @Expose()
+  @IsBoolean()
+  @IsOptional()
   declare public readonly isEmailVerified?: boolean;
 }
 
 export class OauthValidateResult extends Dto<OauthValidateResult> {
+  @Expose()
+  @IsString()
   declare public readonly accessToken: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
   declare public readonly refreshToken?: string;
+  @Expose()
+  @Nested(() => OauthProfile)
   declare public readonly profile: OauthProfile;
 }
 
@@ -45,16 +69,16 @@ export class OauthCallbackUseCase {
       `oauth callback with ${providerName} provider and ${isFromMobile ? 'mobile' : 'web'} agent`,
     );
 
-    const authenticateUserResponseData = await this.authenticateUseCase.perform(
+    const authenticateUserResponse = await this.authenticateUseCase.perform(
       this.authenticatorOauthStrategy,
       profile,
     );
-    return this.buildSuccessUrl(successUrl, authenticateUserResponseData);
+    return this.buildSuccessUrl(successUrl, authenticateUserResponse);
   }
 
   private buildSuccessUrl(
     baseUrl: URL,
-    { userId, accessToken, refreshToken }: AuthenticateUserResponseData,
+    { data: { userId, accessToken, refreshToken } }: AuthenticateUserResponse,
   ) {
     baseUrl.searchParams.append('userId', userId);
     baseUrl.searchParams.append('accessToken', accessToken);

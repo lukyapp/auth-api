@@ -1,7 +1,6 @@
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
-import { AuthPrimaryService, ValidationService } from '@auth/application'
-import { SignInBody, SignUpBody } from '@auth/controller-dtos'
+import { AuthPrimaryService, SignInBody, SignUpBody, ValidationService } from '@auth/application'
 
 @inject()
 export default class AuthController {
