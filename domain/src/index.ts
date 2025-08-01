@@ -13,6 +13,7 @@ export * from './config/validators/is-env-json-array.validator';
 export * from './config/validators/is-expires-in.validator';
 export * from './config/validators/is-port.validator';
 export * from './config/validators/is-url.validator';
+export * from './jwks/jwks.service.port';
 export * from './oauth/beans/oauth.config.interface';
 export * from './oauth/dtos/oauth-provider-name.enum';
 export * from './user/user.dto';

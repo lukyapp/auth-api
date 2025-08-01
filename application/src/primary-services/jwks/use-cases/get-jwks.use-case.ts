@@ -1,9 +1,12 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
-import { ConfigurationServicePort, Nested } from '@auth/domain';
+import {
+  ConfigurationServicePort,
+  JwksServicePort,
+  Nested,
+} from '@auth/domain';
 import { Expose } from 'class-transformer';
 import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
-import { createPrivateKey, createPublicKey } from 'crypto';
 
 export class JWK extends Dto<JWK> {
   // JWKParameters
@@ -111,6 +114,7 @@ export class JwksResponse extends Dto<JwksResponse> {
 export class GetJwksUseCase {
   constructor(
     private readonly configurationService: ConfigurationServicePort,
+    private readonly jwksService: JwksServicePort,
   ) {}
 
   perform() {
@@ -118,23 +122,19 @@ export class GetJwksUseCase {
   }
 
   private async generateJwks(): Promise<{ keys: JWK[] }> {
-    const { exportJWK } = await import('jose');
     const privateKeys = this.configurationService.get('jwt.sign.private_keys');
 
     const jwks: JWK[] = [];
     for (const key of privateKeys) {
       const { kid, alg, pem } = key;
 
-      // Convert PEM to CryptoKey (for private or public key)
-      // const cryptoKey = await this.importPrivateKey(pem, alg);
-      const privateKey = createPrivateKey(pem);
-      const publicKey = createPublicKey(privateKey);
+      const privateKey = this.jwksService.createPrivateKey(pem);
+      const publicKey = this.jwksService.createPublicKey(privateKey);
 
-      // Export as JWK
-      const jwk = await exportJWK(publicKey);
+      const jwk = await this.jwksService.exportJWKFromPublicKey(publicKey);
       jwk.kid = kid;
       jwk.alg = alg;
-      jwk.use = 'sig'; // typically "sig" for signing
+      jwk.use = 'sig';
 
       jwks.push(jwk);
     }

@@ -15,11 +15,13 @@ import {
   ConfigurationServicePort,
   PasswordHasherPort,
   UserRepositoryPort,
+  JwkServicePort,
 } from '@auth/domain'
 import {
   AuthTokenServiceJsonwebtokenAdapter,
   PasswordHasherBcryptAdapter,
   UserRepositoryMemoryAdapter,
+  JwkServiceJoseAdapter,
 } from '@auth/infra'
 import { ConfigurationServiceEnvAdapter } from '../app/config/configuration.service.env-adapter.js'
 
@@ -50,4 +52,8 @@ app.container.singleton(GoogleOauthConfig, async function (resolver) {
     ),
     successURL: Utils.urlJoin(configurationService.get('server.baseUrl'), '/oauth/google/success'),
   })
+})
+app.container.singleton(JwkServicePort, async function (resolver) {
+  const deps = await resolveMany(resolver, [])
+  return new JwkServiceJoseAdapter(...deps)
 })

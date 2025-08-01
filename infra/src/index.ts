@@ -4,5 +4,6 @@
 
 export * from './auth-token.service.jsonwebtoken-adapter';
 export * from './auth-token.service.nestjs-local-adapter';
+export * from './jwks.service.jose-adapter';
 export * from './password-hasher.bcrypt-adapter';
 export * from './user-repository.memory-adapter';

@@ -31,12 +31,6 @@ importers:
       class-validator:
         specifier: ^0.14.2
         version: 0.14.2
-      crypto:
-        specifier: ^1.0.1
-        version: 1.0.1
-      jose:
-        specifier: ^5.10.0
-        version: 5.10.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -491,6 +485,12 @@ importers:
       class-validator:
         specifier: ^0.14.2
         version: 0.14.2
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
+      jose:
+        specifier: ^5.10.0
+        version: 5.10.0
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -2001,8 +2001,8 @@ packages:
   '@types/babel__template@7.4.4':
     resolution: {integrity: sha512-h/NUaSyG5EyxBIp8YRxo4RMe2/qQgvyowRwVMzhYhBCONbW8PUsg4lkFMrhgZhUe5z3L3MiLDuvyJ/CaPa2A8A==}
 
-  '@types/babel__traverse@7.20.7':
-    resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
+  '@types/babel__traverse@7.28.0':
+    resolution: {integrity: sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q==}
 
   '@types/bcrypt@6.0.0':
     resolution: {integrity: sha512-/oJGukuH3D2+D+3H4JWLaAsJ/ji86dhRidzZ/Od7H/i8g+aCmvkeCc6Ni/f9uxGLSQVCRZkX2/lqEFG2BvWtlQ==}
@@ -7029,7 +7029,7 @@ snapshots:
       '@babel/types': 7.28.2
       '@types/babel__generator': 7.27.0
       '@types/babel__template': 7.4.4
-      '@types/babel__traverse': 7.20.7
+      '@types/babel__traverse': 7.28.0
 
   '@types/babel__generator@7.27.0':
     dependencies:
@@ -7040,7 +7040,7 @@ snapshots:
       '@babel/parser': 7.28.0
       '@babel/types': 7.28.2
 
-  '@types/babel__traverse@7.20.7':
+  '@types/babel__traverse@7.28.0':
     dependencies:
       '@babel/types': 7.28.2
 
@@ -7649,7 +7649,7 @@ snapshots:
       '@babel/template': 7.27.2
       '@babel/types': 7.28.2
       '@types/babel__core': 7.20.5
-      '@types/babel__traverse': 7.20.7
+      '@types/babel__traverse': 7.28.0
 
   babel-preset-current-node-syntax@1.2.0(@babel/core@7.28.0):
     dependencies:
