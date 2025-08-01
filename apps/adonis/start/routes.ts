@@ -7,12 +7,17 @@
 |
 */
 
-import AuthController from '#controllers/http/auth.controller'
-import OauthController from '#controllers/http/oauth.controller'
-import UserController from '#controllers/http/user.controller'
+const AuthController = () => import('#controllers/auth/auth.controller')
+const OauthController = () => import('#controllers/oauth/oauth.controller')
+const UserController = () => import('#controllers/user/user.controller')
+const AppController = () => import('#controllers/hello/app.controller')
+const JwksController = () => import('#controllers/jwks/jwks.controller')
 import router from '@adonisjs/core/services/router'
 
 router.get('/', async () => 'It works!')
+
+router.get('/unprotected', [AppController, 'getHello'])
+router.get('/protected', [AppController, 'getHelloProtected'])
 
 router.post('/auth/sign-up', [AuthController, 'signUp'])
 router.post('/auth/sign-in', [AuthController, 'signIn'])
@@ -27,3 +32,6 @@ router
   .where('oauthProviderName', /google/)
 router.get('/oauth/:oauthProviderName/callback', [OauthController, 'callback'])
 router.get('/oauth/:oauthProviderName/success', [OauthController, 'success'])
+
+router.get('/certs', [JwksController, 'getJwks'])
+router.get('/.well-known/openid-configuration', [JwksController, 'getOpenidConfiguration'])

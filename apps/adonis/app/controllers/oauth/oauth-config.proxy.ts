@@ -1,4 +1,4 @@
-import { GoogleOauthConfig } from '#controllers/http/google/google-oauth.config'
+import { GoogleOauthConfig } from '#controllers/oauth/google/google-oauth.config'
 import { inject } from '@adonisjs/core'
 import { ObjectProxy } from '@auth/core'
 

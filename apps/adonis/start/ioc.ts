@@ -5,10 +5,9 @@
 |
 */
 
-import { GoogleOauthConfig } from '#controllers/http/google/google-oauth.config'
+import { GoogleOauthConfig } from '#controllers/oauth/google/google-oauth.config'
 import { resolveMany } from '#start/resolveMany.util'
 import app from '@adonisjs/core/services/app'
-import { PrivateKeyGetter } from '@auth/application'
 import { Utils } from '@auth/core'
 import {
   AuthTokenServicePort,
@@ -38,7 +37,7 @@ app.container.singleton(PasswordHasherPort, async function (resolver) {
   return new PasswordHasherBcryptAdapter(...deps)
 })
 app.container.singleton(AuthTokenServicePort, async function (resolver) {
-  const deps = await resolveMany(resolver, [ConfigurationServicePort, PrivateKeyGetter])
+  const deps = await resolveMany(resolver, [])
   return new AuthTokenServiceJsonwebtokenAdapter(...deps)
 })
 app.container.singleton(GoogleOauthConfig, async function (resolver) {

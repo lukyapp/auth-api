@@ -1,4 +1,4 @@
-import { OauthConfigProxy } from '#controllers/http/oauth-config.proxy'
+import { OauthConfigProxy } from '#controllers/oauth/oauth-config.proxy'
 import InternalServerErrorException from '#exceptions/internal_server_error_exception'
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
