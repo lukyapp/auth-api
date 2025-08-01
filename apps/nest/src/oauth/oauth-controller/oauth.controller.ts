@@ -58,13 +58,22 @@ export class OauthController {
   @Get('success')
   success(
     @Param() { oauthProviderName }: OauthEndpointParam,
-    @Query() { userId, accessToken, refreshToken }: OauthSuccessEndpointQuery,
+    @Query()
+    {
+      userId,
+      accessToken,
+      refreshToken,
+      refreshExpiresIn,
+      expiresIn,
+    }: OauthSuccessEndpointQuery,
   ) {
     return this.oauthPrimaryService.success({
       providerName: oauthProviderName,
       userId,
       accessToken,
       refreshToken,
+      refreshExpiresIn,
+      expiresIn,
     });
   }
 

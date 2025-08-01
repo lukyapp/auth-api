@@ -7,6 +7,8 @@ import { Request } from 'express';
 import { decode, JwtPayload } from 'jsonwebtoken';
 import { passportJwtSecret } from 'jwks-rsa';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { CurrentUserDto } from '../../core/controller/current-user.decorator';
+import { ValidationService } from '@auth/application';
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -87,10 +89,10 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   validate(payload: JwtPayload) {
-    return {
-      userId: payload.sub,
-      email: payload.email,
-      roles: payload.roles,
-    };
+    return ValidationService.validate(CurrentUserDto, {
+      userId: payload.sub!,
+      email: payload.email!,
+      roles: (payload.roles as string[])!,
+    });
   }
 }

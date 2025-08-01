@@ -78,13 +78,18 @@ export class OauthCallbackUseCase {
 
   private buildSuccessUrl(
     baseUrl: URL,
-    { data: { userId, accessToken, refreshToken } }: AuthenticateUserResponse,
+    {
+      data: { userId, accessToken, refreshToken, refreshExpiresIn, expiresIn },
+    }: AuthenticateUserResponse,
   ) {
     baseUrl.searchParams.append('userId', userId);
     baseUrl.searchParams.append('accessToken', accessToken);
-    if (refreshToken) {
-      baseUrl.searchParams.append('refreshToken', refreshToken);
-    }
+    baseUrl.searchParams.append('refreshToken', refreshToken);
+    baseUrl.searchParams.append('expiresIn', expiresIn.toString());
+    baseUrl.searchParams.append(
+      'refreshExpiresIn',
+      refreshExpiresIn.toString(),
+    );
     return baseUrl.toString();
   }
 }

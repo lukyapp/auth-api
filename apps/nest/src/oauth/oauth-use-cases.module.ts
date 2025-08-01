@@ -9,7 +9,7 @@ import {
   OauthUserCreatorStrategy,
 } from '@auth/application';
 import { AuthTokenServicePort } from '@auth/domain';
-import { AuthTokenServiceNestjsLocalAdapter } from '@auth/infra';
+import { AuthTokenServiceJsonwebtokenAdapter } from '@auth/infra';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -19,7 +19,7 @@ import { Module } from '@nestjs/common';
     OauthAuthStrategy,
     {
       provide: AuthTokenServicePort,
-      useClass: AuthTokenServiceNestjsLocalAdapter,
+      useClass: AuthTokenServiceJsonwebtokenAdapter,
     },
     OauthUserCreatorStrategy,
     // use-cases

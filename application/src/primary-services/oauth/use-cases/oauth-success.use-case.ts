@@ -3,7 +3,7 @@ import { injectable } from '@auth/di';
 import { OauthProviderName } from '@auth/domain';
 import { Logger } from '@nestjs/common';
 import { Expose } from 'class-transformer';
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsPositive, IsString } from 'class-validator';
 import { AuthenticateUserResponse } from '../../../common/use-cases/authenticate.use-case';
 
 export class OauthSuccessBody extends Dto<OauthSuccessBody> {
@@ -19,6 +19,14 @@ export class OauthSuccessBody extends Dto<OauthSuccessBody> {
   @Expose()
   @IsString()
   declare public readonly refreshToken: string;
+  @Expose()
+  @IsNumber()
+  @IsPositive()
+  declare public readonly expiresIn: number;
+  @Expose()
+  @IsNumber()
+  @IsPositive()
+  declare public readonly refreshExpiresIn: number;
 }
 
 @injectable()
@@ -28,12 +36,21 @@ export class OauthSuccessUseCase {
   constructor() {}
 
   perform(body: OauthSuccessBody) {
-    const { providerName, userId, refreshToken, accessToken } = body;
+    const {
+      providerName,
+      userId,
+      refreshToken,
+      accessToken,
+      refreshExpiresIn,
+      expiresIn,
+    } = body;
     this.logger.log(`oauth success with ${providerName} provider`);
     return new AuthenticateUserResponse({
       userId,
       accessToken,
       refreshToken,
+      refreshExpiresIn,
+      expiresIn,
     });
   }
 }

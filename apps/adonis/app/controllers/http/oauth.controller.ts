@@ -81,15 +81,15 @@ export default class OauthController {
 
   success({ request }: HttpContext) {
     const { oauthProviderName } = ValidationService.validate(OauthEndpointParam, request.params())
-    const { userId, accessToken, refreshToken } = ValidationService.validate(
-      OauthSuccessEndpointQuery,
-      request.qs()
-    )
+    const { userId, accessToken, refreshToken, expiresIn, refreshExpiresIn } =
+      ValidationService.validate(OauthSuccessEndpointQuery, request.qs())
     return this.oauthPrimaryService.success({
       providerName: oauthProviderName,
       userId,
       accessToken,
       refreshToken,
+      expiresIn,
+      refreshExpiresIn,
     })
   }
 

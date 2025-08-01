@@ -1,34 +1,55 @@
-import { Dto } from '@auth/core';
+import {
+  AsymmetricAlgorithm,
+  ExpiresIn,
+} from '../config/environment-variables.dto';
 
-export class AuthTokenResponse extends Dto<AuthTokenResponse> {
-  declare public readonly accessToken: string;
-  declare public readonly refreshToken: string;
-  declare public readonly expiresIn: number;
-  declare public readonly refreshExpiresIn: number;
-}
+export type JwtHeader = {
+  alg: AsymmetricAlgorithm;
+  kid: string;
+  typ?: string;
+  cty?: string;
+  crit?: Array<string | Exclude<keyof JwtHeader, 'crit'>>;
+  jku?: string;
+  x5u?: string | string[];
+  'x5t#S256'?: string;
+  x5t?: string;
+  x5c?: string | string[];
+};
 
-export class GenerateAuthTokenBody extends Dto<GenerateAuthTokenBody> {
-  declare public readonly sub: string;
-  declare public readonly email: string;
-}
+export type SignOptions = {
+  algorithm: AsymmetricAlgorithm;
+  keyid: string;
+  expiresIn: ExpiresIn | number;
+  audience: string[];
+  subject: string;
+  issuer: string;
+  jwtid?: string;
+  notBefore?: ExpiresIn | number;
+  mutatePayload?: boolean;
+  noTimestamp?: boolean;
+  header?: JwtHeader;
+  encoding?: string;
+  allowInsecureKeySizes?: boolean;
+  allowInvalidAsymmetricKeyTypes?: boolean;
+};
 
-export class GenerateAuthTokenByRefreshTokenBody extends Dto<GenerateAuthTokenByRefreshTokenBody> {
-  declare public readonly refreshToken: string;
-}
-
-export class LogoutBody extends Dto<LogoutBody> {
-  declare public readonly sub: string;
-  declare public readonly authorizationHeader: string;
-}
+export type JwtPayload = {
+  [key: string]: any;
+  iss?: string;
+  sub?: string;
+  aud?: string | string[];
+  exp?: number;
+  nbf?: number;
+  iat?: number;
+  jti?: string;
+};
 
 export abstract class AuthTokenServicePort {
-  abstract generateAuthToken(
-    body: GenerateAuthTokenBody,
-  ): Promise<AuthTokenResponse> | AuthTokenResponse;
+  abstract sign(
+    payload: object,
+    secretOrPrivateKey: string,
+    options?: SignOptions,
+  ): string;
 
-  abstract generateAuthTokenByRefreshToken(
-    body: GenerateAuthTokenByRefreshTokenBody,
-  ): Promise<AuthTokenResponse> | AuthTokenResponse;
-
-  abstract logout(body: LogoutBody): Promise<void>;
+  abstract decode(token: string): null | JwtPayload;
 }
