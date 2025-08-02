@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d",
   "scripts": {
+    "buildd": "pnpm run generate:barrels && pnpm run format && pnpm run build",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

@@ -1,6 +1,15 @@
-import { PasswordHasherPort, UserRepositoryPort } from '@auth/domain';
 import {
+  AuthTokenServicePort,
+  JwksServicePort,
+  PasswordHasherPort,
+  PublicKeyPemFromJwksUriGetterPort,
+  UserRepositoryPort,
+} from '@auth/domain';
+import {
+  AuthTokenServiceJsonwebtokenAdapter,
+  JwksServiceJoseAdapter,
   PasswordHasherBcryptAdapter,
+  PublicKeyPemFromJwksUriGetterJwksRsaAdapter,
   UserRepositoryMemoryAdapter,
 } from '@auth/infra';
 import { Global, Module } from '@nestjs/common';
@@ -17,7 +26,25 @@ import { Global, Module } from '@nestjs/common';
       provide: PasswordHasherPort,
       useClass: PasswordHasherBcryptAdapter,
     },
+    {
+      provide: AuthTokenServicePort,
+      useClass: AuthTokenServiceJsonwebtokenAdapter,
+    },
+    {
+      provide: PublicKeyPemFromJwksUriGetterPort,
+      useClass: PublicKeyPemFromJwksUriGetterJwksRsaAdapter,
+    },
+    {
+      provide: JwksServicePort,
+      useClass: JwksServiceJoseAdapter,
+    },
   ],
-  exports: [PasswordHasherPort, UserRepositoryPort],
+  exports: [
+    PasswordHasherPort,
+    UserRepositoryPort,
+    AuthTokenServicePort,
+    PublicKeyPemFromJwksUriGetterPort,
+    JwksServicePort,
+  ],
 })
 export class PortModule {}

@@ -49,6 +49,48 @@ export function resolveMany<Binding1, Binding2, Binding3, Binding4, Binding5>(
 ): Promise<
   [Awaited<Binding1>, Awaited<Binding2>, Awaited<Binding3>, Awaited<Binding4>, Awaited<Binding5>]
 >
+export function resolveMany<Binding1, Binding2, Binding3, Binding4, Binding5, Binding6>(
+  resolver: Resolver,
+  dependencies: [
+    AbstractConstructor<Binding1>,
+    AbstractConstructor<Binding2>,
+    AbstractConstructor<Binding3>,
+    AbstractConstructor<Binding4>,
+    AbstractConstructor<Binding5>,
+    AbstractConstructor<Binding6>,
+  ]
+): Promise<
+  [
+    Awaited<Binding1>,
+    Awaited<Binding2>,
+    Awaited<Binding3>,
+    Awaited<Binding4>,
+    Awaited<Binding5>,
+    Awaited<Binding6>,
+  ]
+>
+export function resolveMany<Binding1, Binding2, Binding3, Binding4, Binding5, Binding6, Binding7>(
+  resolver: Resolver,
+  dependencies: [
+    AbstractConstructor<Binding1>,
+    AbstractConstructor<Binding2>,
+    AbstractConstructor<Binding3>,
+    AbstractConstructor<Binding4>,
+    AbstractConstructor<Binding5>,
+    AbstractConstructor<Binding6>,
+    AbstractConstructor<Binding7>,
+  ]
+): Promise<
+  [
+    Awaited<Binding1>,
+    Awaited<Binding2>,
+    Awaited<Binding3>,
+    Awaited<Binding4>,
+    Awaited<Binding5>,
+    Awaited<Binding6>,
+    Awaited<Binding7>,
+  ]
+>
 export function resolveMany(
   resolver: Resolver,
   dependencies: AbstractConstructor<any>[]

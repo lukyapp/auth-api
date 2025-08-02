@@ -1,7 +1,7 @@
 import { Dto } from '@auth/core';
 
 export class JWK extends Dto<JWK> {
-  declare public kty?: string;
+  declare public kty: string;
   declare public alg?: string;
   declare public key_ops?: string[];
   declare public ext?: boolean;
@@ -25,7 +25,7 @@ export class JWK extends Dto<JWK> {
   declare public y?: string;
 }
 
-export type KeyLike = { type: string } | Uint8Array;
+export type KeyLike = { type: 'secret' | 'public' | 'private' } | Uint8Array;
 
 export abstract class JwksServicePort {
   abstract createPrivateKey(pem: string): KeyLike;
@@ -33,4 +33,6 @@ export abstract class JwksServicePort {
   abstract createPublicKey(privateKey: KeyLike): KeyLike;
 
   abstract exportJWKFromPublicKey(keyLike: KeyLike): Promise<JWK>;
+
+  abstract importJWKToPem(jwk: JWK): Promise<string>;
 }

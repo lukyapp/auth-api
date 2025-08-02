@@ -1,6 +1,14 @@
 import { injectable } from '@auth/di';
-import { AuthTokenServicePort, JwtPayload, SignOptions } from '@auth/domain';
-import { decode, sign } from 'jsonwebtoken';
+import {
+  AuthTokenServicePort,
+  JwtPayload,
+  SignOptions,
+  VerifyOptions,
+  Jwt,
+  DecodeOptions,
+} from '@auth/domain';
+import { ValidationService } from '@auth/application';
+import { decode, sign, verify } from 'jsonwebtoken';
 
 @injectable()
 export class AuthTokenServiceJsonwebtokenAdapter
@@ -16,8 +24,35 @@ export class AuthTokenServiceJsonwebtokenAdapter
     return sign(payload, secretOrPrivateKey, options);
   }
 
-  decode(token: string): null | JwtPayload {
-    // @ts-expect-error lala
-    return decode(token);
+  decode(
+    token: string,
+    options: DecodeOptions & { withHeader: true },
+  ): null | Jwt;
+  decode(
+    token: string,
+    options: DecodeOptions & { withHeader: false },
+  ): null | JwtPayload;
+  decode(token: string): null | JwtPayload;
+  decode(token: string, options?: DecodeOptions): JwtPayload | Jwt | null {
+    if (options?.withHeader) {
+      const jwt = decode(token, { complete: true });
+      return ValidationService.validate(Jwt, jwt);
+    }
+    const jwt = decode(token, { json: true });
+    return ValidationService.validate(JwtPayload, jwt);
+  }
+
+  verify(
+    token: string,
+    secretOrPublicKey: string,
+    options?: VerifyOptions,
+  ): null | JwtPayload {
+    const jwt = verify(
+      token,
+      secretOrPublicKey,
+      // @ts-expect-error verifyOptions
+      { complete: false, ...options },
+    );
+    return ValidationService.validate(JwtPayload, jwt);
   }
 }

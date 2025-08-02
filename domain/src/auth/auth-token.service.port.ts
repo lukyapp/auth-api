@@ -1,20 +1,100 @@
+import { Dto } from '@auth/core';
+import { Expose } from 'class-transformer';
+import {
+  IsArray,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import {
   AsymmetricAlgorithm,
   ExpiresIn,
 } from '../config/environment-variables.dto';
+import { IsStringOrStringArray } from '../validators/is-string-or-string-array.validator';
+import { Nested } from '../validators/nested.validator';
 
-export type JwtHeader = {
-  alg: AsymmetricAlgorithm;
-  kid: string;
-  typ?: string;
-  cty?: string;
-  crit?: Array<string | Exclude<keyof JwtHeader, 'crit'>>;
-  jku?: string;
-  x5u?: string | string[];
-  'x5t#S256'?: string;
-  x5t?: string;
-  x5c?: string | string[];
-};
+export class JwtHeader extends Dto<JwtHeader> {
+  @Expose()
+  @IsEnum(AsymmetricAlgorithm)
+  declare readonly alg: AsymmetricAlgorithm;
+  @Expose()
+  @IsString()
+  declare readonly kid: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare readonly typ?: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare readonly cty?: string;
+  @Expose()
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  declare readonly crit?: Array<string | Exclude<keyof JwtHeader, 'crit'>>;
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare readonly jku?: string;
+  @Expose()
+  @IsStringOrStringArray()
+  @IsOptional()
+  declare readonly x5u?: string | string[];
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare readonly 'x5t#S256'?: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare readonly x5t?: string;
+  @Expose()
+  @IsStringOrStringArray()
+  @IsOptional()
+  declare readonly x5c?: string | string[];
+}
+
+export class JwtPayload extends Dto<JwtPayload> {
+  @Expose()
+  @IsString()
+  declare readonly iss: string;
+  @Expose()
+  @IsString()
+  declare readonly sub: string;
+  @Expose()
+  @IsArray()
+  @IsString({ each: true })
+  declare readonly aud: string[];
+  @Expose()
+  @IsNumber()
+  declare readonly exp: number;
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  declare readonly nbf?: number;
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  declare readonly iat?: number;
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare readonly jti?: string;
+}
+
+export class Jwt extends Dto<Jwt> {
+  @Expose()
+  @Nested(() => JwtHeader)
+  declare readonly header: JwtHeader;
+  @Expose()
+  @Nested(() => JwtPayload)
+  declare readonly payload: JwtPayload;
+  @Expose()
+  @IsString()
+  declare readonly signature: string;
+}
 
 export type SignOptions = {
   algorithm: AsymmetricAlgorithm;
@@ -33,15 +113,27 @@ export type SignOptions = {
   allowInvalidAsymmetricKeyTypes?: boolean;
 };
 
-export type JwtPayload = {
-  [key: string]: any;
-  iss?: string;
-  sub?: string;
-  aud?: string | string[];
-  exp?: number;
-  nbf?: number;
-  iat?: number;
-  jti?: string;
+export type VerifyOptions = {
+  algorithms: AsymmetricAlgorithm[];
+  audience: string[];
+  issuer: string[];
+  clockTimestamp?: number;
+  clockTolerance?: number;
+  ignoreExpiration?: boolean;
+  ignoreNotBefore?: boolean;
+  jwtid?: string;
+  /**
+   * If you want to check `nonce` claim, provide a string value here.
+   * It is used on Open ID for the ID Tokens. ([Open ID implementation notes](https://openid.net/specs/openid-connect-core-1_0.html#NonceNotes))
+   */
+  nonce?: string;
+  subject?: string;
+  maxAge?: string | number;
+  allowInvalidAsymmetricKeyTypes?: boolean;
+};
+
+export type DecodeOptions = {
+  withHeader: boolean;
 };
 
 export abstract class AuthTokenServicePort {
@@ -51,5 +143,23 @@ export abstract class AuthTokenServicePort {
     options?: SignOptions,
   ): string;
 
+  abstract decode(
+    token: string,
+    options: DecodeOptions & { withHeader: true },
+  ): null | Jwt;
+  abstract decode(
+    token: string,
+    options: DecodeOptions & { withHeader: false },
+  ): null | JwtPayload;
   abstract decode(token: string): null | JwtPayload;
+  abstract decode(
+    token: string,
+    options?: DecodeOptions,
+  ): null | JwtPayload | Jwt;
+
+  abstract verify(
+    token: string,
+    secretOrPublicKey: string,
+    options?: VerifyOptions,
+  ): null | JwtPayload;
 }

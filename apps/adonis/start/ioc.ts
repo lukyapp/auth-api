@@ -15,12 +15,14 @@ import {
   PasswordHasherPort,
   UserRepositoryPort,
   JwksServicePort,
+  PublicKeyPemFromJwksUriGetterPort,
 } from '@auth/domain'
 import {
   AuthTokenServiceJsonwebtokenAdapter,
   PasswordHasherBcryptAdapter,
   UserRepositoryMemoryAdapter,
   JwksServiceJoseAdapter,
+  PublicKeyPemFromJwksUriGetterJwksRsaAdapter,
 } from '@auth/infra'
 import { ConfigurationServiceEnvAdapter } from '../app/config/configuration.service.env-adapter.js'
 
@@ -55,4 +57,8 @@ app.container.singleton(GoogleOauthConfig, async function (resolver) {
 app.container.singleton(JwksServicePort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new JwksServiceJoseAdapter(...deps)
+})
+app.container.singleton(PublicKeyPemFromJwksUriGetterPort, async function (resolver) {
+  const deps = await resolveMany(resolver, [])
+  return new PublicKeyPemFromJwksUriGetterJwksRsaAdapter(...deps)
 })

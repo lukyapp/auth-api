@@ -8,8 +8,6 @@ import {
   OauthSuccessUseCase,
   OauthUserCreatorStrategy,
 } from '@auth/application';
-import { AuthTokenServicePort } from '@auth/domain';
-import { AuthTokenServiceJsonwebtokenAdapter } from '@auth/infra';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -17,10 +15,6 @@ import { Module } from '@nestjs/common';
     // services
     OauthPrimaryService,
     OauthAuthStrategy,
-    {
-      provide: AuthTokenServicePort,
-      useClass: AuthTokenServiceJsonwebtokenAdapter,
-    },
     OauthUserCreatorStrategy,
     // use-cases
     OauthCallbackUseCase,
@@ -33,7 +27,6 @@ import { Module } from '@nestjs/common';
     // services
     OauthPrimaryService,
     OauthAuthStrategy,
-    AuthTokenServicePort,
     OauthUserCreatorStrategy,
     // use-cases
     OauthCallbackUseCase,

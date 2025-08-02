@@ -5,4 +5,5 @@
 export * from './auth-token.service.jsonwebtoken-adapter';
 export * from './jwks.service.jose-adapter';
 export * from './password-hasher.bcrypt-adapter';
+export * from './public-key-pem-from-jwks-uri.getter.jwks-rsa-adapter';
 export * from './user-repository.memory-adapter';

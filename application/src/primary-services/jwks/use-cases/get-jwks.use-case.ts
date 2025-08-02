@@ -11,9 +11,8 @@ import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 export class JWK extends Dto<JWK> {
   // JWKParameters
   @Expose()
-  @IsOptional()
   @IsString()
-  declare public readonly kty?: string;
+  declare public readonly kty: string;
   @Expose()
   @IsOptional()
   @IsString()

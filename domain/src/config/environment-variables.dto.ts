@@ -48,7 +48,9 @@ export enum DatabaseDialect {
   Mssql = 'mssql',
 }
 
-class PrivateKeys extends Dto<PrivateKeys> {
+class PrivateKey extends Dto<PrivateKey, 'type'> {
+  @Expose()
+  declare public readonly type = 'private';
   @Expose()
   @IsString()
   declare public readonly kid: string;
@@ -123,8 +125,8 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   // ---------- jwt private keys ----------
 
   @Expose()
-  @IsEnvJsonArray(() => PrivateKeys)
-  declare public readonly 'jwt.sign.private_keys': PrivateKeys[];
+  @IsEnvJsonArray(() => PrivateKey)
+  declare public readonly 'jwt.sign.private_keys': PrivateKey[];
 
   // ---------- db ----------
 
