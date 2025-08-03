@@ -1,8 +1,8 @@
 import { injectable } from '@auth/di';
 import { BadRequestException } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { CreateOneUserUseCase } from '../../../primary-services/user/use-cases/create-one-user.use-case';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
+import { GenericService } from '../../logger/generic.service';
 import { OauthUserCreatorStrategy } from '../user-creator-strategy/oauth.user-creator-strategy';
 import { AuthStrategy } from './auth.strategy.interface';
 
@@ -14,14 +14,17 @@ type Body = {
 };
 
 @injectable()
-export class OauthAuthStrategy implements AuthStrategy<Body> {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
+export class OauthAuthStrategy
+  extends GenericService
+  implements AuthStrategy<Body>
+{
   constructor(
     private readonly oauthUserCreatorStrategy: OauthUserCreatorStrategy,
     private readonly createOneUserUseCase: CreateOneUserUseCase,
     private readonly findOneUserUseCase: FindOneUserUseCase,
-  ) {}
+  ) {
+    super();
+  }
 
   async authenticate({ email, isEmailVerified }: Body) {
     if (!isEmailVerified) {

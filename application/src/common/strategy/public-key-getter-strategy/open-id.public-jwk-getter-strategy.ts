@@ -4,8 +4,8 @@ import {
   ConfigurationServicePort,
   PublicKeyPemFromJwksUriGetterPort,
 } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { UnauthorizedException } from '@auth/domain';
+import { GenericService } from '../../logger/generic.service';
 import { JwksUriGetter } from '../../services/jwks-uri.getter';
 import { PublicKey } from '../../services/public-key.getter';
 import { PublicJwkGetterStrategy } from './public-jwk-getter.strategy.interface';
@@ -16,16 +16,17 @@ export type OpenIdPublicJwkGetterStrategyBody = {
 
 @injectable()
 export class OpenIdPublicJwkGetterStrategy
+  extends GenericService
   implements PublicJwkGetterStrategy<OpenIdPublicJwkGetterStrategyBody>
 {
-  private readonly logger = new Logger(this.constructor.name);
-
   constructor(
     private readonly jwksUriGetter: JwksUriGetter,
     private readonly authTokenService: AuthTokenServicePort,
     private readonly publicKeyPemFromJwksUriGetter: PublicKeyPemFromJwksUriGetterPort,
     private readonly configurationService: ConfigurationServicePort,
-  ) {}
+  ) {
+    super();
+  }
 
   async get({ rawJwt }: OpenIdPublicJwkGetterStrategyBody) {
     const jwt = this.authTokenService.decode(rawJwt, {

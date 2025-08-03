@@ -1,9 +1,9 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import { OauthProviderName } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { Expose } from 'class-transformer';
 import { IsEnum, IsNumber, IsPositive, IsString } from 'class-validator';
+import { GenericService } from '../../../common/logger/generic.service';
 import { AuthenticateUserResponse } from '../../../common/use-cases/authenticate.use-case';
 
 export class OauthSuccessBody extends Dto<OauthSuccessBody> {
@@ -30,11 +30,7 @@ export class OauthSuccessBody extends Dto<OauthSuccessBody> {
 }
 
 @injectable()
-export class OauthSuccessUseCase {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
-  constructor() {}
-
+export class OauthSuccessUseCase extends GenericService {
   perform(body: OauthSuccessBody) {
     const {
       providerName,

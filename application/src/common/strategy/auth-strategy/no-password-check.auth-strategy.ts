@@ -1,7 +1,7 @@
 import { injectable } from '@auth/di';
 import { BadRequestException } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
+import { GenericService } from '../../logger/generic.service';
 import { AuthStrategy } from './auth.strategy.interface';
 
 type Body = {
@@ -9,9 +9,10 @@ type Body = {
 };
 
 @injectable()
-export class NoPasswordCheckAuthStrategy extends AuthStrategy<Body> {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
+export class NoPasswordCheckAuthStrategy
+  extends GenericService
+  implements AuthStrategy<Body>
+{
   constructor(private readonly findOneUserUseCase: FindOneUserUseCase) {
     super();
   }

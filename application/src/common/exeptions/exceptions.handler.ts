@@ -1,13 +1,9 @@
 import { injectable } from '@auth/di';
 import { HttpException, InternalServerErrorException } from '@auth/domain';
-import { Logger } from '@nestjs/common';
+import { GenericService } from '../logger/generic.service';
 
 @injectable()
-export class ExceptionsHandler {
-  private readonly logger = new Logger(this.constructor.name);
-
-  constructor() {}
-
+export class ExceptionsHandler extends GenericService {
   handle(exception: unknown) {
     if (exception instanceof HttpException) {
       return exception;

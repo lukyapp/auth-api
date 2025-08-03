@@ -3,6 +3,8 @@
  */
 
 export * from './common/exeptions/exceptions.handler';
+export * from './common/logger/generic.service';
+export * from './common/logger/logger.manager';
 export * from './common/services/jwks-uri.getter';
 export * from './common/services/private-key.getter';
 export * from './common/services/public-key.getter';

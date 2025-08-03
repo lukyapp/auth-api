@@ -23,6 +23,7 @@
     "vite": "^7.0.4"
   },
   "peerDependencies": {
+    "@nestjs/common": "^11.0.1",
     "@auth/application": "workspace:*",
     "@auth/core": "workspace:*",
     "@auth/di": "workspace:*",

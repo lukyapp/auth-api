@@ -8,6 +8,7 @@
 import { GoogleOauthConfig } from '#controllers/oauth/google/google-oauth.config'
 import { resolveMany } from '#start/resolveMany.util'
 import app from '@adonisjs/core/services/app'
+import { LoggerManager } from '@auth/application'
 import { Utils } from '@auth/core'
 import {
   AuthTokenServicePort,
@@ -16,6 +17,7 @@ import {
   UserRepositoryPort,
   JwksServicePort,
   PublicKeyPemFromJwksUriGetterPort,
+  LoggerStrategyFactoryPort,
 } from '@auth/domain'
 import {
   AuthTokenServiceJsonwebtokenAdapter,
@@ -23,6 +25,7 @@ import {
   UserRepositoryMemoryAdapter,
   JwksServiceJoseAdapter,
   PublicKeyPemFromJwksUriGetterJwksRsaAdapter,
+  LoggerStrategyFactoryNestLoggerAdapter,
 } from '@auth/infra'
 import { ConfigurationServiceEnvAdapter } from '../app/config/configuration.service.env-adapter.js'
 
@@ -30,10 +33,24 @@ app.container.singleton(ConfigurationServicePort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new ConfigurationServiceEnvAdapter(...deps)
 })
+
+/*
+  |----------------------------------------------------------
+  | repository
+  |----------------------------------------------------------
+  */
+
 app.container.singleton(UserRepositoryPort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new UserRepositoryMemoryAdapter(...deps)
 })
+
+/*
+  |----------------------------------------------------------
+  | auth
+  |----------------------------------------------------------
+  */
+
 app.container.singleton(PasswordHasherPort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new PasswordHasherBcryptAdapter(...deps)
@@ -42,6 +59,13 @@ app.container.singleton(AuthTokenServicePort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new AuthTokenServiceJsonwebtokenAdapter(...deps)
 })
+
+/*
+  |----------------------------------------------------------
+  | oauth
+  |----------------------------------------------------------
+  */
+
 app.container.singleton(GoogleOauthConfig, async function (resolver) {
   const [configurationService] = await resolveMany(resolver, [ConfigurationServicePort])
   return new GoogleOauthConfig({
@@ -54,6 +78,13 @@ app.container.singleton(GoogleOauthConfig, async function (resolver) {
     successURL: Utils.urlJoin(configurationService.get('server.baseUrl'), '/oauth/google/success'),
   })
 })
+
+/*
+  |----------------------------------------------------------
+  | jwks
+  |----------------------------------------------------------
+  */
+
 app.container.singleton(JwksServicePort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new JwksServiceJoseAdapter(...deps)
@@ -62,3 +93,20 @@ app.container.singleton(PublicKeyPemFromJwksUriGetterPort, async function (resol
   const deps = await resolveMany(resolver, [])
   return new PublicKeyPemFromJwksUriGetterJwksRsaAdapter(...deps)
 })
+
+/*
+  |----------------------------------------------------------
+  | logging
+  |----------------------------------------------------------
+  */
+
+app.container.singleton(LoggerStrategyFactoryPort, async function (resolver) {
+  const deps = await resolveMany(resolver, [])
+  return new LoggerStrategyFactoryNestLoggerAdapter(...deps)
+})
+app.container.singleton(LoggerManager, async function (resolver) {
+  const deps = await resolveMany(resolver, [LoggerStrategyFactoryPort])
+  return new LoggerManager(...deps)
+})
+// to trigger the constructor
+app.container.make(LoggerManager)

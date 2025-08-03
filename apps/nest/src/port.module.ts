@@ -1,6 +1,8 @@
+import { LoggerManager } from '@auth/application';
 import {
   AuthTokenServicePort,
   JwksServicePort,
+  LoggerStrategyFactoryPort,
   PasswordHasherPort,
   PublicKeyPemFromJwksUriGetterPort,
   UserRepositoryPort,
@@ -11,6 +13,7 @@ import {
   PasswordHasherBcryptAdapter,
   PublicKeyPemFromJwksUriGetterJwksRsaAdapter,
   UserRepositoryMemoryAdapter,
+  LoggerStrategyFactoryNestLoggerAdapter,
 } from '@auth/infra';
 import { Global, Module } from '@nestjs/common';
 
@@ -37,6 +40,11 @@ import { Global, Module } from '@nestjs/common';
     {
       provide: JwksServicePort,
       useClass: JwksServiceJoseAdapter,
+    },
+    LoggerManager,
+    {
+      provide: LoggerStrategyFactoryPort,
+      useClass: LoggerStrategyFactoryNestLoggerAdapter,
     },
   ],
   exports: [

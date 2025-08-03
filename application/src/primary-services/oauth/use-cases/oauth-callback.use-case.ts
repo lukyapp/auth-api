@@ -1,9 +1,9 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import { Nested, OauthProviderName } from '@auth/domain';
-import { Logger } from '@nestjs/common';
 import { Expose } from 'class-transformer';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { GenericService } from '../../../common/logger/generic.service';
 import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
 import {
   AuthenticateUseCase,
@@ -50,13 +50,13 @@ export class OauthCallbackBody extends Dto<OauthCallbackBody> {
 }
 
 @injectable()
-export class OauthCallbackUseCase {
-  private readonly logger: Logger = new Logger(this.constructor.name);
-
+export class OauthCallbackUseCase extends GenericService {
   constructor(
     private readonly authenticateUseCase: AuthenticateUseCase,
     private readonly authenticatorOauthStrategy: OauthAuthStrategy,
-  ) {}
+  ) {
+    super();
+  }
 
   async perform(body: OauthCallbackBody) {
     const {
