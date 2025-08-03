@@ -38,16 +38,8 @@ export class ValidationService {
     );
     const errors = validateSync(params, this.getValidationPipeOptions());
     if (errors.length > 0) {
-      console.error(
-        errors.map(({ property, value, constraints }) => {
-          return {
-            property,
-            value,
-            constraints,
-          };
-        }),
-      );
-      throw new BadRequestException();
+      const contraints = this.flattenValidationErrors(errors);
+      throw new BadRequestException('Error in body', contraints);
     }
     return params;
   }

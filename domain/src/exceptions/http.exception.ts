@@ -11,6 +11,7 @@ import {
 import { Nested } from '../validators/nested.validator';
 import { HttpError } from './beans/http-errors';
 import { IntrinsicException } from './beans/intrinsic.exception';
+import { HttpExceptionInterface } from './http.exception.interface';
 
 export class HttpExceptionConstraint {
   @Expose()
@@ -81,11 +82,14 @@ export class HttpExceptionWithContraintsResponse<
 }
 
 export class HttpException<
-  THttpError extends HttpError = HttpError,
-  TResponse extends
-    HttpExceptionWithContraintsResponse<THttpError> = HttpExceptionWithContraintsResponse<THttpError>,
-> extends IntrinsicException {
-  constructor(public readonly response: TResponse) {
+    THttpError extends HttpError = HttpError,
+    TResponse extends
+      HttpExceptionWithContraintsResponse<THttpError> = HttpExceptionWithContraintsResponse<THttpError>,
+  >
+  extends IntrinsicException
+  implements HttpExceptionInterface
+{
+  constructor(protected readonly response: TResponse) {
     super();
     this.initMessage();
     this.initName();
@@ -103,5 +107,23 @@ export class HttpException<
         this.constructor.name.match(/[A-Z][a-z]+|[0-9]+/g)?.join(' ') ??
         'Error';
     }
+  }
+
+  public getStatus(): HttpError['statusCode'] {
+    return this.response.statusCode;
+  }
+
+  public getResponseBody(): {
+    statusCode: HttpError['statusCode'];
+    errorCode: HttpError['errorCode'];
+    message?: string;
+    contraints?: HttpExceptionConstraint[];
+  } {
+    const { statusCode, errorCode, message } = this.response;
+    return {
+      statusCode,
+      errorCode,
+      message,
+    };
   }
 }

@@ -25,4 +25,14 @@ export class BadRequestException extends HttpException<typeof httpError> {
       }),
     );
   }
+
+  public getResponseBody() {
+    const { statusCode, errorCode, message, contraints } = this.response;
+    return {
+      statusCode,
+      errorCode,
+      message,
+      contraints,
+    };
+  }
 }
