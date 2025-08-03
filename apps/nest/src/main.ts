@@ -5,12 +5,13 @@ import {
   Logger,
   ValidationPipe,
 } from '@nestjs/common';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import crypto from 'crypto';
 import { AppModule } from './app.module';
 import session from 'express-session';
 import { HttpExceptionFilter } from './exceptions/http-exception-filter';
+import { UnknownExceptionFilter } from './exceptions/unknown-exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,8 +21,9 @@ async function bootstrap() {
 
   // filters
 
-  const httpAdapterHost = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new HttpExceptionFilter(httpAdapterHost));
+  const unknownExceptionFilter = app.get(UnknownExceptionFilter);
+  const httpExceptionFilter = app.get(HttpExceptionFilter);
+  app.useGlobalFilters(unknownExceptionFilter, httpExceptionFilter);
 
   // security
 

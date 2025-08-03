@@ -1,6 +1,6 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
-import { HttpException } from '@auth/domain'
+import { HttpException, InternalServerErrorException } from '@auth/domain'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -24,7 +24,10 @@ export default class HttpExceptionHandler extends ExceptionHandler {
     if (error instanceof HttpException) {
       return ctx.response.status(error.getStatus()).send(error.getResponseBody())
     }
-    return super.handle(error, ctx)
+    const internalServerErrorException = new InternalServerErrorException('Unknown error')
+    return ctx.response
+      .status(internalServerErrorException.getStatus())
+      .send(internalServerErrorException.getResponseBody())
   }
 
   /**
