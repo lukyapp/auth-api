@@ -1,4 +1,4 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators } from '@auth/core';
 import { ClassConstructor } from 'class-transformer';
 import { TypeHelpOptions } from 'class-transformer/types/interfaces';
 import { IsArray, ValidateNested } from 'class-validator';

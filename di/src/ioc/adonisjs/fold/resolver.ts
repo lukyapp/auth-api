@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-import { Type } from '@nestjs/common';
+import { Type } from '@auth/core';
 import { inspect } from 'node:util';
 import {
   InvalidArgumentsException,

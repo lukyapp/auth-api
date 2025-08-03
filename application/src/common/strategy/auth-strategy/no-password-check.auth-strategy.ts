@@ -1,5 +1,6 @@
 import { injectable } from '@auth/di';
-import { BadRequestException, Logger } from '@nestjs/common';
+import { BadRequestException } from '@auth/domain';
+import { Logger } from '@nestjs/common';
 import { FindOneUserUseCase } from '../../../primary-services/user/use-cases/find-one-user.use-case';
 import { AuthStrategy } from './auth.strategy.interface';
 

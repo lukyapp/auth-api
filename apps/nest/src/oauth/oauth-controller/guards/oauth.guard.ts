@@ -3,12 +3,8 @@ import {
   OauthAuthorizeEndpointQuery,
   OauthEndpointParam,
 } from '@auth/controller-dtos';
-import {
-  ExecutionContext,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
+import { InternalServerErrorException } from '@auth/domain';
 import { IAuthGuard, IAuthModuleOptions } from '@nestjs/passport';
 import { Request } from 'express';
 import { Observable } from 'rxjs';

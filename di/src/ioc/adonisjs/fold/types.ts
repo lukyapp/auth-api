@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-import { Abstract } from '@nestjs/common';
+import { Abstract } from '@auth/core';
 import type { Container } from './container';
 import { Exception } from '../../poppinss/exception/exception';
 import type { ContainerResolver } from './resolver';

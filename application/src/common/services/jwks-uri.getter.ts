@@ -1,7 +1,8 @@
 import { Utils } from '@auth/core';
 import { injectable } from '@auth/di';
 import { JwtPayload } from '@auth/domain';
-import { Logger, UnauthorizedException } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
+import { UnauthorizedException } from '@auth/domain';
 import axios from 'axios';
 import { OpenidConfiguration } from '../../primary-services/jwks/use-cases/get-open-id-configuration.use-case';
 

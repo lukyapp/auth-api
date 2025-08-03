@@ -21,6 +21,7 @@
     "globals": "^16.0.0"
   },
   "peerDependencies": {
+    "@auth/core": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "lodash": "^4.17.21"
   }

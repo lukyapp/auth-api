@@ -3,15 +3,8 @@ import {
   OauthEndpointParam,
   OauthSuccessEndpointQuery,
 } from '@auth/controller-dtos';
-import {
-  Controller,
-  InternalServerErrorException,
-  Param,
-  Query,
-  Req,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { InternalServerErrorException } from '@auth/domain';
+import { Controller, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { CurrentOauthValidateResult } from '../../core/controller/current-oauth-validate-result.decorator';

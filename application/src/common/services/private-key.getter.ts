@@ -1,6 +1,6 @@
 import { injectable } from '@auth/di';
 import { ConfigurationServicePort } from '@auth/domain';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException } from '@auth/domain';
 
 @injectable()
 export class PrivateKeyGetter {

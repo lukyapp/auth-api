@@ -1,4 +1,4 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators } from '@auth/core';
 import { Type } from 'class-transformer';
 import {
   TypeHelpOptions,

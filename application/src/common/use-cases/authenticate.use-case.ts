@@ -2,7 +2,7 @@ import { Dto } from '@auth/core';
 import { ConfigurationServicePort, JwtPayload } from '@auth/domain';
 import { AuthTokenServicePort, Nested, ResponseGetOne } from '@auth/domain';
 import { injectable } from '@auth/di';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException } from '@auth/domain';
 import { Expose } from 'class-transformer';
 import { IsNumber, IsPositive, IsString, IsUUID } from 'class-validator';
 import { PrivateKeyGetter } from '../services/private-key.getter';

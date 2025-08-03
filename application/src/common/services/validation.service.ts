@@ -1,9 +1,6 @@
-import {
-  BadRequestException,
-  Logger,
-  Type,
-  ValidationPipeOptions,
-} from '@nestjs/common';
+import { Type } from '@auth/core';
+import { BadRequestException } from '@auth/domain';
+import { ValidationPipeOptions } from '@nestjs/common';
 import { ClassSerializerInterceptorOptions } from '@nestjs/common/serializer/class-serializer.interceptor';
 import { plainToInstance } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
@@ -21,16 +18,14 @@ export class ValidationService {
   static getValidationPipeOptions(): ValidationPipeOptions {
     // TODO isProductionMode
     const isProductionMode = false;
-    const logger = new Logger('ValidationPipeOptions');
     return {
       whitelist: true, // supprime automatiquement toutes les propriétés qui n'ont pas de décorateurs définis dans le DTO
       disableErrorMessages: isProductionMode, // Désactiver les messages d'erreur détaillés
       transform: true, // transforme automatiquement les objets simples en instances de leur classe
       transformOptions: { enableImplicitConversion: true },
       exceptionFactory: (errors) => {
-        const errorsForResponse = this.flattenValidationErrors(errors);
-        logger.error(errorsForResponse);
-        return new BadRequestException(errorsForResponse);
+        const contraints = this.flattenValidationErrors(errors);
+        return new BadRequestException('Error in body', contraints);
       },
     };
   }
@@ -70,19 +65,19 @@ export class ValidationService {
     const errors = validateSync(params, this.getValidationPipeOptions());
     const fieldErrors = errors.find((err) => err.property === name);
     if (fieldErrors) {
-      const formattedErrors = this.flattenValidationErrors([fieldErrors]);
-      console.error(formattedErrors);
-      throw new BadRequestException(formattedErrors);
+      const contraints = this.flattenValidationErrors([fieldErrors]);
+      console.error('contraints : ', contraints);
+      throw new BadRequestException('Error in body', contraints);
     }
     // @ts-expect-error lala
     return params[name];
   }
 
-  static flattenValidationErrors(validationErrors: ValidationError[]): any[] {
+  static flattenValidationErrors(validationErrors: ValidationError[]) {
     const result: {
       property: string;
       value: string;
-      constraints?: string[];
+      constraints: string[];
     }[] = [];
 
     function processNode(node: ValidationError, parentNode?: ValidationError) {
@@ -90,9 +85,8 @@ export class ValidationService {
         property: parentNode
           ? [parentNode.property, node.property].join('.')
           : node.property,
-        constraints: node.constraints ? Object.values(node.constraints) : [],
-
         value: node.value,
+        constraints: node.constraints ? Object.values(node.constraints) : [],
       };
       if (entry.constraints.length) {
         result.push(entry);

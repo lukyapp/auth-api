@@ -4,7 +4,8 @@ import {
   ConfigurationServicePort,
   JwksServicePort,
 } from '@auth/domain';
-import { Logger, UnauthorizedException } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
+import { UnauthorizedException } from '@auth/domain';
 import { PublicKey } from '../../services/public-key.getter';
 import { PublicJwkGetterStrategy } from './public-jwk-getter.strategy.interface';
 

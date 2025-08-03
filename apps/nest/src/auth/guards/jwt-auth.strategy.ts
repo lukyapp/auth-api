@@ -7,7 +7,7 @@ import { ConfigurationServicePort } from '@auth/domain';
 import { Injectable, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload } from '@auth/domain';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { CurrentUserDto } from '../../core/controller/current-user.decorator';
 
@@ -52,9 +52,9 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   validate(payload: JwtPayload) {
     return ValidationService.validate(CurrentUserDto, {
-      userId: payload.sub!,
+      userId: payload.sub,
       email: payload.email!,
-      roles: (payload.roles as string[])!,
+      roles: payload.roles as string[],
     });
   }
 }

@@ -5,17 +5,23 @@ import {
   Logger,
   ValidationPipe,
 } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import crypto from 'crypto';
 import { AppModule } from './app.module';
 import session from 'express-session';
+import { HttpExceptionFilter } from './exceptions/http-exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configurationService = app.get(ConfigurationServicePort);
   const port = configurationService.get('server.port');
   const baseUrl = configurationService.get('server.baseUrl');
+
+  // filters
+
+  const httpAdapterHost = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new HttpExceptionFilter(httpAdapterHost));
 
   // security
 

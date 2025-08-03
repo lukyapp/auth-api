@@ -1,4 +1,4 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators } from '@auth/core';
 import { IsNumber, Max, Min } from 'class-validator';
 
 export function IsPort() {

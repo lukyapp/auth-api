@@ -1,27 +1,22 @@
-import { Dto } from '@auth/core';
-import { applyDecorators, HttpStatus, UseGuards } from '@nestjs/common';
-import { CanActivate } from '@nestjs/common/interfaces';
-import {
-  ApiBearerAuth as SwaggerApiBearerAuth,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+import { applyDecorators, Type } from '@auth/core';
+import { UnauthorizedExceptionResponse } from '@auth/domain';
+import { UseGuards } from '@nestjs/common';
+import { IAuthGuard } from '@nestjs/passport/dist/auth.guard';
+import { ApiBearerAuth as SwaggerApiBearerAuth } from '@nestjs/swagger';
+import { ApiExceptionResponse } from './api-exception-response.decorator';
 
-export class ApiUnauthorizedResponseErrorBody extends Dto<ApiUnauthorizedResponseErrorBody> {
-  public readonly message: string = 'Unauthorized';
-  public readonly error?: string = 'Unauthorized';
-  public readonly statusCode: number = HttpStatus.UNAUTHORIZED;
+function ApiExceptionResponses() {
+  return applyDecorators(ApiExceptionResponse(UnauthorizedExceptionResponse));
 }
 
-export function ApiBearerAuth(guard?: CanActivate | Function) {
-  const guards: (CanActivate | Function)[] = [];
+export function ApiBearerAuth(guard?: Type<IAuthGuard>) {
+  const guards: Type<IAuthGuard>[] = [];
   if (guard) {
     guards.push(guard);
   }
   return applyDecorators(
-    ApiUnauthorizedResponse({
-      type: ApiUnauthorizedResponseErrorBody,
-    }),
     SwaggerApiBearerAuth('userAccessToken'),
+    ApiExceptionResponses(),
     UseGuards(...guards),
   );
 }

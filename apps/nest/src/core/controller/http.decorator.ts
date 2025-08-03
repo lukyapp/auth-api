@@ -1,14 +1,16 @@
-import { ApiOperation } from '@nestjs/swagger';
+import { applyDecorators } from '@auth/core';
+import { BadRequestExceptionResponse } from '@auth/domain';
 import {
-  applyDecorators,
   Delete as NestDelete,
   Get as NestGet,
   Patch as NestPatch,
   Post as NestPost,
   Put as NestPut,
 } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
+import { ApiExceptionResponse } from './api-exception-response.decorator';
 
-export function ApiOperationId(): MethodDecorator {
+function ApiOperationId(): MethodDecorator {
   return (
     target: object,
     propertyKey: string | symbol,
@@ -19,22 +21,46 @@ export function ApiOperationId(): MethodDecorator {
   };
 }
 
+function ApiExceptionResponses() {
+  return applyDecorators(ApiExceptionResponse(BadRequestExceptionResponse));
+}
+
 export function Get(path?: string) {
-  return applyDecorators(NestGet(path), ApiOperationId());
+  return applyDecorators(
+    NestGet(path),
+    ApiOperationId(),
+    ApiExceptionResponses(),
+  );
 }
 
 export function Post(path?: string) {
-  return applyDecorators(NestPost(path), ApiOperationId());
+  return applyDecorators(
+    NestPost(path),
+    ApiOperationId(),
+    ApiExceptionResponses(),
+  );
 }
 
 export function Patch(path?: string) {
-  return applyDecorators(NestPatch(path), ApiOperationId());
+  return applyDecorators(
+    NestPatch(path),
+    ApiOperationId(),
+    ApiExceptionResponses(),
+  );
 }
 
 export function Put(path?: string) {
-  return applyDecorators(NestPut(path), ApiOperationId());
+  return applyDecorators(
+    NestPut(path),
+    ApiOperationId(),
+    ApiExceptionResponses(),
+  );
 }
 
 export function Delete(path?: string) {
-  return applyDecorators(NestDelete(path), ApiOperationId());
+  return applyDecorators(
+    NestDelete(path),
+    ApiOperationId(),
+    ApiExceptionResponses(),
+  );
 }

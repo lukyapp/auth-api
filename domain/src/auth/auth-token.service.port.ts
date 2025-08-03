@@ -2,6 +2,7 @@ import { Dto } from '@auth/core';
 import { Expose } from 'class-transformer';
 import {
   IsArray,
+  IsEmail,
   IsEnum,
   IsNumber,
   IsOptional,
@@ -17,83 +18,93 @@ import { Nested } from '../validators/nested.validator';
 export class JwtHeader extends Dto<JwtHeader> {
   @Expose()
   @IsEnum(AsymmetricAlgorithm)
-  declare readonly alg: AsymmetricAlgorithm;
+  declare public readonly alg: AsymmetricAlgorithm;
   @Expose()
   @IsString()
-  declare readonly kid: string;
-  @Expose()
-  @IsString()
-  @IsOptional()
-  declare readonly typ?: string;
+  declare public readonly kid: string;
   @Expose()
   @IsString()
   @IsOptional()
-  declare readonly cty?: string;
+  declare public readonly typ?: string;
+  @Expose()
+  @IsString()
+  @IsOptional()
+  declare public readonly cty?: string;
   @Expose()
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  declare readonly crit?: Array<string | Exclude<keyof JwtHeader, 'crit'>>;
+  declare public readonly crit?: Array<
+    string | Exclude<keyof JwtHeader, 'crit'>
+  >;
   @Expose()
   @IsString()
   @IsOptional()
-  declare readonly jku?: string;
+  declare public readonly jku?: string;
   @Expose()
   @IsStringOrStringArray()
   @IsOptional()
-  declare readonly x5u?: string | string[];
+  declare public readonly x5u?: string | string[];
   @Expose()
   @IsString()
   @IsOptional()
-  declare readonly 'x5t#S256'?: string;
+  declare public readonly 'x5t#S256'?: string;
   @Expose()
   @IsString()
   @IsOptional()
-  declare readonly x5t?: string;
+  declare public readonly x5t?: string;
   @Expose()
   @IsStringOrStringArray()
   @IsOptional()
-  declare readonly x5c?: string | string[];
+  declare public readonly x5c?: string | string[];
 }
 
 export class JwtPayload extends Dto<JwtPayload> {
+  @IsString()
+  declare public readonly sub: string;
   @Expose()
   @IsString()
-  declare readonly iss: string;
-  @Expose()
-  @IsString()
-  declare readonly sub: string;
+  @IsEmail()
+  declare public readonly email: string;
   @Expose()
   @IsArray()
   @IsString({ each: true })
-  declare readonly aud: string[];
+  declare public readonly roles: string[];
+  @Expose()
+  @IsString()
+  declare public readonly iss: string;
+  @Expose()
+  @Expose()
+  @IsArray()
+  @IsString({ each: true })
+  declare public readonly aud: string[];
   @Expose()
   @IsNumber()
-  declare readonly exp: number;
+  declare public readonly exp: number;
   @Expose()
   @IsNumber()
   @IsOptional()
-  declare readonly nbf?: number;
+  declare public readonly nbf?: number;
   @Expose()
   @IsNumber()
   @IsOptional()
-  declare readonly iat?: number;
+  declare public readonly iat?: number;
   @Expose()
   @IsString()
   @IsOptional()
-  declare readonly jti?: string;
+  declare public readonly jti?: string;
 }
 
 export class Jwt extends Dto<Jwt> {
   @Expose()
   @Nested(() => JwtHeader)
-  declare readonly header: JwtHeader;
+  declare public readonly header: JwtHeader;
   @Expose()
   @Nested(() => JwtPayload)
-  declare readonly payload: JwtPayload;
+  declare public readonly payload: JwtPayload;
   @Expose()
   @IsString()
-  declare readonly signature: string;
+  declare public readonly signature: string;
 }
 
 export type SignOptions = {
