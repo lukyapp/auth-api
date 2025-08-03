@@ -1,8 +1,14 @@
+import { inject } from '@adonisjs/core'
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
-import { HttpException, InternalServerErrorException } from '@auth/domain'
+import { ExceptionsHandler } from '@auth/application'
 
+@inject()
 export default class HttpExceptionHandler extends ExceptionHandler {
+  constructor(private readonly exceptionsHandler: ExceptionsHandler) {
+    super()
+  }
+
   /**
    * In debug mode, the exception handler will display verbose errors
    * with pretty printed stack traces.
@@ -20,14 +26,9 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * The method is used for handling errors and returning
    * response to the client
    */
-  async handle(error: unknown, ctx: HttpContext) {
-    if (error instanceof HttpException) {
-      return ctx.response.status(error.getStatus()).send(error.getResponseBody())
-    }
-    const internalServerErrorException = new InternalServerErrorException('Unknown error')
-    return ctx.response
-      .status(internalServerErrorException.getStatus())
-      .send(internalServerErrorException.getResponseBody())
+  async handle(unknownException: unknown, ctx: HttpContext) {
+    const exception = this.exceptionsHandler.handle(unknownException)
+    return ctx.response.status(exception.getStatus()).send(exception.getResponseBody())
   }
 
   /**

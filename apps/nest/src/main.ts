@@ -10,7 +10,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import crypto from 'crypto';
 import { AppModule } from './app.module';
 import session from 'express-session';
-import { HttpExceptionFilter } from './exceptions/http-exception-filter';
 import { UnknownExceptionFilter } from './exceptions/unknown-exception-filter';
 
 async function bootstrap() {
@@ -22,8 +21,7 @@ async function bootstrap() {
   // filters
 
   const unknownExceptionFilter = app.get(UnknownExceptionFilter);
-  const httpExceptionFilter = app.get(HttpExceptionFilter);
-  app.useGlobalFilters(unknownExceptionFilter, httpExceptionFilter);
+  app.useGlobalFilters(unknownExceptionFilter);
 
   // security
 

@@ -1,11 +1,11 @@
+import { ExceptionsHandler } from '@auth/application';
 import { Global, Module } from '@nestjs/common';
-import { HttpExceptionFilter } from './http-exception-filter';
 import { UnknownExceptionFilter } from './unknown-exception-filter';
 
 @Global()
 @Module({
   imports: [],
-  providers: [HttpExceptionFilter, UnknownExceptionFilter],
-  exports: [HttpExceptionFilter, UnknownExceptionFilter],
+  providers: [ExceptionsHandler, UnknownExceptionFilter],
+  exports: [UnknownExceptionFilter],
 })
 export class ExceptionsModule {}
