@@ -20,6 +20,9 @@ export * from './common/strategy/user-creator-strategy/oauth.user-creator-strate
 export * from './common/strategy/user-creator-strategy/password.user-creator-strategy';
 export * from './common/strategy/user-creator-strategy/user-creator.strategy.interface';
 export * from './common/use-cases/authenticate.use-case';
+export * from './common/use-cases/generate-access-jwt.use-case';
+export * from './common/use-cases/generate-refresh-jwt.use-case';
+export * from './common/use-cases/verify-jwt.use-case';
 export * from './primary-services/auth/auth.primary-service';
 export * from './primary-services/auth/use-cases/auth-sign-in.use-case';
 export * from './primary-services/auth/use-cases/auth-sign-up.use-case';

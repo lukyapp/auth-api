@@ -23,7 +23,6 @@ export class AppController {
   @Get('protected')
   @ApiBearerAuth(JwtAuthGuard)
   getHelloProtected(@CurrentUser() currentUser: CurrentUserDto): string {
-    console.log(currentUser);
     return this.appService.getHello(currentUser);
   }
 

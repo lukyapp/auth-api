@@ -4,15 +4,10 @@ import { HttpContext } from '@adonisjs/core/http'
 import {
   AuthenticateUseCase,
   NoPasswordCheckAuthStrategy,
-  OpenIdPublicJwkGetterStrategy,
-  PublicKeyGetter,
+  PublicJwkGetterStrategy,
+  VerifyJwtUseCase,
 } from '@auth/application'
-import {
-  AuthTokenServicePort,
-  ConfigurationServicePort,
-  UserDto,
-  UserRepositoryPort,
-} from '@auth/domain'
+import { UserDto, UserRepositoryPort } from '@auth/domain'
 
 /**
  * The bridge between the User provider and the
@@ -86,31 +81,25 @@ export class JwtGuard<
   user?: TUserDto
   // #userProvider: UserProvider
   #ctx: HttpContext
-  #authTokenService: AuthTokenServicePort
-  #configurationService: ConfigurationServicePort
+  #verifyJwtUseCase: VerifyJwtUseCase
+  #publicJwkGetterStrategy: PublicJwkGetterStrategy<unknown>
   #userRepository: UserRepositoryPort
-  #publicKeyGetter: PublicKeyGetter
-  #openIdPublicJwkGetterStrategy: OpenIdPublicJwkGetterStrategy
   #authenticateUseCase: AuthenticateUseCase
   #noPasswordCheckAuthStrategy: NoPasswordCheckAuthStrategy
 
   constructor(
     // userProvider: UserProvider,
     ctx: HttpContext,
-    authTokenService: AuthTokenServicePort,
-    configurationService: ConfigurationServicePort,
+    verifyJwtUseCase: VerifyJwtUseCase,
+    publicJwkGetterStrategy: PublicJwkGetterStrategy<unknown>,
     userRepository: UserRepositoryPort,
-    publicKeyGetter: PublicKeyGetter,
-    openIdPublicJwkGetterStrategy: OpenIdPublicJwkGetterStrategy,
     authenticateUseCase: AuthenticateUseCase,
     noPasswordCheckAuthStrategy: NoPasswordCheckAuthStrategy
   ) {
     this.#ctx = ctx
-    this.#authTokenService = authTokenService
-    this.#configurationService = configurationService
+    this.#verifyJwtUseCase = verifyJwtUseCase
+    this.#publicJwkGetterStrategy = publicJwkGetterStrategy
     this.#userRepository = userRepository
-    this.#publicKeyGetter = publicKeyGetter
-    this.#openIdPublicJwkGetterStrategy = openIdPublicJwkGetterStrategy
     this.#authenticateUseCase = authenticateUseCase
     this.#noPasswordCheckAuthStrategy = noPasswordCheckAuthStrategy
   }
@@ -167,24 +156,11 @@ export class JwtGuard<
     }
 
     /**
-     * Get Public Key
-     */
-
-    const publicKeyInstance = await this.#publicKeyGetter.get(this.#openIdPublicJwkGetterStrategy, {
-      rawJwt: token,
-    })
-    const publicKey: string = publicKeyInstance.pem
-
-    /**
      * Verify token
      */
-    const verifyOptions = {
-      algorithms: this.#configurationService.get('jwt.verify.authorizedAlgorithms'),
-      audience: this.#configurationService.get('jwt.verify.authorizedAudiences'),
-      issuer: this.#configurationService.get('jwt.verify.authorizedIssuers'),
-      ignoreExpiration: false,
-    }
-    const payload = this.#authTokenService.verify(token, publicKey, verifyOptions)
+    const payload = await this.#verifyJwtUseCase.perform(this.#publicJwkGetterStrategy, {
+      rawJwt: token,
+    })
     if (!payload) {
       throw new errors.E_UNAUTHORIZED_ACCESS('Unauthorized access', {
         guardDriverName: this.driverName,

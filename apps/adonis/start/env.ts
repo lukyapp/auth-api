@@ -13,10 +13,6 @@ import { Env } from '@adonisjs/core/env'
 import { ValidationService } from '@auth/application'
 import { EnvironmentVariablesDto } from '@auth/domain'
 
-const validate = (name: string, value?: string) => {
-  return ValidationService.validateOneField(EnvironmentVariablesDto, value, name)
-}
-
 export default await Env.create(new URL('../', import.meta.url), {
   'NODE_ENV': Env.schema.enum(['development', 'production', 'test'] as const),
   'PORT': Env.schema.number(),
@@ -37,9 +33,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
 
-  'server.env': validate,
-  'server.port': validate,
-  'server.baseUrl': validate,
+  'server.env': Env.schema.string(),
+  'server.port': Env.schema.string(),
+  'server.baseUrl': Env.schema.string(),
 
   /*
   |----------------------------------------------------------
@@ -47,9 +43,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
 
-  'jwt.verify.authorizedAudiences': validate,
-  'jwt.verify.authorizedIssuers': validate,
-  'jwt.verify.authorizedAlgorithms': validate,
+  'jwt.verify.authorizedAudiences': Env.schema.string(),
+  'jwt.verify.authorizedIssuers': Env.schema.string(),
+  'jwt.verify.authorizedAlgorithms': Env.schema.string(),
 
   /*
   |----------------------------------------------------------
@@ -57,18 +53,19 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
 
-  'jwt.sign.issuer': validate,
-  'jwt.sign.audiences': validate,
-  'jwt.sign.access_token.expiration': validate,
-  'jwt.sign.refresh_token.expiration': validate,
+  'jwt.sign.issuer': Env.schema.string(),
+  'jwt.sign.audiences': Env.schema.string(),
+  'jwt.sign.access_token.expiration': Env.schema.string(),
+  'jwt.sign.refresh_token.expiration': Env.schema.string(),
+  'jwt.sign.privateKeyKid': Env.schema.string(),
 
   /*
   |----------------------------------------------------------
-  | jwt private keys
+  | jwks private keys
   |----------------------------------------------------------
   */
 
-  'jwt.sign.private_keys': validate,
+  'jwks.privateKeys': Env.schema.string(),
 
   /*
   |----------------------------------------------------------
@@ -76,18 +73,20 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
 
-  'db.host': validate,
-  'db.port': validate,
-  'db.dialect': validate,
-  'db.username': validate,
-  'db.password': validate,
-  'db.name': validate,
+  'db.host': Env.schema.string(),
+  'db.port': Env.schema.string(),
+  'db.dialect': Env.schema.string(),
+  'db.username': Env.schema.string(),
+  'db.password': Env.schema.string(),
+  'db.name': Env.schema.string(),
 
   /*
   |----------------------------------------------------------
   | oauth google
   |----------------------------------------------------------
   */
-  'oauth.google.clientId': validate,
-  'oauth.google.clientSecret': validate,
+  'oauth.google.clientId': Env.schema.string(),
+  'oauth.google.clientSecret': Env.schema.string(),
 })
+
+ValidationService.validate(EnvironmentVariablesDto, process.env)

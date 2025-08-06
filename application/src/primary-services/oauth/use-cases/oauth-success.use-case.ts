@@ -35,18 +35,24 @@ export class OauthSuccessUseCase extends GenericService {
     const {
       providerName,
       userId,
-      refreshToken,
       accessToken,
-      refreshExpiresIn,
       expiresIn,
+      refreshToken,
+      refreshExpiresIn,
     } = body;
     this.logger.log(`oauth success with ${providerName} provider`);
     return new AuthenticateUserResponse({
       userId,
-      accessToken,
-      refreshToken,
-      refreshExpiresIn,
-      expiresIn,
+      accessToken: {
+        type: 'Bearer',
+        token: accessToken,
+        expiresIn: expiresIn,
+      },
+      refreshToken: {
+        type: 'Bearer',
+        token: refreshToken,
+        expiresIn: refreshExpiresIn,
+      },
     });
   }
 }

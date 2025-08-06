@@ -7,6 +7,7 @@ import { IsEnvJsonArray } from './validators/is-env-json-array.validator';
 import { IsExpiresIn } from './validators/is-expires-in.validator';
 import { IsPort } from './validators/is-port.validator';
 import { IsUrl } from './validators/is-url.validator';
+import { IsValueInObjectArray } from './validators/is-value-in-env-object-array';
 
 export type ExpiresIn =
   | `${number}m`
@@ -122,11 +123,14 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   @IsExpiresIn()
   declare public readonly 'jwt.sign.refresh_token.expiration': ExpiresIn;
 
-  // ---------- jwt private keys ----------
+  @Expose()
+  @IsValueInObjectArray(EnvironmentVariablesDto, 'jwks.privateKeys', 'kid')
+  declare public readonly 'jwt.sign.privateKeyKid': EnvironmentVariablesDto['jwks.privateKeys'][number]['kid'];
 
+  // ---------- jwks private keys ----------
   @Expose()
   @IsEnvJsonArray(() => PrivateKey)
-  declare public readonly 'jwt.sign.private_keys': PrivateKey[];
+  declare public readonly 'jwks.privateKeys': PrivateKey[];
 
   // ---------- db ----------
 

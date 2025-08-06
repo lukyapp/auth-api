@@ -1,9 +1,75 @@
 import { Type } from '@auth/core';
-import { BadRequestException } from '@auth/domain';
-import { ValidationPipeOptions } from '@nestjs/common';
-import { ClassSerializerInterceptorOptions } from '@nestjs/common/serializer/class-serializer.interceptor';
+import { BadRequestException, HttpError } from '@auth/domain';
 import { plainToInstance } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
+
+type ClassSerializerInterceptorOptions = ClassTransformOptions & {
+  transformerPackage?: TransformerPackage;
+};
+
+type TransformerPackage = {
+  plainToInstance<T>(
+    cls: Type<T>,
+    plain: unknown,
+    options?: ClassTransformOptions,
+  ): T | T[];
+  classToPlain(
+    object: unknown,
+    options?: ClassTransformOptions,
+  ): Record<string, any> | Record<string, any>[];
+};
+
+type ValidatorPackage = {
+  validate(
+    object: unknown,
+    validatorOptions?: ValidatorOptions,
+  ): ValidationError[] | Promise<ValidationError[]>;
+};
+
+type ValidatorOptions = {
+  enableDebugMessages?: boolean;
+  skipUndefinedProperties?: boolean;
+  skipNullProperties?: boolean;
+  skipMissingProperties?: boolean;
+  whitelist?: boolean;
+  forbidNonWhitelisted?: boolean;
+  groups?: string[];
+  always?: boolean;
+  strictGroups?: boolean;
+  dismissDefaultMessages?: boolean;
+  validationError?: {
+    target?: boolean;
+    value?: boolean;
+  };
+  forbidUnknownValues?: boolean;
+  stopAtFirstError?: boolean;
+};
+
+type ClassTransformOptions = {
+  strategy?: 'excludeAll' | 'exposeAll';
+  groups?: string[];
+  version?: number;
+  excludePrefixes?: string[];
+  ignoreDecorators?: boolean;
+  targetMaps?: any[];
+  enableCircularCheck?: boolean;
+  enableImplicitConversion?: boolean;
+  excludeExtraneousValues?: boolean;
+  exposeDefaultValues?: boolean;
+  exposeUnsetFields?: boolean;
+};
+
+type ValidationPipeOptions = ValidatorOptions & {
+  transform?: boolean;
+  disableErrorMessages?: boolean;
+  transformOptions?: ClassTransformOptions;
+  errorHttpStatusCode?: HttpError['statusCode'];
+  exceptionFactory?: (errors: ValidationError[]) => any;
+  validateCustomDecorators?: boolean;
+  expectedType?: Type<any>;
+  validatorPackage?: ValidatorPackage;
+  transformerPackage?: TransformerPackage;
+};
 
 export class ValidationService {
   constructor() {}

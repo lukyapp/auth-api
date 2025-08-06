@@ -1,4 +1,6 @@
 import {
+  GenerateAccessJwtUseCase,
+  GenerateRefreshJwtUseCase,
   JwksUriGetter,
   LocalPublicJwkGetterStrategy,
   OpenIdPublicJwkGetterStrategy,
@@ -16,6 +18,8 @@ import { Global, Module } from '@nestjs/common';
     PublicKeyGetter,
     OpenIdPublicJwkGetterStrategy,
     LocalPublicJwkGetterStrategy,
+    GenerateAccessJwtUseCase,
+    GenerateRefreshJwtUseCase,
   ],
   exports: [
     JwksUriGetter,
@@ -23,6 +27,8 @@ import { Global, Module } from '@nestjs/common';
     PublicKeyGetter,
     OpenIdPublicJwkGetterStrategy,
     LocalPublicJwkGetterStrategy,
+    GenerateAccessJwtUseCase,
+    GenerateRefreshJwtUseCase,
   ],
 })
 export class ServiceModule {}

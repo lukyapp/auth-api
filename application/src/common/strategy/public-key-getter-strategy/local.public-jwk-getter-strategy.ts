@@ -1,6 +1,6 @@
 import { injectable } from '@auth/di';
 import {
-  AuthTokenServicePort,
+  JwtServicePort,
   ConfigurationServicePort,
   JwksServicePort,
 } from '@auth/domain';
@@ -19,7 +19,7 @@ export class LocalPublicJwkGetterStrategy
   implements PublicJwkGetterStrategy<LocalPublicJwkGetterStrategyBody>
 {
   constructor(
-    private readonly authTokenService: AuthTokenServicePort,
+    private readonly jwtService: JwtServicePort,
     private readonly jwksService: JwksServicePort,
     private readonly configurationService: ConfigurationServicePort,
   ) {
@@ -27,7 +27,7 @@ export class LocalPublicJwkGetterStrategy
   }
 
   async get({ rawJwt }: LocalPublicJwkGetterStrategyBody) {
-    const jwt = this.authTokenService.decode(rawJwt, {
+    const jwt = this.jwtService.decode(rawJwt, {
       withHeader: true,
     });
     if (!jwt) {
@@ -44,7 +44,7 @@ export class LocalPublicJwkGetterStrategy
     }
     const { alg, kid } = jwt.header;
 
-    const privateKeys = this.configurationService.get('jwt.sign.private_keys');
+    const privateKeys = this.configurationService.get('jwks.privateKeys');
     const privateKey = privateKeys.find((key) => key.kid === kid);
     if (!privateKey) {
       this.logger.log(`Unable to find a signing key that matches '${kid}'`);

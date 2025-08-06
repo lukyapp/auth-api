@@ -26,7 +26,6 @@ export class AuthSignInUseCase extends GenericService {
   }
 
   async perform(body: SignInBody) {
-    this.logger.log('lala');
     return this.authenticateUseCase.perform(this.passwordAuthStrategy, body);
   }
 }

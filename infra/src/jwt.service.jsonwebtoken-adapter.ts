@@ -1,6 +1,6 @@
 import { injectable } from '@auth/di';
 import {
-  AuthTokenServicePort,
+  JwtServicePort,
   JwtPayload,
   SignOptions,
   VerifyOptions,
@@ -11,9 +11,7 @@ import { ValidationService } from '@auth/application';
 import { decode, sign, verify } from 'jsonwebtoken';
 
 @injectable()
-export class AuthTokenServiceJsonwebtokenAdapter
-  implements AuthTokenServicePort
-{
+export class JwtServiceJsonwebtokenAdapter implements JwtServicePort {
   constructor() {}
 
   sign(

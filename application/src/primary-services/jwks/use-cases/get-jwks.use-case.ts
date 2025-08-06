@@ -121,7 +121,7 @@ export class GetJwksUseCase {
   }
 
   private async generateJwks(): Promise<{ keys: JWK[] }> {
-    const privateKeys = this.configurationService.get('jwt.sign.private_keys');
+    const privateKeys = this.configurationService.get('jwks.privateKeys');
 
     const jwks: JWK[] = [];
     for (const key of privateKeys) {

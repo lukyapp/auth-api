@@ -78,17 +78,15 @@ export class OauthCallbackUseCase extends GenericService {
 
   private buildSuccessUrl(
     baseUrl: URL,
-    {
-      data: { userId, accessToken, refreshToken, refreshExpiresIn, expiresIn },
-    }: AuthenticateUserResponse,
+    { data: { userId, accessToken, refreshToken } }: AuthenticateUserResponse,
   ) {
     baseUrl.searchParams.append('userId', userId);
-    baseUrl.searchParams.append('accessToken', accessToken);
-    baseUrl.searchParams.append('refreshToken', refreshToken);
-    baseUrl.searchParams.append('expiresIn', expiresIn.toString());
+    baseUrl.searchParams.append('accessToken', accessToken.token);
+    baseUrl.searchParams.append('refreshToken', refreshToken.token);
+    baseUrl.searchParams.append('expiresIn', accessToken.expiresIn.toString());
     baseUrl.searchParams.append(
       'refreshExpiresIn',
-      refreshExpiresIn.toString(),
+      accessToken.expiresIn.toString(),
     );
     return baseUrl.toString();
   }

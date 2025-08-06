@@ -25,6 +25,7 @@ import { Reflector } from '@nestjs/core';
       provide: ValidationPipe,
       useFactory: () => {
         const options = ValidationService.getValidationPipeOptions();
+        // @ts-expect-error lala
         return new ValidationPipe(options);
       },
     },

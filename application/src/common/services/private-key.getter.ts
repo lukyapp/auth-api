@@ -1,6 +1,8 @@
 import { injectable } from '@auth/di';
-import { ConfigurationServicePort } from '@auth/domain';
-import { InternalServerErrorException } from '@auth/domain';
+import {
+  ConfigurationServicePort,
+  InternalServerErrorException,
+} from '@auth/domain';
 
 @injectable()
 export class PrivateKeyGetter {
@@ -9,12 +11,13 @@ export class PrivateKeyGetter {
   ) {}
 
   get() {
-    const privateKeys = this.configurationService.get('jwt.sign.private_keys');
-    const privateKey = privateKeys[0];
+    const privateKeys = this.configurationService.get('jwks.privateKeys');
+    const privateKeyKid = this.configurationService.get(
+      'jwt.sign.privateKeyKid',
+    );
+    const privateKey = privateKeys.find((key) => key.kid === privateKeyKid);
     if (!privateKey) {
-      throw new InternalServerErrorException(
-        'no private jwk key setted in .evn file',
-      );
+      throw new InternalServerErrorException();
     }
     return privateKey;
   }

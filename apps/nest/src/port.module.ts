@@ -1,6 +1,6 @@
 import { LoggerManager } from '@auth/application';
 import {
-  AuthTokenServicePort,
+  JwtServicePort,
   JwksServicePort,
   LoggerStrategyFactoryPort,
   PasswordHasherPort,
@@ -8,7 +8,7 @@ import {
   UserRepositoryPort,
 } from '@auth/domain';
 import {
-  AuthTokenServiceJsonwebtokenAdapter,
+  JwtServiceJsonwebtokenAdapter,
   JwksServiceJoseAdapter,
   PasswordHasherBcryptAdapter,
   PublicKeyPemFromJwksUriGetterJwksRsaAdapter,
@@ -30,8 +30,8 @@ import { Global, Module } from '@nestjs/common';
       useClass: PasswordHasherBcryptAdapter,
     },
     {
-      provide: AuthTokenServicePort,
-      useClass: AuthTokenServiceJsonwebtokenAdapter,
+      provide: JwtServicePort,
+      useClass: JwtServiceJsonwebtokenAdapter,
     },
     {
       provide: PublicKeyPemFromJwksUriGetterPort,
@@ -50,7 +50,7 @@ import { Global, Module } from '@nestjs/common';
   exports: [
     PasswordHasherPort,
     UserRepositoryPort,
-    AuthTokenServicePort,
+    JwtServicePort,
     PublicKeyPemFromJwksUriGetterPort,
     JwksServicePort,
   ],

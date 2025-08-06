@@ -11,7 +11,7 @@ import app from '@adonisjs/core/services/app'
 import { LoggerManager } from '@auth/application'
 import { Utils } from '@auth/core'
 import {
-  AuthTokenServicePort,
+  JwtServicePort,
   ConfigurationServicePort,
   PasswordHasherPort,
   UserRepositoryPort,
@@ -20,7 +20,7 @@ import {
   LoggerStrategyFactoryPort,
 } from '@auth/domain'
 import {
-  AuthTokenServiceJsonwebtokenAdapter,
+  JwtServiceJsonwebtokenAdapter,
   PasswordHasherBcryptAdapter,
   UserRepositoryMemoryAdapter,
   JwksServiceJoseAdapter,
@@ -55,9 +55,9 @@ app.container.singleton(PasswordHasherPort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
   return new PasswordHasherBcryptAdapter(...deps)
 })
-app.container.singleton(AuthTokenServicePort, async function (resolver) {
+app.container.singleton(JwtServicePort, async function (resolver) {
   const deps = await resolveMany(resolver, [])
-  return new AuthTokenServiceJsonwebtokenAdapter(...deps)
+  return new JwtServiceJsonwebtokenAdapter(...deps)
 })
 
 /*

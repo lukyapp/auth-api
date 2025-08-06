@@ -28,7 +28,6 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
     };
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
       secretOrKeyProvider: (
         _request: Request,
         rawJwt: string,
@@ -47,6 +46,7 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
       algorithms: verifyOptions.algorithms,
       audience: verifyOptions.audience,
       issuer: verifyOptions.issuer,
+      ignoreExpiration: verifyOptions.ignoreExpiration,
     });
   }
 

@@ -1,6 +1,6 @@
 import { injectable } from '@auth/di';
 import {
-  AuthTokenServicePort,
+  JwtServicePort,
   ConfigurationServicePort,
   PublicKeyPemFromJwksUriGetterPort,
 } from '@auth/domain';
@@ -21,7 +21,7 @@ export class OpenIdPublicJwkGetterStrategy
 {
   constructor(
     private readonly jwksUriGetter: JwksUriGetter,
-    private readonly authTokenService: AuthTokenServicePort,
+    private readonly jwtService: JwtServicePort,
     private readonly publicKeyPemFromJwksUriGetter: PublicKeyPemFromJwksUriGetterPort,
     private readonly configurationService: ConfigurationServicePort,
   ) {
@@ -29,7 +29,7 @@ export class OpenIdPublicJwkGetterStrategy
   }
 
   async get({ rawJwt }: OpenIdPublicJwkGetterStrategyBody) {
-    const jwt = this.authTokenService.decode(rawJwt, {
+    const jwt = this.jwtService.decode(rawJwt, {
       withHeader: true,
     });
     if (!jwt) {

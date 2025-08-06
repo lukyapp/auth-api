@@ -1,12 +1,26 @@
 import { Dto } from '@auth/core';
-import { ConfigurationServicePort, JwtPayload } from '@auth/domain';
-import { AuthTokenServicePort, Nested, ResponseGetOne } from '@auth/domain';
 import { injectable } from '@auth/di';
-import { InternalServerErrorException } from '@auth/domain';
+import { Nested, ResponseGetOne } from '@auth/domain';
 import { Expose } from 'class-transformer';
 import { IsNumber, IsPositive, IsString, IsUUID } from 'class-validator';
-import { PrivateKeyGetter } from '../services/private-key.getter';
 import { AuthStrategy } from '../strategy/auth-strategy/auth.strategy.interface';
+import { GenerateAccessJwtUseCase } from './generate-access-jwt.use-case';
+import { GenerateRefreshJwtUseCase } from './generate-refresh-jwt.use-case';
+
+export class GenerateJwtResponse extends Dto<GenerateJwtResponse> {
+  @Expose()
+  @IsString()
+  declare public readonly type: string;
+
+  @Expose()
+  @IsString()
+  declare public readonly token: string;
+
+  @Expose()
+  @IsNumber()
+  @IsPositive()
+  declare public readonly expiresIn: number;
+}
 
 export class AuthenticateUserResponseData extends Dto<AuthenticateUserResponseData> {
   @Expose()
@@ -16,21 +30,13 @@ export class AuthenticateUserResponseData extends Dto<AuthenticateUserResponseDa
 
   @Expose()
   @IsString()
-  declare public readonly accessToken: string;
-
-  @Expose()
-  @IsNumber()
-  @IsPositive()
-  declare public readonly expiresIn: number;
+  @Nested(() => GenerateJwtResponse)
+  declare public readonly accessToken: GenerateJwtResponse;
 
   @Expose()
   @IsString()
-  declare public readonly refreshToken: string;
-
-  @Expose()
-  @IsNumber()
-  @IsPositive()
-  declare public readonly refreshExpiresIn: number;
+  @Nested(() => GenerateJwtResponse)
+  declare public readonly refreshToken: GenerateJwtResponse;
 }
 
 export class AuthenticateUserResponse extends ResponseGetOne<AuthenticateUserResponseData> {
@@ -42,9 +48,8 @@ export class AuthenticateUserResponse extends ResponseGetOne<AuthenticateUserRes
 @injectable()
 export class AuthenticateUseCase {
   constructor(
-    private readonly privateKeyGetter: PrivateKeyGetter,
-    private readonly authTokenService: AuthTokenServicePort,
-    private readonly configurationService: ConfigurationServicePort,
+    private readonly generateAccessJwtUseCase: GenerateAccessJwtUseCase,
+    private readonly generateRefreshJwtUseCase: GenerateRefreshJwtUseCase,
   ) {}
 
   async perform<TBody, TAuthStrategy extends AuthStrategy<TBody>>(
@@ -52,51 +57,19 @@ export class AuthenticateUseCase {
     body: TBody,
   ) {
     const user = await authStrategy.authenticate(body);
-    const privateKey = this.privateKeyGetter.get();
-
     const payload = {
+      userId: user.id,
       email: user.email,
       // TODO jwt roles
-      roles: [],
+      roles: [] as string[],
     };
-    const signOptions = {
-      subject: user.id,
-      expiresIn: this.configurationService.get(
-        'jwt.sign.access_token.expiration',
-      ),
-      issuer: this.configurationService.get('jwt.sign.issuer'),
-      audience: this.configurationService.get('jwt.sign.audiences'),
-      algorithm: privateKey.alg,
-      keyid: privateKey.kid,
-    };
-    const accessToken = this.authTokenService.sign(
-      payload,
-      privateKey.pem,
-      signOptions,
-    );
-    const refreshToken = this.authTokenService.sign(payload, privateKey.pem, {
-      ...signOptions,
-      expiresIn: this.configurationService.get(
-        'jwt.sign.refresh_token.expiration',
-      ),
-    });
-    const accessTokenDecoded = this.authTokenService.decode(accessToken);
-    const refreshTokenDecoded = this.authTokenService.decode(accessToken);
-    if (!accessTokenDecoded || !refreshTokenDecoded) {
-      new InternalServerErrorException();
-    }
-    const { exp: expiresIn } = accessTokenDecoded as JwtPayload;
-    const { exp: refreshExpiresIn } = refreshTokenDecoded as JwtPayload;
-    if (!expiresIn || !refreshExpiresIn) {
-      new InternalServerErrorException();
-    }
+    const accessToken = await this.generateAccessJwtUseCase.perform(payload);
+    const refreshToken = await this.generateRefreshJwtUseCase.perform(payload);
 
     return new AuthenticateUserResponse({
       userId: user.id,
       accessToken,
       refreshToken,
-      expiresIn: expiresIn!,
-      refreshExpiresIn: refreshExpiresIn!,
     });
   }
 }

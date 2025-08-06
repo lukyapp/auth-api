@@ -1,32 +1,4 @@
 export const HttpErrors = {
-  // 100
-  CONTINUE: { statusCode: 100, errorCode: 'Continue' },
-  SWITCHING_PROTOCOLS: { statusCode: 101, errorCode: 'Switching Protocols' },
-  PROCESSING: { statusCode: 102, errorCode: 'Processing' },
-  EARLY_HINTS: { statusCode: 103, errorCode: 'Early Hints' },
-  // 200
-  OK: { statusCode: 200, errorCode: 'OK' },
-  CREATED: { statusCode: 201, errorCode: 'Created' },
-  ACCEPTED: { statusCode: 202, errorCode: 'Accepted' },
-  NON_AUTHORITATIVE_INFORMATION: {
-    statusCode: 203,
-    errorCode: 'Non-Authoritative Information',
-  },
-  NO_CONTENT: { statusCode: 204, errorCode: 'No Content' },
-  RESET_CONTENT: { statusCode: 205, errorCode: 'Reset Content' },
-  PARTIAL_CONTENT: { statusCode: 206, errorCode: 'Partial Content' },
-  MULTI_STATUS: { statusCode: 207, errorCode: 'Multi-Status' },
-  ALREADY_REPORTED: { statusCode: 208, errorCode: 'Already Reported' },
-  IM_USED: { statusCode: 226, errorCode: 'IM Used' },
-  // 300
-  MULTIPLE_CHOICES: { statusCode: 300, errorCode: 'Multiple Choices' },
-  MOVED_PERMANENTLY: { statusCode: 301, errorCode: 'Moved Permanently' },
-  FOUND: { statusCode: 302, errorCode: 'Found' },
-  SEE_OTHER: { statusCode: 303, errorCode: 'See Other' },
-  NOT_MODIFIED: { statusCode: 304, errorCode: 'Not Modified' },
-  USE_PROXY: { statusCode: 305, errorCode: 'Use Proxy' },
-  TEMPORARY_REDIRECT: { statusCode: 307, errorCode: 'Temporary Redirect' },
-  PERMANENT_REDIRECT: { statusCode: 308, errorCode: 'Permanent Redirect' },
   // 400
   BAD_REQUEST: { statusCode: 400, errorCode: 'Bad Request' },
   UNAUTHORIZED: { statusCode: 401, errorCode: 'Unauthorized' },
@@ -99,6 +71,38 @@ export const HttpErrors = {
     statusCode: 511,
     errorCode: 'Network Authentication Required',
   },
+} as const;
+
+export const HttpStatus = {
+  // 100
+  CONTINUE: { statusCode: 100, errorCode: 'Continue' },
+  SWITCHING_PROTOCOLS: { statusCode: 101, errorCode: 'Switching Protocols' },
+  PROCESSING: { statusCode: 102, errorCode: 'Processing' },
+  EARLY_HINTS: { statusCode: 103, errorCode: 'Early Hints' },
+  // 200
+  OK: { statusCode: 200, errorCode: 'OK' },
+  CREATED: { statusCode: 201, errorCode: 'Created' },
+  ACCEPTED: { statusCode: 202, errorCode: 'Accepted' },
+  NON_AUTHORITATIVE_INFORMATION: {
+    statusCode: 203,
+    errorCode: 'Non-Authoritative Information',
+  },
+  NO_CONTENT: { statusCode: 204, errorCode: 'No Content' },
+  RESET_CONTENT: { statusCode: 205, errorCode: 'Reset Content' },
+  PARTIAL_CONTENT: { statusCode: 206, errorCode: 'Partial Content' },
+  MULTI_STATUS: { statusCode: 207, errorCode: 'Multi-Status' },
+  ALREADY_REPORTED: { statusCode: 208, errorCode: 'Already Reported' },
+  IM_USED: { statusCode: 226, errorCode: 'IM Used' },
+  // 300
+  MULTIPLE_CHOICES: { statusCode: 300, errorCode: 'Multiple Choices' },
+  MOVED_PERMANENTLY: { statusCode: 301, errorCode: 'Moved Permanently' },
+  FOUND: { statusCode: 302, errorCode: 'Found' },
+  SEE_OTHER: { statusCode: 303, errorCode: 'See Other' },
+  NOT_MODIFIED: { statusCode: 304, errorCode: 'Not Modified' },
+  USE_PROXY: { statusCode: 305, errorCode: 'Use Proxy' },
+  TEMPORARY_REDIRECT: { statusCode: 307, errorCode: 'Temporary Redirect' },
+  PERMANENT_REDIRECT: { statusCode: 308, errorCode: 'Permanent Redirect' },
+  ...HttpErrors,
 } as const;
 
 export type ErrorKey = keyof typeof HttpErrors;

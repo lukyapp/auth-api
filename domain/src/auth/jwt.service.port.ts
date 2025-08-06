@@ -60,6 +60,7 @@ export class JwtHeader extends Dto<JwtHeader> {
 }
 
 export class JwtPayload extends Dto<JwtPayload> {
+  @Expose()
   @IsString()
   declare public readonly sub: string;
   @Expose()
@@ -73,7 +74,6 @@ export class JwtPayload extends Dto<JwtPayload> {
   @Expose()
   @IsString()
   declare public readonly iss: string;
-  @Expose()
   @Expose()
   @IsArray()
   @IsString({ each: true })
@@ -147,7 +147,7 @@ export type DecodeOptions = {
   withHeader: boolean;
 };
 
-export abstract class AuthTokenServicePort {
+export abstract class JwtServicePort {
   abstract sign(
     payload: object,
     secretOrPrivateKey: string,
