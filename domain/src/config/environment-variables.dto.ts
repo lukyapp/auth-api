@@ -1,12 +1,15 @@
 import { Dto } from '@auth/core';
-import { Expose, IsEnum, IsString } from '@auth/validation';
-
-import { IsEnvArray } from './validators/is-env-array.validator';
-import { IsEnvJsonArray } from './validators/is-env-json-array.validator';
-import { IsExpiresIn } from './validators/is-expires-in.validator';
-import { IsPort } from './validators/is-port.validator';
-import { IsUrl } from './validators/is-url.validator';
-import { IsValueInObjectArray } from './validators/is-value-in-env-object-array';
+import {
+  Expose,
+  IsEnum,
+  IsString,
+  IsEnvArray,
+  IsEnvJsonArray,
+  IsExpiresIn,
+  IsPort,
+  IsValueInObjectArray,
+  IsCustomUrl,
+} from '@auth/validation';
 
 export type ExpiresIn =
   | `${number}m`
@@ -67,7 +70,7 @@ class SwaggerServers extends Dto<SwaggerServers> {
   @IsString()
   declare public readonly name: string;
   @Expose()
-  @IsUrl()
+  @IsCustomUrl()
   declare public readonly url: string;
 }
 
@@ -83,19 +86,19 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   declare public readonly 'server.port': number;
 
   @Expose()
-  @IsUrl()
+  @IsCustomUrl()
   declare public readonly 'server.baseUrl': string;
 
   // ---------- jwt verify options ----------
 
   @Expose()
   @IsEnvArray()
-  @IsUrl({ each: true })
+  @IsCustomUrl({ each: true })
   declare public readonly 'jwt.verify.authorizedAudiences': string[];
 
   @Expose()
   @IsEnvArray()
-  @IsUrl({ each: true })
+  @IsCustomUrl({ each: true })
   declare public readonly 'jwt.verify.authorizedIssuers': string[];
 
   @Expose()
@@ -106,12 +109,12 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   // ---------- jwt sign options ----------
 
   @Expose()
-  @IsUrl()
+  @IsCustomUrl()
   declare public readonly 'jwt.sign.issuer': string;
 
   @Expose()
   @IsEnvArray()
-  @IsUrl({ each: true })
+  @IsCustomUrl({ each: true })
   declare public readonly 'jwt.sign.audiences': string[];
 
   @Expose()

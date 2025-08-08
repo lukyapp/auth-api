@@ -1,12 +1,17 @@
 import { injectable } from '@auth/di';
 import {
   Body,
-  Nested,
   ResponseGetOne,
   UserDto,
   UserRepositoryPort,
 } from '@auth/domain';
-import { Expose, IsArray, IsNumber, IsPositive } from '@auth/validation';
+import {
+  Expose,
+  IsArray,
+  IsNumber,
+  IsPositive,
+  Nested,
+} from '@auth/validation';
 import { GetOneUserBody } from './find-one-user.use-case';
 
 export class GetAllUsersBody extends Body<GetAllUsersBody> {

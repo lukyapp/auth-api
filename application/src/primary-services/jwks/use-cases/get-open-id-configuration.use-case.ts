@@ -1,11 +1,11 @@
 import { Dto, Utils } from '@auth/core';
 import { injectable } from '@auth/di';
-import { ConfigurationServicePort, IsUrl } from '@auth/domain';
-import { Expose } from '@auth/validation';
+import { ConfigurationServicePort } from '@auth/domain';
+import { Expose, IsCustomUrl } from '@auth/validation';
 
 export class OpenidConfiguration extends Dto<OpenidConfiguration> {
   @Expose()
-  @IsUrl()
+  @IsCustomUrl()
   declare public readonly jwks_uri: string;
 }
 

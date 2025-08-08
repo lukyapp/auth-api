@@ -1,6 +1,6 @@
 import { applyDecorators } from '@auth/core';
-import { Transform } from '@auth/validation';
-import { ArrayNotEmpty, IsArray, IsString } from '@auth/validation';
+import { Transform } from 'class-transformer';
+import { ArrayNotEmpty, IsArray, IsString } from 'class-validator';
 
 export function IsEnvArray() {
   return applyDecorators(

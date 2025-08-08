@@ -7,8 +7,8 @@ import {
   IsOptional,
   IsString,
   isString,
+  Nested,
 } from '@auth/validation';
-import { Nested } from '../validators/nested.validator';
 import { HttpError } from './beans/http-errors';
 import { IntrinsicException } from './beans/intrinsic.exception';
 import { HttpExceptionInterface } from './http.exception.interface';

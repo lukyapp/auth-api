@@ -7,6 +7,8 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsStringOrStringArray,
+  Nested,
 } from '@auth/validation';
 import { MetadataError } from '../common/metadate.service';
 import {
@@ -14,8 +16,6 @@ import {
   ExpiresIn,
 } from '../config/environment-variables.dto';
 import { UnauthorizedException } from '../exceptions/unauthorized.exception';
-import { IsStringOrStringArray } from '../validators/is-string-or-string-array.validator';
-import { Nested } from '../validators/nested.validator';
 
 export class JwtHeader extends Dto<JwtHeader> {
   @Expose()

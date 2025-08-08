@@ -1,6 +1,6 @@
 import { applyDecorators } from '@auth/core';
-import { IsNumber, Max, Min } from '@auth/validation';
+import { IsNumber, Max, Min } from 'class-validator';
 
-export function IsPort() {
+export function IsCustomPort() {
   return applyDecorators(IsNumber(), Min(0), Max(65535));
 }

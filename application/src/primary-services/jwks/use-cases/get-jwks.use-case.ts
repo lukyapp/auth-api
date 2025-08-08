@@ -1,16 +1,13 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
-import {
-  ConfigurationServicePort,
-  JwksServicePort,
-  Nested,
-} from '@auth/domain';
+import { ConfigurationServicePort, JwksServicePort } from '@auth/domain';
 import {
   Expose,
   IsArray,
   IsBoolean,
   IsOptional,
   IsString,
+  Nested,
 } from '@auth/validation';
 
 export class JWK extends Dto<JWK> {

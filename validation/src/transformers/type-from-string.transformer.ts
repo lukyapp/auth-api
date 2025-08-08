@@ -1,5 +1,9 @@
 import { applyDecorators } from '@auth/core';
-import { ClassConstructor, plainToInstance, Transform } from '@auth/validation';
+import {
+  ClassConstructor,
+  plainToInstance,
+  Transform,
+} from 'class-transformer';
 
 type TypeHelpOptions = {
   newObject: any;
@@ -7,7 +11,7 @@ type TypeHelpOptions = {
   property: string;
 };
 
-export function Type(
+export function TypeFromString(
   typeFunction: (type?: TypeHelpOptions) => ClassConstructor<any>,
 ) {
   return applyDecorators(

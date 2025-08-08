@@ -1,7 +1,13 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
-import { Body, Nested, OauthProviderName } from '@auth/domain';
-import { Expose, IsBoolean, IsOptional, IsString } from '@auth/validation';
+import { Body, OauthProviderName } from '@auth/domain';
+import {
+  Expose,
+  IsBoolean,
+  IsOptional,
+  IsString,
+  Nested,
+} from '@auth/validation';
 import { GenericService } from '../../../common/logger/generic.service';
 import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
 import {

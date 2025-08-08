@@ -1,12 +1,17 @@
 import { injectable } from '@auth/di';
 import {
   Body,
-  Nested,
   ResponseGetOne,
   UserDto,
   UserRepositoryPort,
 } from '@auth/domain';
-import { Expose, IsEmail, IsOptional, IsString } from '@auth/validation';
+import {
+  Expose,
+  IsEmail,
+  IsOptional,
+  IsString,
+  Nested,
+} from '@auth/validation';
 
 export class GetOneUserBody extends Body<GetOneUserBody> {
   @Expose()
