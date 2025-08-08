@@ -4,9 +4,10 @@ import {
   OauthSuccessEndpointQuery,
 } from '@auth/controller-dtos';
 import { InternalServerErrorException } from '@auth/domain';
-import { Controller, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Param, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { Controller } from '../../core/di/controller.decorator';
 import { CurrentOauthValidateResult } from '../../core/controller/current-oauth-validate-result.decorator';
 import { Get } from '../../core/controller/http.decorator';
 import { OauthConfigProxy } from './guards/oauth-config.proxy';

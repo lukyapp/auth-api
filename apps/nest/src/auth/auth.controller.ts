@@ -1,6 +1,7 @@
 import { AuthPrimaryService, SignInBody, SignUpBody } from '@auth/application';
-import { Body, Controller } from '@nestjs/common';
+import { Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Controller } from '../core/di/controller.decorator';
 import { Post } from '../core/controller/http.decorator';
 
 @ApiTags('auth')

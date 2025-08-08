@@ -1,22 +1,22 @@
-import { Dto } from '@auth/core';
+import { Body } from '../common/body';
 import { UserDto } from './user.dto';
 
-export class CreateUserBody extends Dto<CreateUserBody> {
+export class CreateUserBody extends Body<CreateUserBody> {
   declare public readonly email: string;
   declare public readonly password?: string;
 }
 
-export class UpdateUserBody extends Dto<UpdateUserBody> {
+export class UpdateUserBody extends Body<UpdateUserBody> {
   declare public readonly email?: string;
   declare public readonly password?: string;
 }
 
-export class GetOneUserBody extends Dto<CreateUserBody> {
+export class GetOneUserBody extends Body<CreateUserBody> {
   declare public readonly id?: string | string[];
   declare public readonly email?: string | string[];
 }
 
-export class GetAllUsersBody extends Dto<GetAllUsersBody> {
+export class GetAllUsersBody extends Body<GetAllUsersBody> {
   declare public readonly page: number;
   declare public readonly limit: number;
   declare public readonly data?: GetOneUserBody;

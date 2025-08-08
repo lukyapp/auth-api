@@ -5,8 +5,13 @@ import {
   JwksServicePort,
   Nested,
 } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
+import {
+  Expose,
+  IsArray,
+  IsBoolean,
+  IsOptional,
+  IsString,
+} from '@auth/validation';
 
 export class JWK extends Dto<JWK> {
   // JWKParameters

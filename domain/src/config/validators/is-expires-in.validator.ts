@@ -1,5 +1,5 @@
 import { applyDecorators } from '@auth/core';
-import { IsString, Matches } from 'class-validator';
+import { IsString, Matches } from '@auth/validation';
 
 export function IsExpiresIn() {
   return applyDecorators(

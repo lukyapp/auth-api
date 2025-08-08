@@ -28,4 +28,12 @@ export class InternalServerErrorException extends HttpException<
       }),
     );
   }
+
+  public getResponseBody() {
+    const { statusCode, errorCode } = this.response;
+    return {
+      statusCode,
+      errorCode,
+    };
+  }
 }

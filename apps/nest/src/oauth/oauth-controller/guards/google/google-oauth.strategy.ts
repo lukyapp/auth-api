@@ -1,7 +1,7 @@
 import { OauthValidateResult } from '@auth/application';
-import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
+import { Injectable } from '../../../../core/di/injectable.decorator';
 import { OauthStrategyI } from '../common/oauth.strategy.interface';
 import { GoogleOauthConfig } from './google-oauth.config';
 

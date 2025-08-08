@@ -1,16 +1,15 @@
-import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import {
+  Body,
   Nested,
   ResponseGetOne,
   UserDto,
   UserRepositoryPort,
 } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsArray, IsNumber, IsPositive } from 'class-validator';
+import { Expose, IsArray, IsNumber, IsPositive } from '@auth/validation';
 import { GetOneUserBody } from './find-one-user.use-case';
 
-export class GetAllUsersBody extends Dto<GetAllUsersBody> {
+export class GetAllUsersBody extends Body<GetAllUsersBody> {
   @IsNumber()
   @IsPositive()
   declare public readonly page: number;

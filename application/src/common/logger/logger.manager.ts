@@ -19,7 +19,9 @@ export class LoggerManager {
     if (this.loggerStrategyFactory) {
       return new LoggerService(this.loggerStrategyFactory.create(context));
     }
-    return new LoggerService(NotImplementedLoggerStrategy);
+    const logger = new LoggerService(NotImplementedLoggerStrategy);
+    logger.log(`${context} : `);
+    return logger;
   }
 
   createLogger(context: string) {

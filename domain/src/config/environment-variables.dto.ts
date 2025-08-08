@@ -1,6 +1,5 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
-import { IsEnum, IsString } from 'class-validator';
+import { Expose, IsEnum, IsString } from '@auth/validation';
 
 import { IsEnvArray } from './validators/is-env-array.validator';
 import { IsEnvJsonArray } from './validators/is-env-json-array.validator';

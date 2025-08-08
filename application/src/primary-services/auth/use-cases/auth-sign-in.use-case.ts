@@ -1,12 +1,11 @@
-import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
-import { Expose } from 'class-transformer';
-import { IsEmail, IsString } from 'class-validator';
+import { Body } from '@auth/domain';
+import { Expose, IsEmail, IsString } from '@auth/validation';
 import { GenericService } from '../../../common/logger/generic.service';
 import { PasswordAuthStrategy } from '../../../common/strategy/auth-strategy/password.auth-strategy';
 import { AuthenticateUseCase } from '../../../common/use-cases/authenticate.use-case';
 
-export class SignInBody extends Dto<SignInBody> {
+export class SignInBody extends Body<SignInBody> {
   @Expose()
   @IsString()
   @IsEmail()

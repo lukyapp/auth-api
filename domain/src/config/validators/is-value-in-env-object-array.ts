@@ -5,7 +5,7 @@ import {
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-} from 'class-validator';
+} from '@auth/validation';
 
 @ValidatorConstraint({ name: 'isValueInObjectArray', async: false })
 export class IsValueInObjectArrayConstraint

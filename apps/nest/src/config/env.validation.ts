@@ -2,8 +2,8 @@ import { ValidationService } from '@auth/application';
 import { EnvironmentVariablesDto } from '@auth/domain';
 import { InternalServerErrorException } from '@auth/domain';
 import { Logger } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
-import { validateSync } from 'class-validator';
+import { plainToInstance } from '@auth/validation';
+import { validateSync } from '@auth/validation';
 
 const logger = new Logger('EnvValidator');
 

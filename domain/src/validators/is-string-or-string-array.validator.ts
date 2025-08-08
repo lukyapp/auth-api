@@ -5,7 +5,7 @@ import {
   ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-} from 'class-validator';
+} from '@auth/validation';
 
 @ValidatorConstraint({ name: 'IsStringOrStringArray', async: false })
 class IsStringOrStringArrayConstraint implements ValidatorConstraintInterface {

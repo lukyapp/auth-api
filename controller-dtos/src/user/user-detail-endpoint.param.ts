@@ -1,6 +1,5 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
-import { IsString } from 'class-validator';
+import { Expose, IsString } from '@auth/validation';
 
 export class UserDetailEndpointParam extends Dto<UserDetailEndpointParam> {
   @Expose()

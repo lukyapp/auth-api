@@ -1,7 +1,6 @@
 import { Dto } from '@auth/core';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Expose } from 'class-transformer';
-import { IsArray, IsEmail, IsString, IsUUID } from 'class-validator';
+import { Expose, IsArray, IsEmail, IsString, IsUUID } from '@auth/validation';
 import { Request } from 'express';
 import { ValidationService } from '@auth/application';
 

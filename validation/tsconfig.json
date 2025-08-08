@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,                      // Skips checking `.d.ts` files in node_modules (improves performance)
+    "esModuleInterop": true,                   // allow old lib to be imported like "import * as"
+
+    // 🔒 Strictness Settings (critical for avoiding bugs)
+    "strict": true,                             // Enable all strict type-checking options below
+    "noImplicitAny": true,                      // Forces you to define types instead of defaulting to 'any'
+    "strictNullChecks": true,                   // Prevents bugs from accessing null/undefined properties
+    "strictFunctionTypes": true,                // Enforces safer function assignments and callbacks
+    "strictBindCallApply": true,                // Ensures correct args when using bind/call/apply
+    "noImplicitThis": true,                     // Prevents 'this' from being implicitly typed as any
+    "alwaysStrict": true,                       // Parses files in strict mode (JS)
+
+    // 🧠 Helpful flags to catch common errors
+    "noUnusedLocals": true,                     // Warns about unused local variables
+    "noUnusedParameters": true,                 // Warns about unused function parameters
+    "noFallthroughCasesInSwitch": true,         // Prevents forgetting a break in switch/case
+    "noUncheckedIndexedAccess": true,           // array[0] will be type `T | undefined`, preventing runtime crashes
+    "forceConsistentCasingInFileNames": true,   // Prevents file casing issues (especially on case-insensitive OSes like Windows)
+  }
+}

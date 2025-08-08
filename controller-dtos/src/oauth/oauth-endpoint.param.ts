@@ -1,7 +1,6 @@
 import { Dto } from '@auth/core';
 import { OauthProviderName } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsEnum } from 'class-validator';
+import { Expose, IsEnum } from '@auth/validation';
 
 export class OauthEndpointParam extends Dto<OauthEndpointParam> {
   @Expose()

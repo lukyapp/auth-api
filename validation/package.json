@@ -1,0 +1,29 @@
+{
+  "name": "@auth/validation",
+  "private": true,
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d",
+  "scripts": {
+    "buildd": "pnpm run generate:barrels && pnpm run format && pnpm run build",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "generate:barrels": "barrelsby --directory src --exclude node_modules --delete --structure flat\n"
+  },
+  "devDependencies": {
+    "barrelsby": "^2.8.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.4.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  },
+  "peerDependencies": {
+    "@nestjs/swagger": "^11.2.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "reflect-metadata": "^0.2.2"
+  }
+}

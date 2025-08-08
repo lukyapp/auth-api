@@ -1,10 +1,11 @@
 import { applyDecorators } from '@auth/core';
-import {
-  ClassConstructor,
-  plainToInstance,
-  Transform,
-} from 'class-transformer';
-import { TypeHelpOptions } from 'class-transformer/types/interfaces';
+import { ClassConstructor, plainToInstance, Transform } from '@auth/validation';
+
+type TypeHelpOptions = {
+  newObject: any;
+  object: Record<string, any>;
+  property: string;
+};
 
 export function Type(
   typeFunction: (type?: TypeHelpOptions) => ClassConstructor<any>,

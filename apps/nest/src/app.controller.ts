@@ -1,8 +1,9 @@
-import { Body, Controller } from '@nestjs/common';
+import { Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ApiBearerAuth } from './core/controller/api-bearer-auth.decorator';
+import { Controller } from './core/di/controller.decorator';
 import {
   CurrentUser,
   CurrentUserDto,

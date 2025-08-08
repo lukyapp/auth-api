@@ -18,6 +18,7 @@ import {
   JwksServicePort,
   PublicKeyPemFromJwksUriGetterPort,
   LoggerStrategyFactoryPort,
+  IsInEnvArrayConstraint,
 } from '@auth/domain'
 import {
   JwtServiceJsonwebtokenAdapter,
@@ -110,3 +111,13 @@ app.container.singleton(LoggerManager, async function (resolver) {
 })
 // to trigger the constructor
 app.container.make(LoggerManager)
+
+/*
+  |----------------------------------------------------------
+  | contraints
+  |----------------------------------------------------------
+  */
+app.container.singleton(IsInEnvArrayConstraint, async function (resolver) {
+  const deps = await resolveMany(resolver, [ConfigurationServicePort])
+  return new IsInEnvArrayConstraint(...deps)
+})

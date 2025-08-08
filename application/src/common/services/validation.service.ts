@@ -1,7 +1,16 @@
 import { Type } from '@auth/core';
-import { BadRequestException, HttpError } from '@auth/domain';
-import { plainToInstance } from 'class-transformer';
-import { validateSync, ValidationError } from 'class-validator';
+import {
+  BadRequestException,
+  HttpError,
+  InternalServerErrorException,
+  MetadateService,
+} from '@auth/domain';
+import {
+  plainToInstance,
+  validateAsync,
+  validateSync,
+  ValidationError,
+} from '@auth/validation';
 
 type ClassSerializerInterceptorOptions = ClassTransformOptions & {
   transformerPackage?: TransformerPackage;
@@ -96,39 +105,45 @@ export class ValidationService {
     };
   }
 
-  static validate<T extends object, V>(cls: Type<T>, plain: V) {
-    const params = plainToInstance(
+  static async validate<T extends object, V>(cls: Type<T>, plain: V) {
+    const instance = plainToInstance(
       cls,
       plain,
       this.getClassSerializerInterceptorOptions(),
     );
-    const errors = validateSync(params, this.getValidationPipeOptions());
+    const errors = await validateAsync(
+      instance,
+      this.getValidationPipeOptions(),
+    );
     if (errors.length > 0) {
       const contraints = this.flattenValidationErrors(errors);
-      throw new BadRequestException('Error in body', contraints);
+      const Error = MetadateService.getMetadataError(instance);
+      if (Error) {
+        throw new Error('Error in body', contraints);
+      }
+      console.log('contraints : ', contraints);
+      throw new InternalServerErrorException('Unknown error', contraints);
     }
-    return params;
+    return instance;
   }
 
-  static validateOneField<T extends object>(
-    cls: Type<T>,
-    value: any,
-    name: string,
-  ) {
-    const params = plainToInstance(
+  static validateSync<T extends object, V>(cls: Type<T>, plain: V) {
+    const instance = plainToInstance(
       cls,
-      { [name]: value },
+      plain,
       this.getClassSerializerInterceptorOptions(),
     );
-    const errors = validateSync(params, this.getValidationPipeOptions());
-    const fieldErrors = errors.find((err) => err.property === name);
-    if (fieldErrors) {
-      const contraints = this.flattenValidationErrors([fieldErrors]);
-      console.error('contraints : ', contraints);
-      throw new BadRequestException('Error in body', contraints);
+    const errors = validateSync(instance, this.getValidationPipeOptions());
+    if (errors.length > 0) {
+      const contraints = this.flattenValidationErrors(errors);
+      const Error = MetadateService.getMetadataError(instance);
+      if (Error) {
+        throw new Error('Error in body', contraints);
+      }
+      console.log('contraints : ', contraints);
+      throw new InternalServerErrorException('Unknown error', contraints);
     }
-    // @ts-expect-error lala
-    return params[name];
+    return instance;
   }
 
   static flattenValidationErrors(validationErrors: ValidationError[]) {

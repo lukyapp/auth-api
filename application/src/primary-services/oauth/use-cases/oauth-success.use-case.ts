@@ -1,12 +1,16 @@
-import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
-import { OauthProviderName } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsEnum, IsNumber, IsPositive, IsString } from 'class-validator';
+import { Body, OauthProviderName } from '@auth/domain';
+import {
+  Expose,
+  IsEnum,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from '@auth/validation';
 import { GenericService } from '../../../common/logger/generic.service';
 import { AuthenticateUserResponse } from '../../../common/use-cases/authenticate.use-case';
 
-export class OauthSuccessBody extends Dto<OauthSuccessBody> {
+export class OauthSuccessBody extends Body<OauthSuccessBody> {
   @Expose()
   @IsEnum(OauthProviderName)
   declare public readonly providerName: OauthProviderName;

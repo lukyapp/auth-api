@@ -1,6 +1,5 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
-import { IsEmail, IsString } from 'class-validator';
+import { Expose, IsEmail, IsString } from '@auth/validation';
 
 export class ExempleDto extends Dto<ExempleDto> {
   @Expose()

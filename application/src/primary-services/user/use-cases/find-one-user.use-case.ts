@@ -1,15 +1,14 @@
-import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import {
+  Body,
   Nested,
   ResponseGetOne,
   UserDto,
   UserRepositoryPort,
 } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { Expose, IsEmail, IsOptional, IsString } from '@auth/validation';
 
-export class GetOneUserBody extends Dto<GetOneUserBody> {
+export class GetOneUserBody extends Body<GetOneUserBody> {
   @Expose()
   @IsString()
   declare public readonly id?: string | string[];

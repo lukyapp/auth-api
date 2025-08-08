@@ -1,8 +1,7 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import { AsymmetricAlgorithm } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsEnum, IsString } from 'class-validator';
+import { Expose, IsEnum, IsString } from '@auth/validation';
 import { PublicJwkGetterStrategy } from '../strategy/public-key-getter-strategy/public-jwk-getter.strategy.interface';
 
 export class PublicKey extends Dto<PublicKey, 'type'> {

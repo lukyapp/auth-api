@@ -9,11 +9,27 @@
 |
 */
 
-import { Env } from '@adonisjs/core/env'
+import { Env, EnvProcessor } from '@adonisjs/core/env'
 import { ValidationService } from '@auth/application'
 import { EnvironmentVariablesDto } from '@auth/domain'
 
-export default await Env.create(new URL('../', import.meta.url), {
+export type ValidateFn<T extends unknown> = (key: string, value?: string) => T
+async function create<Schema extends { [key: string]: ValidateFn<unknown> }>(
+  appRoot: URL,
+  _schema: Schema
+): Promise<
+  Env<{
+    [K in keyof Schema]: ReturnType<Schema[K]>
+  }>
+> {
+  const values = await new EnvProcessor(appRoot).process()
+  const validateValues = (await ValidationService.validate(EnvironmentVariablesDto, values)) as {
+    [K in keyof Schema]: ReturnType<Schema[K]>
+  }
+  return new Env(validateValues)
+}
+
+export default await create(new URL('../', import.meta.url), {
   'NODE_ENV': Env.schema.enum(['development', 'production', 'test'] as const),
   'PORT': Env.schema.number(),
   'APP_KEY': Env.schema.string(),
@@ -88,5 +104,3 @@ export default await Env.create(new URL('../', import.meta.url), {
   'oauth.google.clientId': Env.schema.string(),
   'oauth.google.clientSecret': Env.schema.string(),
 })
-
-ValidationService.validate(EnvironmentVariablesDto, process.env)

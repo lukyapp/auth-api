@@ -1,8 +1,7 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
-import { Nested, OauthProviderName } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { Body, Nested, OauthProviderName } from '@auth/domain';
+import { Expose, IsBoolean, IsOptional, IsString } from '@auth/validation';
 import { GenericService } from '../../../common/logger/generic.service';
 import { OauthAuthStrategy } from '../../../common/strategy/auth-strategy/oauth.auth-strategy';
 import {
@@ -42,7 +41,7 @@ export class OauthValidateResult extends Dto<OauthValidateResult> {
   declare public readonly profile: OauthProfile;
 }
 
-export class OauthCallbackBody extends Dto<OauthCallbackBody> {
+export class OauthCallbackBody extends Body<OauthCallbackBody> {
   declare public readonly providerName: OauthProviderName;
   declare public readonly validateResult: OauthValidateResult;
   declare public readonly successUrl: URL;

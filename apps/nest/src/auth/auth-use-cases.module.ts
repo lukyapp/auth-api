@@ -3,7 +3,7 @@ import {
   AuthSignUpUseCase,
   PasswordAuthStrategy,
 } from '@auth/application';
-import { Module } from '@nestjs/common';
+import { Module } from '../core/di/module.decorator';
 import { OauthUseCasesModule } from '../oauth/oauth-use-cases.module';
 import { UserUseCasesModule } from '../user/user-use-cases.module';
 

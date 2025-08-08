@@ -5,27 +5,27 @@ export class NotImplementedLoggerStrategy implements LoggerStrategy {
     'Please register the LoggerManager & a LoggerStrategyFactoryPort to enable logging';
 
   static log(_message: any, ..._optionalParams: any[]): any {
-    console.error(this.errorMessage);
+    console.error(_message, this.errorMessage);
   }
 
   static error(_message: any, ..._optionalParams: any[]): any {
-    console.error(this.errorMessage);
+    console.error(_message, this.errorMessage);
   }
 
   static warn(_message: any, ..._optionalParams: any[]): any {
-    console.error(this.errorMessage);
+    console.error(_message, this.errorMessage);
   }
 
   static debug(_message: any, ..._optionalParams: any[]): any {
-    console.error(this.errorMessage);
+    console.error(_message, this.errorMessage);
   }
 
   static verbose(_message: any, ..._optionalParams: any[]): any {
-    console.error(this.errorMessage);
+    console.error(_message, this.errorMessage);
   }
 
   static fatal(_message: any, ..._optionalParams: any[]): any {
-    console.error(this.errorMessage);
+    console.error(_message, this.errorMessage);
   }
 
   log(message: any, ...optionalParams: any[]): any {

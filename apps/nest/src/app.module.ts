@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigurationModule } from './config/configuration.module';
+import { Module } from './core/di/module.decorator';
 import { ValidationModule } from './core/validation/validation.module';
 import { ExceptionsModule } from './exceptions/exceptions.module';
 import { JwksModule } from './jwks/jwks.module';

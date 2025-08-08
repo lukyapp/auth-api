@@ -2,7 +2,7 @@ import {
   GetJwksUseCase,
   GetOpenIdConfigurationUseCase,
 } from '@auth/application';
-import { Module } from '@nestjs/common';
+import { Module } from '../core/di/module.decorator';
 
 @Module({
   providers: [

@@ -1,5 +1,5 @@
 import { JwksPrimaryService } from '@auth/application';
-import { Module } from '@nestjs/common';
+import { Module } from '../core/di/module.decorator';
 import { JwksUseCasesModule } from './jwks-use-cases.module';
 import { JwksController } from './jwks.controller';
 

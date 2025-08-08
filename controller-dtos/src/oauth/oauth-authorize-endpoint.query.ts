@@ -1,6 +1,5 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
-import { IsOptional, IsString } from 'class-validator';
+import { Expose, IsOptional, IsString } from '@auth/validation';
 
 export class OauthAuthorizeEndpointQuery extends Dto<OauthAuthorizeEndpointQuery> {
   @Expose()

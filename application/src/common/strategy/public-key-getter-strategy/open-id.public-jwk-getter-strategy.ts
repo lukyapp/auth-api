@@ -29,7 +29,7 @@ export class OpenIdPublicJwkGetterStrategy
   }
 
   async get({ rawJwt }: OpenIdPublicJwkGetterStrategyBody) {
-    const jwt = this.jwtService.decode(rawJwt, {
+    const jwt = await this.jwtService.decode(rawJwt, {
       withHeader: true,
     });
     if (!jwt) {

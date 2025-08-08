@@ -1,12 +1,12 @@
 import { ConfigurationServicePort } from '@auth/domain';
-import { Global, Module } from '@nestjs/common';
+import { Global } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { Module } from '../core/di/module.decorator';
 import { ConfigurationServiceEnvAdapter } from './configuration.service.env-adapter';
 import { validate } from './env.validation';
 
 @Global()
 @Module({
-  controllers: [],
   imports: [
     ConfigModule.forRoot({
       validate,

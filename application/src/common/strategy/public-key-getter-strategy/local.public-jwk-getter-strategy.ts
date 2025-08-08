@@ -27,7 +27,7 @@ export class LocalPublicJwkGetterStrategy
   }
 
   async get({ rawJwt }: LocalPublicJwkGetterStrategyBody) {
-    const jwt = this.jwtService.decode(rawJwt, {
+    const jwt = await this.jwtService.decode(rawJwt, {
       withHeader: true,
     });
     if (!jwt) {

@@ -1,6 +1,11 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
-import { IsNumber, IsPositive, IsString, IsUUID } from 'class-validator';
+import {
+  Expose,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsUUID,
+} from '@auth/validation';
 
 export class OauthSuccessEndpointQuery extends Dto<OauthSuccessEndpointQuery> {
   @Expose()

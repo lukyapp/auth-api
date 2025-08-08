@@ -1,6 +1,6 @@
 import { JwksPrimaryService } from '@auth/application';
-import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Controller } from '../core/di/controller.decorator';
 import { Get } from '../core/controller/http.decorator';
 
 @ApiTags('Jwks')

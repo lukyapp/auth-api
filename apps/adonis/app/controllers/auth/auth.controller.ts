@@ -7,12 +7,12 @@ export default class AuthController {
   constructor(private readonly authPrimaryService: AuthPrimaryService) {}
 
   async signUp({ request }: HttpContext) {
-    const body = ValidationService.validate(SignUpBody, request.body())
+    const body = await ValidationService.validate(SignUpBody, request.body())
     return this.authPrimaryService.signUp(body)
   }
 
   async signIn({ request }: HttpContext) {
-    const body = ValidationService.validate(SignInBody, request.body())
+    const body = await ValidationService.validate(SignInBody, request.body())
     return this.authPrimaryService.signIn(body)
   }
 }

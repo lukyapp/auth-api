@@ -3,11 +3,12 @@ import {
   OauthAuthorizeEndpointQuery,
   OauthEndpointParam,
 } from '@auth/controller-dtos';
-import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { InternalServerErrorException } from '@auth/domain';
+import { ExecutionContext, Logger } from '@nestjs/common';
 import { IAuthGuard, IAuthModuleOptions } from '@nestjs/passport';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { Injectable } from '../../../core/di/injectable.decorator';
 import { OauthGuardProxy } from './oauth-guard.proxy';
 
 @Injectable()
@@ -27,7 +28,7 @@ export class OauthGuard implements IAuthGuard {
       return guard.canActivate(context);
     }
     this.logger.log('authorized endpoint triggered');
-    const { success_callback } = ValidationService.validate(
+    const { success_callback } = ValidationService.validateSync(
       OauthAuthorizeEndpointQuery,
       request.query,
     );
@@ -68,7 +69,7 @@ export class OauthGuard implements IAuthGuard {
   }
 
   private getOauthGuardFromRequest(request: Request) {
-    const { oauthProviderName } = ValidationService.validate(
+    const { oauthProviderName } = ValidationService.validateSync(
       OauthEndpointParam,
       request.params,
     );

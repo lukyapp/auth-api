@@ -1,5 +1,5 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
+import { Expose } from '@auth/validation';
 
 export abstract class ResponseGetOne<TData extends object> extends Dto<
   ResponseGetOne<TData>

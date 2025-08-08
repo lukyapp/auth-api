@@ -4,12 +4,13 @@ import {
   ValidationService,
 } from '@auth/application';
 import { ConfigurationServicePort } from '@auth/domain';
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { JwtPayload } from '@auth/domain';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { CurrentUserDto } from '../../core/controller/current-user.decorator';
+import { Injectable } from '../../core/di/injectable.decorator';
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -39,7 +40,6 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
             done(null, publicKey.pem);
           })
           .catch((err) => {
-            this.logger.log(err);
             done(err);
           });
       },
@@ -53,8 +53,8 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   validate(payload: JwtPayload) {
     return ValidationService.validate(CurrentUserDto, {
       userId: payload.sub,
-      email: payload.email!,
-      roles: payload.roles as string[],
+      email: payload.email,
+      roles: payload.roles,
     });
   }
 }

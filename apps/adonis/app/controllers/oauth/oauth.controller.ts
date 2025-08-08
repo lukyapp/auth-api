@@ -13,8 +13,11 @@ export default class OauthController {
     private readonly oauthConfigProxy: OauthConfigProxy
   ) {}
 
-  authorize({ request, ally }: HttpContext) {
-    const { oauthProviderName } = ValidationService.validate(OauthEndpointParam, request.params())
+  async authorize({ request, ally }: HttpContext) {
+    const { oauthProviderName } = await ValidationService.validate(
+      OauthEndpointParam,
+      request.params()
+    )
     return ally.use(oauthProviderName).redirect()
     // const config = this.getOauthConfig(oauthProviderName)
     // return ally.use(oauthProviderName).redirect((request) => {
@@ -24,7 +27,10 @@ export default class OauthController {
   }
 
   async callback({ ally, request, response, session }: HttpContext) {
-    const { oauthProviderName } = ValidationService.validate(OauthEndpointParam, request.params())
+    const { oauthProviderName } = await ValidationService.validate(
+      OauthEndpointParam,
+      request.params()
+    )
     const oauthProvider = ally.use(oauthProviderName)
 
     /**
@@ -79,10 +85,13 @@ export default class OauthController {
     response.redirect(callbackUrl)
   }
 
-  success({ request }: HttpContext) {
-    const { oauthProviderName } = ValidationService.validate(OauthEndpointParam, request.params())
+  async success({ request }: HttpContext) {
+    const { oauthProviderName } = await ValidationService.validate(
+      OauthEndpointParam,
+      request.params()
+    )
     const { userId, accessToken, refreshToken, expiresIn, refreshExpiresIn } =
-      ValidationService.validate(OauthSuccessEndpointQuery, request.qs())
+      await ValidationService.validate(OauthSuccessEndpointQuery, request.qs())
     return this.oauthPrimaryService.success({
       providerName: oauthProviderName,
       userId,

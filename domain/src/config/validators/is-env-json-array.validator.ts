@@ -1,8 +1,13 @@
 import { applyDecorators } from '@auth/core';
-import { ClassConstructor } from 'class-transformer';
-import { TypeHelpOptions } from 'class-transformer/types/interfaces';
-import { IsArray, ValidateNested } from 'class-validator';
+import { ClassConstructor } from '@auth/validation';
+import { IsArray, ValidateNested } from '@auth/validation';
 import { Type } from '../transformers/type.transformer';
+
+type TypeHelpOptions = {
+  newObject: any;
+  object: Record<string, any>;
+  property: string;
+};
 
 export function IsEnvJsonArray(
   typeFunction: (type?: TypeHelpOptions) => ClassConstructor<any>,

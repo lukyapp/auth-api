@@ -1,6 +1,6 @@
 // import { ApiProperty } from '@nestjs/swagger';
 import { ApiHideProperty } from '@nestjs/swagger';
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose } from '@auth/validation';
 import {
   IsEmail,
   IsNotEmpty,
@@ -8,7 +8,7 @@ import {
   IsString,
   IsUUID,
   MinLength,
-} from 'class-validator';
+} from '@auth/validation';
 import { Dto } from '@auth/core';
 
 export class UserDto extends Dto<UserDto> {

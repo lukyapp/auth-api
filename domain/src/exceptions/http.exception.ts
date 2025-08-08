@@ -1,13 +1,13 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
 import {
+  Expose,
   IsArray,
   IsNumber,
   isObject,
   IsOptional,
   IsString,
   isString,
-} from 'class-validator';
+} from '@auth/validation';
 import { Nested } from '../validators/nested.validator';
 import { HttpError } from './beans/http-errors';
 import { IntrinsicException } from './beans/intrinsic.exception';

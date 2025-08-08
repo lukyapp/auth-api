@@ -2,15 +2,15 @@ import { ValidationService } from '@auth/application';
 import {
   ClassSerializerInterceptor,
   Global,
-  Module,
   ValidationPipe,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { ValidationContraintModule } from '../../validation-contraint.module';
+import { Module } from '../di/module.decorator';
 
 @Global()
 @Module({
-  controllers: [],
-  imports: [],
+  imports: [ValidationContraintModule],
   providers: [
     {
       provide: ClassSerializerInterceptor,
@@ -30,6 +30,10 @@ import { Reflector } from '@nestjs/core';
       },
     },
   ],
-  exports: [ClassSerializerInterceptor, ValidationPipe],
+  exports: [
+    ClassSerializerInterceptor,
+    ValidationPipe,
+    ValidationContraintModule,
+  ],
 })
 export class ValidationModule {}

@@ -1,11 +1,9 @@
-import { Dto } from '@auth/core';
-import { UserRepositoryPort } from '@auth/domain';
+import { Body, UserRepositoryPort } from '@auth/domain';
 import { injectable } from '@auth/di';
-import { Expose } from 'class-transformer';
-import { IsEmail, IsString } from 'class-validator';
+import { Expose, IsEmail, IsString } from '@auth/validation';
 import { GetOneUserBodyResponse } from './find-one-user.use-case';
 
-export class UpdateUserBody extends Dto<UpdateUserBody> {
+export class UpdateUserBody extends Body<UpdateUserBody> {
   @Expose()
   @IsString()
   @IsEmail()

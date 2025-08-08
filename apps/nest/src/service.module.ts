@@ -7,11 +7,11 @@ import {
   PrivateKeyGetter,
   PublicKeyGetter,
 } from '@auth/application';
-import { Global, Module } from '@nestjs/common';
+import { Global } from '@nestjs/common';
+import { Module } from './core/di/module.decorator';
 
 @Global()
 @Module({
-  imports: [],
   providers: [
     JwksUriGetter,
     PrivateKeyGetter,

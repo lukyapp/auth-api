@@ -1,8 +1,13 @@
 import { Dto } from '@auth/core';
 import { injectable } from '@auth/di';
 import { Nested, ResponseGetOne } from '@auth/domain';
-import { Expose } from 'class-transformer';
-import { IsNumber, IsPositive, IsString, IsUUID } from 'class-validator';
+import {
+  Expose,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsUUID,
+} from '@auth/validation';
 import { AuthStrategy } from '../strategy/auth-strategy/auth.strategy.interface';
 import { GenerateAccessJwtUseCase } from './generate-access-jwt.use-case';
 import { GenerateRefreshJwtUseCase } from './generate-refresh-jwt.use-case';

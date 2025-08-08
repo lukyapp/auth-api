@@ -1,5 +1,5 @@
 import { applyDecorators } from '@auth/core';
-import { IsUrl as _IsUrl, ValidationOptions } from 'class-validator';
+import { IsUrl as _IsUrl, ValidationOptions } from '@auth/validation';
 
 export function IsUrl(validationOptions?: ValidationOptions) {
   return applyDecorators(

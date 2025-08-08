@@ -1,17 +1,19 @@
 import { Dto } from '@auth/core';
-import { Expose } from 'class-transformer';
 import {
+  Expose,
   IsArray,
   IsEmail,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
-} from 'class-validator';
+} from '@auth/validation';
+import { MetadataError } from '../common/metadate.service';
 import {
   AsymmetricAlgorithm,
   ExpiresIn,
 } from '../config/environment-variables.dto';
+import { UnauthorizedException } from '../exceptions/unauthorized.exception';
 import { IsStringOrStringArray } from '../validators/is-string-or-string-array.validator';
 import { Nested } from '../validators/nested.validator';
 
@@ -59,6 +61,7 @@ export class JwtHeader extends Dto<JwtHeader> {
   declare public readonly x5c?: string | string[];
 }
 
+@MetadataError(UnauthorizedException)
 export class JwtPayload extends Dto<JwtPayload> {
   @Expose()
   @IsString()
@@ -73,6 +76,9 @@ export class JwtPayload extends Dto<JwtPayload> {
   declare public readonly roles: string[];
   @Expose()
   @IsString()
+  // TODO use useContainer to use that
+  //  but it doesn't work with async container (ex: adonis)
+  // @IsInEnvArray('jwt.verify.authorizedIssuers')
   declare public readonly iss: string;
   @Expose()
   @IsArray()
@@ -157,20 +163,20 @@ export abstract class JwtServicePort {
   abstract decode(
     token: string,
     options: DecodeOptions & { withHeader: true },
-  ): null | Jwt;
+  ): Promise<Jwt> | null;
   abstract decode(
     token: string,
     options: DecodeOptions & { withHeader: false },
-  ): null | JwtPayload;
-  abstract decode(token: string): null | JwtPayload;
+  ): Promise<JwtPayload> | null;
+  abstract decode(token: string): Promise<JwtPayload> | null;
   abstract decode(
     token: string,
     options?: DecodeOptions,
-  ): null | JwtPayload | Jwt;
+  ): Promise<JwtPayload | Jwt> | null;
 
   abstract verify(
     token: string,
     secretOrPublicKey: string,
     options?: VerifyOptions,
-  ): null | JwtPayload;
+  ): Promise<JwtPayload> | null;
 }

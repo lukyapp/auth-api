@@ -1,10 +1,10 @@
 import { ExceptionsHandler } from '@auth/application';
-import { Global, Module } from '@nestjs/common';
+import { Global } from '@nestjs/common';
+import { Module } from '../core/di/module.decorator';
 import { UnknownExceptionFilter } from './unknown-exception-filter';
 
 @Global()
 @Module({
-  imports: [],
   providers: [ExceptionsHandler, UnknownExceptionFilter],
   exports: [UnknownExceptionFilter],
 })

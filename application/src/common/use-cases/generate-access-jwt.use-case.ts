@@ -34,7 +34,7 @@ export class GenerateAccessJwtUseCase {
       keyid: privateKey.kid,
     };
     const token = this.jwtService.sign(payload, privateKey.pem, signOptions);
-    const decodedJwt = this.jwtService.decode(token)!;
+    const decodedJwt = (await this.jwtService.decode(token))!;
     const { exp: expiresIn } = decodedJwt;
     return new GenerateJwtResponse({
       type: 'Bearer',

@@ -4,8 +4,9 @@ import {
   UserPrimaryService,
 } from '@auth/application';
 import { UserDetailEndpointParam } from '@auth/controller-dtos';
-import { Body, Controller, Param, Query } from '@nestjs/common';
+import { Body, Param, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Controller } from '../core/di/controller.decorator';
 import { Delete, Get, Patch } from '../core/controller/http.decorator';
 
 @ApiTags('users')

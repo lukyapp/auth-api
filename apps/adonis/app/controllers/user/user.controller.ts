@@ -12,24 +12,24 @@ import { UserDetailEndpointParam } from '@auth/controller-dtos'
 export default class UserController {
   constructor(private readonly userPrimaryService: UserPrimaryService) {}
 
-  findAll({ request }: HttpContext) {
-    const body = ValidationService.validate(GetAllUsersBody, request.qs())
+  async findAll({ request }: HttpContext) {
+    const body = await ValidationService.validate(GetAllUsersBody, request.qs())
     return this.userPrimaryService.findAll(body)
   }
 
-  findOne({ request }: HttpContext) {
-    const { userId } = ValidationService.validate(UserDetailEndpointParam, request.params())
+  async findOne({ request }: HttpContext) {
+    const { userId } = await ValidationService.validate(UserDetailEndpointParam, request.params())
     return this.userPrimaryService.findOne({ id: userId })
   }
 
-  updateOne({ request }: HttpContext) {
-    const { userId } = ValidationService.validate(UserDetailEndpointParam, request.params())
-    const body = ValidationService.validate(UpdateUserBody, request.body())
+  async updateOne({ request }: HttpContext) {
+    const { userId } = await ValidationService.validate(UserDetailEndpointParam, request.params())
+    const body = await ValidationService.validate(UpdateUserBody, request.body())
     return this.userPrimaryService.updateOne(userId, body)
   }
 
-  deleteOne({ request }: HttpContext) {
-    const { userId } = ValidationService.validate(UserDetailEndpointParam, request.params())
+  async deleteOne({ request }: HttpContext) {
+    const { userId } = await ValidationService.validate(UserDetailEndpointParam, request.params())
     return this.userPrimaryService.deleteOne(userId)
   }
 }
