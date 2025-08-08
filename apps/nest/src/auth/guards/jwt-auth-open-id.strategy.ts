@@ -13,7 +13,10 @@ import { CurrentUserDto } from '../../core/controller/current-user.decorator';
 import { Injectable } from '../../core/di/injectable.decorator';
 
 @Injectable()
-export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtAuthOpenIdStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-open-id',
+) {
   public readonly logger = new Logger(this.constructor.name);
 
   constructor(

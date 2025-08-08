@@ -1,13 +1,14 @@
+import { ValidationService } from '@auth/application';
 import { injectable } from '@auth/di';
 import {
-  JwtServicePort,
+  DecodedJwt,
+  DecodedJwtPayload,
+  DecodeOptions,
   JwtPayload,
+  JwtServicePort,
   SignOptions,
   VerifyOptions,
-  Jwt,
-  DecodeOptions,
 } from '@auth/domain';
-import { ValidationService } from '@auth/application';
 import { decode, sign, verify } from 'jsonwebtoken';
 
 @injectable()
@@ -25,35 +26,35 @@ export class JwtServiceJsonwebtokenAdapter implements JwtServicePort {
   decode(
     token: string,
     options: DecodeOptions & { withHeader: true },
-  ): Promise<Jwt> | null;
+  ): Promise<DecodedJwt | null>;
   decode(
     token: string,
     options: DecodeOptions & { withHeader: false },
-  ): Promise<JwtPayload> | null;
-  decode(token: string): Promise<JwtPayload> | null;
-  decode(
+  ): Promise<DecodedJwtPayload | null>;
+  decode(token: string): Promise<DecodedJwtPayload | null>;
+  async decode(
     token: string,
     options?: DecodeOptions,
-  ): Promise<JwtPayload | Jwt> | null {
+  ): Promise<DecodedJwtPayload | DecodedJwt | null> {
     if (options?.withHeader) {
       const jwt = decode(token, { complete: true });
       if (jwt) {
-        return ValidationService.validate(Jwt, jwt);
+        return ValidationService.validate(DecodedJwt, jwt);
       }
       return null;
     }
-    const jwt = decode(token, { json: true });
-    if (jwt) {
-      return ValidationService.validate(JwtPayload, jwt);
+    const payload = decode(token, { json: true });
+    if (payload) {
+      return ValidationService.validate(DecodedJwtPayload, payload);
     }
     return null;
   }
 
-  verify(
+  async verify(
     token: string,
     secretOrPublicKey: string,
     options?: VerifyOptions,
-  ): Promise<JwtPayload> | null {
+  ): Promise<JwtPayload | null> {
     const jwt = verify(
       token,
       secretOrPublicKey,

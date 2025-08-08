@@ -1,4 +1,4 @@
-import { Dto } from '@auth/core';
+import { Dto, IntersectionType } from '@auth/core';
 import {
   Expose,
   IsArray,
@@ -62,18 +62,7 @@ export class JwtHeader extends Dto<JwtHeader> {
 }
 
 @MetadataError(UnauthorizedException)
-export class JwtPayload extends Dto<JwtPayload> {
-  @Expose()
-  @IsString()
-  declare public readonly sub: string;
-  @Expose()
-  @IsString()
-  @IsEmail()
-  declare public readonly email: string;
-  @Expose()
-  @IsArray()
-  @IsString({ each: true })
-  declare public readonly roles: string[];
+export class DecodedJwtPayload extends Dto<DecodedJwtPayload> {
   @Expose()
   @IsString()
   // TODO use useContainer to use that
@@ -87,6 +76,25 @@ export class JwtPayload extends Dto<JwtPayload> {
   @Expose()
   @IsNumber()
   declare public readonly exp: number;
+}
+
+@MetadataError(UnauthorizedException)
+export class UserPayload extends Dto<UserPayload> {
+  @Expose()
+  @IsString()
+  declare public readonly sub: string;
+  @Expose()
+  @IsString()
+  @IsEmail()
+  declare public readonly email: string;
+  @Expose()
+  @IsArray()
+  @IsString({ each: true })
+  declare public readonly roles: string[];
+}
+
+@MetadataError(UnauthorizedException)
+export class JwtOtherPayload extends Dto<JwtOtherPayload> {
   @Expose()
   @IsNumber()
   @IsOptional()
@@ -101,6 +109,15 @@ export class JwtPayload extends Dto<JwtPayload> {
   declare public readonly jti?: string;
 }
 
+export interface JwtPayload extends DecodedJwtPayload, UserPayload {}
+
+@MetadataError(UnauthorizedException)
+export class JwtPayload extends IntersectionType(
+  DecodedJwtPayload,
+  UserPayload,
+  JwtOtherPayload,
+) {}
+
 export class Jwt extends Dto<Jwt> {
   @Expose()
   @Nested(() => JwtHeader)
@@ -108,6 +125,18 @@ export class Jwt extends Dto<Jwt> {
   @Expose()
   @Nested(() => JwtPayload)
   declare public readonly payload: JwtPayload;
+  @Expose()
+  @IsString()
+  declare public readonly signature: string;
+}
+
+export class DecodedJwt extends Dto<Jwt> {
+  @Expose()
+  @Nested(() => JwtHeader)
+  declare public readonly header: JwtHeader;
+  @Expose()
+  @Nested(() => DecodedJwtPayload)
+  declare public readonly payload: DecodedJwtPayload;
   @Expose()
   @IsString()
   declare public readonly signature: string;
@@ -163,20 +192,20 @@ export abstract class JwtServicePort {
   abstract decode(
     token: string,
     options: DecodeOptions & { withHeader: true },
-  ): Promise<Jwt> | null;
+  ): Promise<DecodedJwt | null>;
   abstract decode(
     token: string,
     options: DecodeOptions & { withHeader: false },
-  ): Promise<JwtPayload> | null;
-  abstract decode(token: string): Promise<JwtPayload> | null;
+  ): Promise<DecodedJwtPayload | null>;
+  abstract decode(token: string): Promise<DecodedJwtPayload | null>;
   abstract decode(
     token: string,
     options?: DecodeOptions,
-  ): Promise<JwtPayload | Jwt> | null;
+  ): Promise<DecodedJwtPayload | DecodedJwt | null>;
 
   abstract verify(
     token: string,
     secretOrPublicKey: string,
     options?: VerifyOptions,
-  ): Promise<JwtPayload> | null;
+  ): Promise<JwtPayload | null>;
 }

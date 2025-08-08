@@ -1,6 +1,6 @@
 import { Utils } from '@auth/core';
 import { injectable } from '@auth/di';
-import { JwtPayload } from '@auth/domain';
+import { DecodedJwtPayload } from '@auth/domain';
 import { UnauthorizedException } from '@auth/domain';
 import axios from 'axios';
 import { OpenidConfiguration } from '../../primary-services/jwks/use-cases/get-open-id-configuration.use-case';
@@ -8,7 +8,7 @@ import { GenericService } from '../logger/generic.service';
 
 @injectable()
 export class JwksUriGetter extends GenericService {
-  async get(jwtPayload: JwtPayload) {
+  async get(jwtPayload: DecodedJwtPayload) {
     const { jwks_uri } = await this.getOpenIdConfig(jwtPayload);
     if (!jwks_uri) {
       this.logger.log('no jwksUri in the open id configuration');
@@ -20,7 +20,7 @@ export class JwksUriGetter extends GenericService {
   }
 
   private async getOpenIdConfig(
-    jwtPayload: JwtPayload,
+    jwtPayload: DecodedJwtPayload,
   ): Promise<OpenidConfiguration> {
     const issuer = jwtPayload.iss;
     if (!issuer) {

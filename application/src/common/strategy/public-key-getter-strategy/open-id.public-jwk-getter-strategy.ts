@@ -37,16 +37,17 @@ export class OpenIdPublicJwkGetterStrategy
       throw new UnauthorizedException();
     }
 
+    // iss check
+    const { iss } = jwt.payload;
     const authorizedIssuers = this.configurationService.get(
       'jwt.verify.authorizedIssuers',
     );
-    const { iss } = jwt.payload;
     if (!authorizedIssuers.includes(iss)) {
       this.logger.log('jwt issuer is not authorized');
       throw new UnauthorizedException();
     }
 
-    const { alg, kid } = jwt.header;
+    const { kid } = jwt.header;
     const { jwksUri } = await this.jwksUriGetter.get(jwt.payload);
     this.logger.log('jwksUri : ', jwksUri);
     const publickeyPem = await this.publicKeyPemFromJwksUriGetter.get({
@@ -54,8 +55,6 @@ export class OpenIdPublicJwkGetterStrategy
       kid,
     });
     return new PublicKey({
-      alg,
-      kid,
       pem: publickeyPem,
     });
   }

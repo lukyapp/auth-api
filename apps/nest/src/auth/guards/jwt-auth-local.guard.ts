@@ -15,7 +15,7 @@ type _Status = number | unknown;
 type Status = _Status | _Status[];
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthLocalGuard extends AuthGuard('jwt-local') {
   handleRequest<TUser extends object>(
     err: Err,
     user: User<TUser>,

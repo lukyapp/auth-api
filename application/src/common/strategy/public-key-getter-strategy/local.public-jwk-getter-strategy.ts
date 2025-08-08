@@ -34,16 +34,8 @@ export class LocalPublicJwkGetterStrategy
       this.logger.log('jwt payload was not well decoded');
       throw new UnauthorizedException();
     }
-    const authorizedIssuers = this.configurationService.get(
-      'jwt.verify.authorizedIssuers',
-    );
-    const { iss } = jwt.payload;
-    if (!authorizedIssuers.includes(iss)) {
-      this.logger.log('jwt issuer is not authorized');
-      throw new UnauthorizedException();
-    }
-    const { alg, kid } = jwt.header;
 
+    const { kid } = jwt.header;
     const privateKeys = this.configurationService.get('jwks.privateKeys');
     const privateKey = privateKeys.find((key) => key.kid === kid);
     if (!privateKey) {
@@ -54,13 +46,8 @@ export class LocalPublicJwkGetterStrategy
     const publicKey = this.jwksService.createPublicKey(privateKeyy);
 
     const jwk = await this.jwksService.exportJWKFromPublicKey(publicKey);
-    jwk.kid = kid;
-    jwk.alg = alg;
-    jwk.use = 'sig';
     const pem = await this.jwksService.importJWKToPem(jwk);
     return new PublicKey({
-      alg,
-      kid,
       pem,
     });
   }

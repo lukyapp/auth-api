@@ -6,7 +6,7 @@ import {
   IsEnvArray,
   IsEnvJsonArray,
   IsExpiresIn,
-  IsPort,
+  IsCustomPort,
   IsValueInObjectArray,
   IsCustomUrl,
 } from '@auth/validation';
@@ -82,7 +82,7 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   declare public readonly 'server.env': Environment;
 
   @Expose()
-  @IsPort()
+  @IsCustomPort()
   declare public readonly 'server.port': number;
 
   @Expose()
@@ -141,7 +141,7 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   declare public readonly 'db.host': string;
 
   @Expose()
-  @IsPort()
+  @IsCustomPort()
   declare public readonly 'db.port': number;
 
   @Expose()

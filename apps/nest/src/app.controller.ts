@@ -1,7 +1,8 @@
 import { Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { JwtAuthLocalGuard } from './auth/guards/jwt-auth-local.guard';
+import { JwtAuthOpenIdGuard } from './auth/guards/jwt-auth-open-id.guard';
 import { ApiBearerAuth } from './core/controller/api-bearer-auth.decorator';
 import { Controller } from './core/di/controller.decorator';
 import {
@@ -21,9 +22,15 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('protected')
-  @ApiBearerAuth(JwtAuthGuard)
-  getHelloProtected(@CurrentUser() currentUser: CurrentUserDto): string {
+  @Get('protected-open-id')
+  @ApiBearerAuth(JwtAuthOpenIdGuard)
+  getHelloProtectedOpenId(@CurrentUser() currentUser: CurrentUserDto): string {
+    return this.appService.getHello(currentUser);
+  }
+
+  @Get('protected-local')
+  @ApiBearerAuth(JwtAuthLocalGuard)
+  getHelloProtectedLocal(@CurrentUser() currentUser: CurrentUserDto): string {
     return this.appService.getHello(currentUser);
   }
 
