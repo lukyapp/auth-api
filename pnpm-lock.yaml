@@ -180,6 +180,9 @@ importers:
       '@nestjs/swagger':
         specifier: ^11.2.0
         version: 11.2.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      '@types/passport-oauth2':
+        specifier: ^1.8.0
+        version: 1.8.0
       axios:
         specifier: ^1.11.0
         version: 1.11.0
@@ -192,6 +195,9 @@ importers:
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      passport-oauth2:
+        specifier: ^1.8.0
+        version: 1.8.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2

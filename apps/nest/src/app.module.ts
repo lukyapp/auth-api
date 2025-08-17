@@ -9,6 +9,7 @@ import { JwksModule } from './jwks/jwks.module';
 import { OauthModule } from './oauth/oauth.module';
 import { PortModule } from './port.module';
 import { ServiceModule } from './service.module';
+import { TestHydraModule } from './test-hydra/test-hydra.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -25,6 +26,8 @@ import { UserModule } from './user/user.module';
     UserModule,
     OauthModule,
     JwksModule,
+    // test
+    TestHydraModule,
   ],
   controllers: [AppController],
   providers: [AppService],

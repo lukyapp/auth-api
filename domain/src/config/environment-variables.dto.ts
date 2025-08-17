@@ -184,4 +184,18 @@ export class EnvironmentVariablesDto extends Dto<EnvironmentVariablesDto> {
   @Expose()
   @IsEnvJsonArray(() => SwaggerServers)
   declare public readonly 'swagger.servers': SwaggerServers[];
+
+  // ---------- hydra ----------
+
+  @Expose()
+  @IsCustomUrl()
+  declare public readonly 'hydra.baseUrl': string;
+
+  @Expose()
+  @IsString()
+  declare public readonly 'hydra.oauth.clientId': string;
+
+  @Expose()
+  @IsString()
+  declare public readonly 'hydra.oauth.clientSecret': string;
 }
